@@ -163,7 +163,7 @@ body{background:transparent!important}
 .an.fade{opacity:0}
 .an .abx{transition:transform 1.2s cubic-bezier(.2,.7,.3,1)}
 .an.fade .abx{transform:translateX(-50%) scale(1.06)}
-.an .vd{inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s linear}
+.an .vd{inset:0;width:100%;height:100%;object-fit:cover;background:#000}
 .an .vd.on{opacity:1}
 .an .abx{position:absolute;left:50%;bottom:0;width:max(100vw,55.82vh);height:max(179.17vw,100vh);transform:translateX(-50%);--bw:max(100vw,55.82vh);--bh:max(179.17vw,100vh);overflow:hidden}
 .an .abx>*{position:absolute;pointer-events:none}
@@ -186,11 +186,11 @@ body{background:transparent!important}
 .ag .gb{inset:0;opacity:0;will-change:opacity;background:linear-gradient(165deg,rgba(255,236,190,0) 30%,rgba(255,232,170,.4) 52%,rgba(255,240,200,0) 72%),radial-gradient(60% 40% at 66% 46%,rgba(255,244,214,.55),rgba(255,244,214,0) 70%)}
 .ag .gd{inset:0}
 .ag .gd i{position:absolute;border-radius:50%;opacity:0;background:radial-gradient(circle,rgba(255,250,225,.95),rgba(255,240,190,0) 70%);will-change:transform,opacity}
-.ag .gl,.ag .gr{top:0;bottom:0;width:50%;background:url(img/anim/garage-tor.jpg) no-repeat;background-size:200% 100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform}
+.ag .gtl,.ag .gtr{top:0;bottom:0;width:50%;background:url(img/anim/garage-tor.jpg) no-repeat;background-size:200% 100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform}
 .ag .abx{perspective:calc(var(--bw)*1.1);perspective-origin:50% 50%}
-.ag .gl{left:0;background-position:0 0;transform-origin:0 50%}
-.ag .gr{right:0;background-position:100% 0;transform-origin:100% 50%}
-.ag .gl u,.ag .gr u{position:absolute;inset:0;opacity:0;background:#0b0804;will-change:opacity}
+.ag .gtl{left:0;background-position:0 0;transform-origin:0 50%}
+.ag .gtr{right:0;background-position:100% 0;transform-origin:100% 50%}
+.ag .gtl u,.ag .gtr u{position:absolute;inset:0;opacity:0;background:#0b0804;will-change:opacity}
 .ag .gf{inset:0;opacity:0;background:radial-gradient(90% 60% at 50% 50%,rgba(255,238,190,.5),rgba(255,238,190,0) 70%);mix-blend-mode:screen;will-change:opacity}
 /* Tagesstart S51: Vollbild, Fahrzeug blickt nach links, fährt von rechts nach links */
 .as .sq{position:absolute;left:0;top:auto;bottom:22%;width:min(64vw,520px);height:calc(min(64vw,520px)*.59);will-change:transform;transform:translate3d(110vw,0,0)}
@@ -200,4 +200,11 @@ body{background:transparent!important}
 .as .sp i{position:absolute;left:0;top:0;width:34px;height:34px;margin:-17px;border-radius:50%;opacity:0;background:radial-gradient(rgba(205,205,210,.6),rgba(205,205,210,0) 70%);will-change:transform,opacity}
 /* Videoebene (Flow-Clips): blendet nach dem Start ein, Ersatz-Ebenen darunter werden dann ausgeblendet */
 .ap.vid .pro,.ap.vid .plp,.ap.vid .pgd,.ap.vid .pdl,.ap.vid .pk{display:none}
-.ag.vid .gi,.ag.vid .gb,.ag.vid .gd,.ag.vid .gl,.ag.vid .gr,.ag.vid .gf{display:none}
+.ag.vid .gi,.ag.vid .gb,.ag.vid .gd,.ag.vid .gtl,.ag.vid .gtr,.ag.vid .gf{display:none}
+/* Standbild als Hintergrund der Videoebene: sofort sichtbar, das Video läuft darüber (Fallback bei Ladefehler: Ersatz-Animation) */
+.ag .vd{background:#000 url(img/anim/garage-tor.jpg) center/100% 100% no-repeat}
+.ap .vd{background:#000 url(img/anim/pr-kabine.jpg) center/100% 100% no-repeat}
+/* Start (Hofeinfahrt) */
+.ah .hk{inset:0;background:url(img/anim/home-hof.jpg) center/100% 100% no-repeat;will-change:transform}
+.ah .vd{background:#000 url(img/anim/home-hof.jpg) center/100% 100% no-repeat}
+.ah.vid .hk{display:none}

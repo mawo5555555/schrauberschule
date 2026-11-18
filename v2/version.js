@@ -3,11 +3,14 @@
 // Beim Ändern: version, ggf. schema und news anpassen, CHANGELOG.md ergänzen.
 self.APP = {
   name: 'Schrauberschule',
-  version: '3.5.1',
+  version: '3.5.2',
   test: false,         // true = Testversion (alles frei)
   schema: 2,            // Schema-Version des Spielstands (nur erhöhen, wenn sich die Struktur ändert; dann Migration in migrate.js)
   date: '2026-11-18',
   news: [
+    '🌅 Neue Start-Animation: Die S51 fährt morgens auf den Hof.',
+    '🏚️ Garage: Hinter dem Scheunentor wartet jetzt eine echte Schrauberwerkstatt.',
+    '🔊 Werkstatt-Rolltor mit echtem Torgeräusch.',
     '🎬 Prüfstand-Animation jetzt als echtes Video, länger und realistischer.',
     '✨ Alle Animationen blenden sanft aus.',
     '🎬 Neue Animationen: Prüfstand-Kabine, Lern-Schublade, Garagen-Scheunentor und eine S51 beim Tagesstart.',

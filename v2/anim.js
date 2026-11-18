@@ -358,9 +358,9 @@
       if (!g.isConnected) return;
       const t = (now - t0) / 1000;
       if (t < dur) { if (t >= 0) frame(t); requestAnimationFrame(step) }
-      else if (!done) { done = true; frame(dur); g.classList.add('fade'); setTimeout(() => g.remove(), 1300) }
+      else if (!done) { done = true; frame(dur); g.classList.add('fade'); setTimeout(() => { killVid(g); g.remove() }, 1300) }
     };
-    requestAnimationFrame(step); setTimeout(() => g.remove(), 6000);
+    requestAnimationFrame(step); setTimeout(() => { killVid(g); g.remove() }, 6500);
   }
 
   // ---------- Sound-Werkzeug (Web Audio über FX, wie gateSnd) ----------
@@ -420,9 +420,9 @@
       for (let k = 0; k < 8; k++) hit(te + .05 + k * .06, 4000 + Math.random() * 3000, .018 * Math.exp(-k * .25), .02, 'highpass');
     },
     // Tagesstart: Zweitakter fährt vorbei (Knattern mit Doppler-Effekt), kurz
-    s51Snd() {
+    s51Snd(K) {
       if (!this.on()) return; const s = sk(); if (!s) return; const {c, out, t0} = s;
-      const D = 1.9, o = c.createOscillator(), o2 = c.createOscillator(), mod = c.createGain(), bp = c.createBiquadFilter(), g = c.createGain(), lfo = c.createOscillator(), lg = c.createGain();
+      const D = 1.9 * (K || 1), o = c.createOscillator(), o2 = c.createOscillator(), mod = c.createGain(), bp = c.createBiquadFilter(), g = c.createGain(), lfo = c.createOscillator(), lg = c.createGain();
       o.type = 'sawtooth'; o2.type = 'square'; bp.type = 'bandpass'; bp.Q.value = 1.3; bp.frequency.setValueAtTime(700, t0); bp.frequency.linearRampToValueAtTime(950, t0 + D * .5); bp.frequency.linearRampToValueAtTime(620, t0 + D);
       // Zweitakt-Knattern: Amplitude pulst mit der Zündfrequenz (ca. 38 Hz), Tonhöhe fällt wie beim Vorbeifahren (Doppler)
       for (let t = 0; t <= D; t += .02) { const u = t / D, f = 82 * (1.18 - .36 * eio(u)) * (1 + .03 * Math.sin(t * 9)); o.frequency.setValueAtTime(f, t0 + t); o2.frequency.setValueAtTime(f * 2.01, t0 + t); lfo.frequency.setValueAtTime(14 + 7 * (1.2 - eio(u)), t0 + t); g.gain.setValueAtTime(.001 + .11 * Math.exp(-Math.pow((u - .5) / .26, 2)), t0 + t) }
@@ -433,20 +433,27 @@
   });
 
   // Echtes KI-Video (Google Flow) als Ebene: muted, playsinline, Standbild bleibt Poster. Startet es nicht, läuft die bisherige Animation (vs.dead)
+  const killVid = g => { try { g.querySelectorAll('video').forEach(v => { v.pause(); v.removeAttribute('src'); v.removeAttribute('poster') }) } catch (e) {} };
+  const PRE = {}, prefetch = n => PRE[n] || (PRE[n] = fetch('v2/img/anim/' + n + '.mp4').then(r => r.arrayBuffer()).catch(() => {}));   // eine Anfrage, danach liegt der Clip im Cache des Service Workers
   function video(box, name, poster) {
     const vs = {ok: false, dead: false};
     let v = null;
-    const fail = () => { if (vs.dead || vs.ok) return; vs.dead = true; try { v && v.remove() } catch (e) {} };
+    const fail = () => { if (vs.dead || vs.ok) return; vs.dead = true; try { if (v) { v.pause(); v.removeAttribute('src'); v.removeAttribute('poster'); v.remove() } } catch (e) {} };
     try {
       v = document.createElement('video'); v.muted = true; v.defaultMuted = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('muted', ''); v.preload = 'auto'; v.className = 'vd';
-      v.poster = 'v2/img/anim/' + poster; v.src = 'v2/img/anim/' + name + '.mp4'; box.appendChild(v);
+      box.appendChild(v);
       v.addEventListener('error', fail);
       v.addEventListener('playing', () => { if (vs.dead) return; vs.ok = true; v.classList.add('on'); const st = box.parentNode; if (st) st.classList.add('vid') });
-      const p = v.play(); if (p && p.catch) p.catch(fail);
-      setTimeout(() => { if (!vs.ok) fail() }, 1500);
+      // erst starten, wenn der Clip geladen/gecacht ist (höchstens 3 s warten), sonst läuft die Ersatz-Animation
+      Promise.race([prefetch(name), new Promise(r => setTimeout(r, 3000))]).then(() => {
+        if (vs.dead || !v.isConnected) return; v.src = 'v2/img/anim/' + name + '.mp4'; const p = v.play(); if (p && p.catch) p.catch(fail);
+      });
+      setTimeout(() => { if (!vs.ok) fail() }, 5500);
     } catch (e) { fail() }
     return vs;
   }
+
+  setTimeout(() => { try { ['garage-tor', 'pruefstand-kabine', 'home-hof'].forEach(prefetch) } catch (e) {} }, 4500);
 
   // ---------- 1. Prüfstand: dunkle Kabine, Warnleuchte blinkt, Rolle dreht hoch, Drehzahlzeiger schnellt hoch ----------
   function prAnim() {
@@ -489,9 +496,9 @@
   // ---------- 3. Garage: altes Holz-Flügeltor schwingt auf, Licht fällt hinein, Staub tanzt im Lichtstrahl ----------
   function garAnim() {
     let dust = ''; const N = 16, P = []; for (let i = 0; i < N; i++) { const p = {x: 52 + Math.random() * 40, y: 30 + Math.random() * 45, s: .6 + Math.random() * 1.4, f: .6 + Math.random() * 1.2, a: Math.random() * 6.28}; P.push(p); dust += `<i style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}%;width:${(3 * p.s).toFixed(1)}px;height:${(3 * p.s).toFixed(1)}px"></i>` }
-    const g = stage('ag', '<div class="gi"></div><div class="gb"></div><div class="gd">' + dust + '</div><div class="gl"><u></u></div><div class="gr"><u></u></div><div class="gf"></div>');
-    const gi = g.querySelector('.gi'), gb = g.querySelector('.gb'), L = g.querySelector('.gl'), R = g.querySelector('.gr'), gf = g.querySelector('.gf'), ds = [...g.querySelectorAll('.gd i')], Ls = L.firstChild, Rs = R.firstChild;
-    const K = 1.9, DUR = 4.0, box = g.querySelector('.abx');
+    const g = stage('ag', '<div class="gi"></div><div class="gb"></div><div class="gd">' + dust + '</div><div class="gtl"><u></u></div><div class="gtr"><u></u></div><div class="gf"></div>');
+    const gi = g.querySelector('.gi'), gb = g.querySelector('.gb'), L = g.querySelector('.gtl'), R = g.querySelector('.gtr'), gf = g.querySelector('.gf'), ds = [...g.querySelectorAll('.gd i')], Ls = L.firstChild, Rs = R.firstChild;
+    const K = 2.4, DUR = 4.8, box = g.querySelector('.abx');
     const vs = video(box, 'garage-tor', 'garage-tor.jpg'); FX.garSnd(K);
     run(g, DUR, T => {
       if (!vs.dead) return; const t = T / K;
@@ -519,11 +526,20 @@
     });
   }
 
+  // ---------- 5. Start: „Hofeinfahrt“ (Video aus Flow: offenes Scheunentor im Morgenlicht, die S51 rollt nach vorn auf den Hof) ----------
+  function homeAnim() {
+    const g = stage('ah', '<div class="hk"></div>');
+    const box = g.querySelector('.abx'), hk = g.querySelector('.hk'), DUR = 4.4;
+    const vs = video(box, 'home-hof', 'home-hof.jpg'); FX.s51Snd(2.2);
+    run(g, DUR, t => { if (vs.dead) hk.style.transform = `scale(${(1 + .09 * clamp(t / DUR, 0, 1)).toFixed(4)})` });   // Ersatz: Standbild mit langsamer Kamerafahrt
+  }
+
   // ---------- Auslöser: bei jedem Tipp auf den Bereich (auch bei reduzierter Bewegung), nicht doppelt ----------
-  const MAP = {pr: prAnim, missions: lernAnim};   // Garage: neues Video mit Werkstatt kommt (garAnim bleibt vorbereitet)
+  const MAP = {pr: prAnim, missions: lernAnim, garage: garAnim, home: homeAnim};
+  let touched = false; addEventListener('pointerdown', () => { touched = true }, true);   // Start-Animation nur nach echtem Tipp, nicht beim App-Start (dort läuft der Tagesstart)
   const _go2 = window.go;
   window.go = function (v) {
-    try { const f = MAP[v]; if (f && !busy()) f() } catch (e) {}
+    try { const f = MAP[v]; if (f && !busy() && (v !== 'home' || touched)) f() } catch (e) {}
     return _go2.apply(null, arguments);
   };
   // Tagesstart: beim ersten App-Start des Tages
@@ -538,4 +554,19 @@
   }
   setTimeout(() => tagesstart(0), 900);
   window.__anim4 = {pr: prAnim, lern: lernAnim, gar: garAnim, s51: s51Anim};
+})();
+
+// Rolltor-Ton: echte Aufnahme (Wikimedia Commons, „Garage door opening“, ezwa / PDSounds, gemeinfrei), zugeschnitten auf ca. 5,5 s (Riegel klackt, Tor fährt, Anschlag). Nur bei FX.on(). Lässt sie sich nicht laden/abspielen, gilt der bisherige Synth-Ton.
+(function () {
+  if (!window.FX || !FX.gateSnd) return;
+  const syn = FX.gateSnd, URL = 'v2/img/anim/rolltor.m4a'; let raw = null, buf = null, failed = false;
+  try { fetch(URL).then(r => r.ok ? r.arrayBuffer() : Promise.reject()).then(b => { raw = b }).catch(() => { failed = true }) } catch (e) { failed = true }
+  FX.gateSnd = function () {
+    if (!this.on()) return; const c = this.A(); if (!c) return;
+    const fb = () => { try { syn.call(this) } catch (e) {} };
+    const play = b => { try { const s = c.createBufferSource(); s.buffer = b; const g = c.createGain(); g.gain.value = .9; s.connect(g); g.connect(this.out()); s.start(c.currentTime + .18) } catch (e) { fb() } };
+    if (buf) return play(buf);
+    if (failed || !raw) return fb();
+    try { c.decodeAudioData(raw.slice(0)).then(b => { buf = b; play(b) }).catch(() => { failed = true; fb() }) } catch (e) { failed = true; fb() }
+  };
 })();
