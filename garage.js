@@ -6,7 +6,7 @@ const STDIESEL = ['Schalthebel auf Leerlauf', 'Kupplung treten', 'Zündschlüsse
 const TRAPDIESEL = ['Choke ziehen', 'Ein Diesel hat keinen Choke. Er wird vorgeglüht.'];
 const VEH = {
   g1: {kind: '2t', fuel: 'mix', tank: 8, spots: 'simson', ws: true, start: ST2T, trap: TRAP2T, race: {g: 4, vmax: 60, idle: 1500, red: 7000, win: [5200, 6600]},
-    specs: [['Hersteller', 'Simson, Suhl (Thüringen)'], ['Bauzeit', '1980 bis etwa 1990'], ['Motor', 'Einzylinder-Zweitakt, 49,6 cm³'], ['Leistung', 'ca. 3,7 PS'], ['Getriebe', '3 oder 4 Gänge'], ['Höchstgeschwindigkeit', '60 km/h'], ['Kraftstoff', 'Gemisch 1:50']],
+    specs: [['Hersteller', 'Simson, Suhl (Thüringen)'], ['Bauzeit', '1980 bis etwa 1990'], ['Motor', 'Einzylinder-Zweitakt, 49,6 cm³'], ['Leistung', 'ca. 3,4 PS'], ['Getriebe', '3 oder 4 Gänge'], ['Höchstgeschwindigkeit', '60 km/h'], ['Kraftstoff', 'Gemisch 1:50']],
     fact: 'Fast alle Ersatzteile für die S51 gibt es bis heute neu zu kaufen.',
     quiz: [Q('Welchen Kraftstoff tankt die S51?', 'Gemisch aus Benzin und Öl (1:50)', ['Diesel', 'Benzin ganz ohne Öl', 'Strom'], 'Zweitakter brauchen das Öl im Benzin zum Schmieren.'),
       Q('Wie schnell fährt eine originale S51?', 'etwa 60 km/h', ['etwa 25 km/h', 'etwa 100 km/h', 'etwa 130 km/h'], ''),

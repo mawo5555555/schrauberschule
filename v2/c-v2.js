@@ -25,10 +25,10 @@ MISSIONS.push(
 {id:'mathe-w3', subject:'mathe', theme:'tuning', topic:'Daten & Diagramme', title:'Prüfstand-Kurve lesen', sub:'Leistungsdiagramm und Prozent', min:10,
  rlp:'Daten: Diagramme lesen, Prozentrechnung, Vergleichen',
  steps:[
-  W('Das Leistungsdiagramm', 'Auf dem Prüfstand wird die Motorleistung gemessen. Die waagerechte Achse zeigt die **Drehzahl**, die senkrechte die **Leistung in PS**. Die Spitze der Kurve ist die Maximalleistung.\n\nProzent: 3,7 PS auf 5,6 PS ist ein Plus von 1,9 PS. 1,9 : 3,7 ≈ 0,51, also rund 51 %.', 'Ein breites Drehzahlband fährt sich im Alltag angenehmer als eine hohe, schmale Spitze.'),
+  W('Das Leistungsdiagramm', 'Auf dem Prüfstand wird die Motorleistung gemessen. Die waagerechte Achse zeigt die **Drehzahl**, die senkrechte die **Leistung in PS**. Die Spitze der Kurve ist die Maximalleistung.\n\nProzent: 3,4 PS auf 5,1 PS ist ein Plus von 1,7 PS. 1,7 : 3,4 = 0,5, also 50 %.', 'Ein breites Drehzahlband fährt sich im Alltag angenehmer als eine hohe, schmale Spitze.'),
   Q('Die Kurve steigt bis 6500 U/min und fällt dann. Wo liegt die höchste Leistung?', 'bei 6500 U/min', ['bei 0 U/min', 'bei 9000 U/min', 'überall gleich'], 'Der höchste Punkt der Kurve zeigt die Maximalleistung.'),
-  N('Original 3,7 PS, getunt 5,55 PS. Wie viel PS mehr?', 1.85, '5,55 − 3,7 = 1,85.', {unit:'PS'}),
-  N('1,85 PS mehr bei 3,7 PS. Wie viel Prozent sind das?', 50, '1,85 : 3,7 = 0,5 = 50 %.', {unit:'%'}),
+  N('Original 3,4 PS, getunt 5,1 PS. Wie viel PS mehr?', 1.7, '5,1 − 3,4 = 1,7.', {unit:'PS'}),
+  N('1,7 PS mehr bei 3,4 PS. Wie viel Prozent sind das?', 50, '1,7 : 3,4 = 0,5 = 50 %.', {unit:'%'}),
   Q('Welcher Motor ist im Alltag angenehmer?', 'Mittlere Leistung über ein breites Drehzahlband', ['Hohe Spitze nur bei 9000 U/min', 'Nur Leerlauf', 'Immer die größte Düse'], 'Wer ständig hohe Drehzahl braucht, muss oft schalten und der Motor ist anstrengend.'),
   TF('Blitzrunde Prüfstand', [['Die x-Achse zeigt hier die Drehzahl.', true, ''], ['Die Leistung wird in Litern gemessen.', false, 'Leistung wird in PS oder kW gemessen.'], ['1 PS sind etwa 0,74 kW.', true, ''], ['Mehr Leistung heißt immer mehr Durchzug.', false, 'Auch das Drehzahlband und das Drehmoment zählen.']])
 ]},

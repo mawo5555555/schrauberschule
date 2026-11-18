@@ -317,7 +317,7 @@
       s.pop = 0;
       if (kl) return stepK(dt);
       const last = G.length;
-      const accel = (r, g) => 900 * Math.sqrt(Math.max(.5, ps / 3.7)) * (.28 + Pof(r) / ps) * [2.4, 1.8, 1.35, 1][g - 1 + (4 - last) * 0] * (last === 3 ? [1, 1.1, 1.0][0] : 1);
+      const accel = (r, g) => 900 * Math.sqrt(Math.max(.5, ps / 3.4)) * (.28 + Pof(r) / ps) * [2.4, 1.8, 1.35, 1][g - 1 + (4 - last) * 0] * (last === 3 ? [1, 1.1, 1.0][0] : 1);
       switch (s.ph) {
         case 0: // Leerlauf
           s.rpm = 1300 + Math.sin(s.t * 7) * 40 + (Math.random() - .5) * 60; s.load = .08; s.v = 0;

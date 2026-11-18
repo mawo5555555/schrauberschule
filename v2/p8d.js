@@ -22,20 +22,24 @@
   const SC = {}; SCOL.forEach(s => SC[s.id] = s);
   CAT.schr = {n: 'Eloxal-Schrauben', en: 'anodised screws', opts: SCOL.map(s => ({
     id: s.id, n: s.c ? 'Alu-Schrauben ' + s.n + ' (eloxiert)' : 'Schrauben ' + s.n, tag: s.c ? 'Optik' : 'Original', price: s.c ? 15 : 0, col: s.c,
-    info: s.c ? 'Nur Optik, kein PS: Schraubensatz für Motordeckel und Zylinder aus eloxiertem Alu, ca. 15 € (Spielwert nahe Händlerpreis). Vorsicht (Schätzung): Alu ist weicher als Stahl, an tragenden Teilen sind Stahlschrauben besser.' : 'Serie: verzinkte Stahlschrauben, silbern.'}))};
+    info: s.c ? 'Nur Optik, kein PS: Schraubensatz für Motordeckel und Zylinder aus eloxiertem Alu, ca. 15 € (Spielwert nahe Händlerpreis). Vorsicht (Schätzung): Alu ist weicher als Stahl, nur mit ca. 3 Nm anziehen (Richtwert), an tragenden Teilen sind Stahlschrauben besser.' : 'Serie: verzinkte Stahlschrauben, silbern.'}))};
   // ---------- Sitzbank (kein PS-Effekt) ----------
-  const SH = {sb0: 34, sb1: 22, sb2: 13};   // Polsterhöhe in Zeichnungseinheiten (nur Optik)
+  const SH = {sb0: 34, sf1: 13, sf2: 14, sf3: 14, sf4: 14, sf5: 14, sf6: 14};   // Polsterhöhe in Zeichnungseinheiten (nur Optik)
   CAT.sitz = {n: 'Sitzbank', en: 'seat', opts: [
     {id: 'sb0', n: 'Sitzbank Serie', tag: 'Original', price: 0, k: 1, info: 'Serien-Sitzbank mit dicker Polsterung. Bequem, aber höher.'},
-    {id: 'sb1', n: 'Sitzbank Original-Optik (etwas flacher)', tag: 'Optik', price: 59.9, k: .62, info: 'Sieht aus wie Serie, ist aber etwas flacher. Nur Optik, kein PS. Preis geschätzt (Spielwert). Sitzplätze laut Papieren beachten.'},
-    {id: 'sb2', n: 'Sitzbank flach (Sport-Optik)', tag: 'Optik', price: 74.9, k: .38, info: 'Schmale Bodenplatte, flach, fest gepolstert. Nur Optik, kein PS. Preis geschätzt (Spielwert). Sitzplätze laut Papieren beachten (Beifahrer). Im Prüfstandsbild bei S51, S50, Star und Habicht.'}]};
+    {id: 'sf1', n: 'Sitzbank flach, schwarz glatt', tag: 'Optik', price: 69.9, k: .38, info: 'Flache Tuning-Sitzbank, ca. 6 cm dick, mit Haken vorn und Gummipuffern hinten. Nur Optik, kein PS. Preis geschätzt (Spielwert). Sitzplätze laut Papieren beachten (Beifahrer).'},
+    {id: 'sf2', n: 'Sitzbank flach, längs gesteppt', tag: 'Optik', price: 79.9, k: .38, info: 'Flache Sitzbank mit Längsnähten. Nur Optik, kein PS. Preis geschätzt (Spielwert). Sitzplätze laut Papieren beachten.'},
+    {id: 'sf3', n: 'Sitzbank flach, Raute schwarz', tag: 'Optik', price: 84.9, k: .38, info: 'Flache Sitzbank mit Rautensteppung. Nur Optik, kein PS. Preis geschätzt (Spielwert). Sitzplätze laut Papieren beachten.'},
+    {id: 'sf4', n: 'Sitzbank flach, Raute braun', tag: 'Optik', price: 84.9, k: .38, info: 'Flache Sitzbank in braunem Kunstleder mit Raute. Nur Optik, kein PS. Preis geschätzt (Spielwert). Sitzplätze laut Papieren beachten.'},
+    {id: 'sf5', n: 'Sitzbank flach, Wabe schwarz/blau', tag: 'Optik', price: 89.9, k: .38, info: 'Flache Sitzbank mit Wabenmuster und blauer Naht. Nur Optik, kein PS. Preis geschätzt (Spielwert). Sitzplätze laut Papieren beachten.'},
+    {id: 'sf6', n: 'Sitzbank flach, Raute schwarz/rot', tag: 'Optik', price: 89.9, k: .38, info: 'Flache Sitzbank mit Raute und roter Naht. Nur Optik, kein PS. Preis geschätzt (Spielwert). Sitzplätze laut Papieren beachten.'}]};
   // ---------- MTX-Stil Großhubraum-Aufbau (höchste Tuning-Stufe) ----------
   CAT.zyl.opts.push({id: 'z130', n: 'MTX-Stil Großhubraum-Aufbau (ca. 130 cm³, Showbau)', tag: 'Showbau', bore: 57, hub: 51, kind: 'r', price: 179.9, psBase: 25.85, peak: 8700, wd: {o: 2700, s: 2300, r: 1800}, vk: .93,
     info: 'Bohrung 57 × Hub 51 mm = ca. 130 cm³ (Rechnung: 2,85² · π · 5,1). Spielwerte (Schätzung): ca. 30 PS (ca. 22 kW) bei ca. 8700/min, Vmax ca. 120 km/h. Braucht Rennvergaser 28 mm und Resonanzauspuff. ' + MTXW});
   CAT.verg.opts.push({id: 'v28', n: 'Rennvergaser 28 mm (Großhubraum)', tag: 'Showbau', size: 28, price: 89.9,
     info: 'Für ca. 100 bis 130 cm³, Hauptdüse ab ca. 125 (Schätzung). Sehr genaue Abstimmung nötig. ' + MTXW});
   SLOTS.push('schr', 'sitz'); ORIGP.schr = 'ss'; ORIGP.sitz = 'sb0';
-  Object.keys(W2.cars || {}).forEach(k => { const c = W2.cars[k]; if (k !== 'klapp' && c && c.pick) { c.pick.schr = c.pick.schr || 'ss'; c.pick.sitz = c.pick.sitz || 'sb0' } });
+  Object.keys(W2.cars || {}).forEach(k => { const c = W2.cars[k]; if (k !== 'klapp' && c && c.pick) { if (c.pick.sitz === 'sb1') c.pick.sitz = 'sf1'; if (c.pick.sitz === 'sb2') c.pick.sitz = 'sf2'; c.pick.schr = c.pick.schr || 'ss'; c.pick.sitz = c.pick.sitz || 'sb0' } });
 
   // ---------- Verläufe für die Schraubenköpfe (auch in die Prüfstand-Szene eingefügt, damit Video/Export die Farben mitnimmt) ----------
   const defsInner = () => SCOL.filter(s => s.c).map(s => `<radialGradient id="p8sc-${s.id}" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="${lighter(s.c, .65)}"/><stop offset=".45" stop-color="${s.c}"/><stop offset="1" stop-color="${darker(s.c, .5)}"/></radialGradient>`).join('')
@@ -121,12 +125,12 @@
     if (all || /shop$/.test(k) && k !== 'p8-mtx-shop') ms.forEach(m => { S.done[m.id] = 1 });
     else { ['mathe', 'nawi', 'englisch', 'deutsch'].forEach((sj, i) => ms.filter(m => m.subject === sj).slice(0, [4, 3, 1, 4][i]).forEach(m => { S.done[m.id] = 1 })) }
     let pick = Object.assign({}, T5), ph = 3, id = 's51', v = 'w2';
-    if (k === 'p8-mtx-open' || k === 'p8-mtx-pst') pick = {zyl: 'z130', verg: 'v28', aus: 'ar', zuend: 'ze', rit: 'r15', schr: k === 'p8-mtx-pst' ? 'sr' : 'sb', sitz: 'sb2'};
+    if (k === 'p8-mtx-open' || k === 'p8-mtx-pst') pick = {zyl: 'z130', verg: 'v28', aus: 'ar', zuend: 'ze', rit: 'r15', schr: k === 'p8-mtx-pst' ? 'sr' : 'sb', sitz: 'sf1'};
     if (k === 'p8-mtx-pst') { ph = 5; v = 'pr' }
-    if (k === 'p8-schrauben') { pick = Object.assign({}, T5, {schr: 'sb', sitz: 'sb1'}); ph = 2 }
+    if (k === 'p8-schrauben') { pick = Object.assign({}, T5, {schr: 'sb', sitz: 'sf2'}); ph = 2 }
     if (k === 'p8-schrauben-shop') pick = Object.assign({}, T5, {schr: 'sp'});
-    if (k === 'p8-sitz') { pick = Object.assign({}, T5, {sitz: 'sb2', schr: 'sh'}); ph = 5; v = 'pr' }
-    if (k === 'p8-sitz-shop') pick = Object.assign({}, T5, {sitz: 'sb2'});
+    if (k === 'p8-sitz') { pick = Object.assign({}, T5, {sitz: 'sf1', schr: 'sh'}); ph = 5; v = 'pr' }
+    if (k === 'p8-sitz-shop') pick = Object.assign({}, T5, {sitz: 'sf1'});
     W2.veh = v === 'pr' ? null : id; W2.sel = id;
     const c = W2.cars[id] = {ph, took: ph === 2 ? [] : BP.map(p => p.id), put: ph >= 5 ? BP.map(p => p.id) : [], pick, jet: 80, drove: ph >= 5, ran: ph >= 5};
     if (ph === 5) c.jet = w2perf(V2V[id], pick, 70).ideal;

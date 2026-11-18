@@ -2,7 +2,7 @@
 // Zu jedem Schritt gehört eine Lernaufgabe (Mathe, Deutsch, Englisch, NaWi). Werte sind gerundete Richtwerte.
 'use strict';
 const V2V = {
-  s51:  {id:'s51',  name:'Simson S51',   sub:'Mokick 1980–1991', key:'s51', ps:3.7, vmax:60, text:'Der meistgebaute DDR-Mokick: luftgekühlter Einzylinder-Zweitakter, 49,8 cm³, Rohrrahmen.'},
+  s51:  {id:'s51',  name:'Simson S51',   sub:'Mokick 1980–1991', key:'s51', ps:3.4, vmax:60, text:'Der meistgebaute DDR-Mokick: luftgekühlter Einzylinder-Zweitakter, 49,8 cm³, Rohrrahmen.'},
   sr50: {id:'sr50', name:'Simson SR50',  sub:'Kleinroller 1987–1991', key:'sr50', ps:3.6, vmax:60, text:'Der Roller mit Verkleidung: gleiche Motortechnik wie die S51, aber enger zum Schrauben.'},
   kr51: {id:'kr51', name:'Schwalbe KR51/2', sub:'Kleinroller, KR51/2 ca. 1980–1986 (Schwalbe-Reihe ab 1964)', key:'schwalbe', ps:3.6, vmax:60, text:'Der Klassiker mit rundem Heck. Etwas weniger Leistung (ca. 3,6 PS), dafür viel Charakter.'},
   s50:  {id:'s50',  name:'Simson S50',   sub:'Mokick 1975–1980', key:'s50', ps:3.6, vmax:60, text:'Der Vorgänger der S51 mit flacherer Optik. Gleiche Grundtechnik, fast die gleiche Leistung (ca. 3,6 PS).'},
@@ -13,13 +13,13 @@ const V2V = {
 };
 const CAT = {
   zyl: {n:'Zylinder', en:'cylinder', opts:[
-    {id:'z50', n:'Original-Zylinder 50 cm³', tag:'Original', bore:38, kind:'o', price:0,     info:'Grauguss, 38 × 44 mm, ca. 49,8 cm³, ca. 3 PS (2,2 kW) bei ca. 5500/min (Katalogwerte schwanken). Eintragung: serienmäßig.'},
-    {id:'z60', n:'60er Alu-Zylinder (ca. 61 cm³)', tag:'Tuning', bore:42, kind:'a', price:119.9, info:'Alu-Tuningzylinder (Händler-Sets), 42 × 44 mm = ca. 61 cm³ (je nach Hersteller 41 bis 42 mm). Hauptdüse größer (Schätzung: ca. 75–85 bei 16 mm Vergaser). Eintragungspflichtig.'},
-    {id:'z70', n:'70er Tuning-Zylinder (ca. 70 cm³)', tag:'Tuning', bore:45, kind:'a', price:169.9, info:'45 × 44 mm = ca. 70 cm³. Am S51 ein Umbau mit Motorarbeit (Schätzung). Größerer Vergaser und Düse nötig. Eintragungspflichtig.'},
-    {id:'z85', n:'85er Renn-Zylinder (ca. 86 cm³)', tag:'Rennsport', bore:50, kind:'r', price:229.9, info:'50 × 44 mm = ca. 86 cm³, Rennsport (Maße je nach Hersteller verschieden). Nur mit großem Vergaser, großer Düse und Resonanzauspuff. Nur Privatgelände.'}]},
+    {id:'z50', n:'Original-Zylinder 50 cm³', tag:'Original', bore:38, kind:'o', price:0,     info:'Grauguss, 38 × 44 mm, ca. 49,8 cm³, ca. 3,4 PS (2,5 kW), andere Datenblätter bis 4 PS, bei ca. 5500/min (Katalogwerte schwanken). Eintragung: serienmäßig.'},
+    {id:'z60', n:'60er Alu-Zylinder (ca. 58–61 cm³)', tag:'Tuning', bore:41, kind:'a', price:119.9, info:'Alu-Tuningzylinder (Händler-Sets), 41 × 44 mm = ca. 58 cm³ (verkauft als „60 ccm“, je nach Hersteller 41 bis 42 mm). Hauptdüse größer (Händler: ca. 75–85 bei 16 mm, ca. 95–110 bei 19/20 mm). Mit 19er Vergaser und Sport-/Resonanzauspuff grob 5 bis 7 PS (Spanne, Schätzung). Eintragungspflichtig.'},
+    {id:'z70', n:'70er Tuning-Zylinder (ca. 70 cm³)', tag:'Tuning', bore:45, kind:'a', price:169.9, info:'45 × 44 mm = ca. 70 cm³. Am S51 ein Umbau mit Motorarbeit (Forum). Grob 6 bis 9 PS (Spanne, Schätzung). Größerer Vergaser und Düse nötig. Eintragungspflichtig.'},
+    {id:'z85', n:'85er Renn-Zylinder (ca. 83–86 cm³)', tag:'Rennsport', bore:49, kind:'r', price:229.9, info:'49 × 44 mm = ca. 83 cm³ (Händlerangabe „85 ccm“ mit 49 mm Bohrung, andere Hersteller bis 50 mm), Rennsport. Mit 24er Vergaser, Resonanzauspuff und Vape grob 9 bis 12 PS (Spanne, Schätzung); eingetragen als Leichtkraftrad ca. 15 PS (Einzelbericht). Nur mit großem Vergaser, großer Düse und Resonanzauspuff. Nur Privatgelände.'}]},
   verg: {n:'Vergaser', en:'carburettor', opts:[
-    {id:'v16', n:'BVF 16N3-4 (16 mm)', tag:'Original', size:16, price:0,    info:'Serienvergaser, Hauptdüse ab Werk ca. 67–72 (Richtwert).'},
-    {id:'v19', n:'BVF 19N1-11 Race (19 mm)', tag:'Tuning', size:19, price:119.9,  info:'Mehr Luft für 60 bis 70 cm³, Hauptdüse ca. 95–105 (Schätzung). Eintragungspflichtig.'},
+    {id:'v16', n:'BVF 16N3-4 (16 mm)', tag:'Original', size:16, price:0,    info:'Serienvergaser, Hauptdüse ab Werk ca. 67–72 (BVF-Herstellerdokument).'},
+    {id:'v19', n:'BVF 19N1-11 Race (19 mm)', tag:'Tuning', size:19, price:119.9,  info:'Mehr Luft für 60 bis 70 cm³, Hauptdüse ca. 95–105 bei 19/20 mm (Händlerangabe). Eintragungspflichtig.'},
     {id:'v24', n:'Rennvergaser 24 mm', tag:'Rennsport', size:24, price:129.9, info:'Für 70 bis 85 cm³, Hauptdüse ab ca. 110 (Schätzung), braucht Abstimmung.'}]},
   aus: {n:'Auspuff', en:'exhaust', opts:[
     {id:'ao', n:'Original-Auspuff', tag:'Original', kind:'o', price:0, info:'Leise, breites Drehzahlband. Serie.'},
@@ -47,7 +47,7 @@ const ccmOf = (bore, hub) => Math.PI / 4 * Math.pow(bore / 10, 2) * (hub || 44) 
 function w2perf(veh, pick, jet) {
   const z = opt('zyl', pick.zyl), v = opt('verg', pick.verg), a = opt('aus', pick.aus), r = opt('rit', pick.rit), zn = opt('zuend', pick.zuend);
   const ccm = ccmOf(z.bore, z.hub), idealCarb = ccm < 52 ? 16 : ccm < 65 ? 19 : ccm < 100 ? 24 : 28;
-  let ps = z.psBase ? z.psBase * veh.ps / 3.7 : veh.ps * Math.pow(ccm / 49.9, 1.1);   // z.psBase: MTX-Stil (Spielwert, Schätzung)
+  let ps = z.psBase ? z.psBase * veh.ps / 3.4 : veh.ps * Math.pow(ccm / 49.9, 1.7);   // z.psBase: MTX-Stil (Spielwert, Schätzung)
   const notes = [];
   const ci = [16, 19, 24, 28], dc = ci.indexOf(v.size) - ci.indexOf(idealCarb);
   if (dc < 0) { ps *= 1 + dc * .08; notes.push('Der Vergaser ist zu klein: Der Motor bekommt zu wenig Gemisch.') }
@@ -57,7 +57,7 @@ function w2perf(veh, pick, jet) {
   const JT = {z50:{16:70,19:80,24:92,28:100}, z60:{16:80,19:98,24:110,28:118}, z70:{16:88,19:104,24:116,28:122}, z85:{16:94,19:110,24:126,28:130}, z130:{16:100,19:112,24:124,28:130}};
   const ideal = 2 * Math.round((JT[pick.zyl][v.size] + {o:0, s:2, r:5}[a.kind]) / 2), d = jet - ideal;
   let kerze = 'rehbraun'; if (d < -4) { kerze = 'weiß'; notes.push('Kerze weiß: zu mager, der Motor wird zu heiß. Kolbenklemmer-Gefahr!') } else if (d > 4) { kerze = 'schwarz'; ps *= Math.max(.75, 1 - (d - 4) * .02); notes.push('Kerze schwarz: zu fett, der Motor verliert Leistung.') }
-  const peak = z.peak ? z.peak + {o:-1500, s:-700, r:0}[a.kind] : 5500 + (ccm - 50) * 12 + {o:0, s:400, r:900}[a.kind], width = (z.wd || {o:2400, s:2100, r:1500})[a.kind];   // z.peak/z.wd: MTX-Stil, Leistungsmaximum bei ca. 8700/min
+  const peak = z.peak ? z.peak + {o:-1500, s:-700, r:0}[a.kind] : 5500 + (ccm - 50) * 20 + {o:0, s:400, r:900}[a.kind], width = (z.wd || {o:2400, s:2100, r:1500})[a.kind];   // z.peak/z.wd: MTX-Stil, Leistungsmaximum bei ca. 8700/min
   const gear = r.z / 15, vmax = Math.round(veh.vmax * gear * Math.pow(ps / veh.ps, 1 / 3) * (z.vk || 1));
   const legal = pick.zyl === 'z50' && pick.verg === 'v16' && pick.aus === 'ao' && pick.zuend === 'zo' && pick.rit === 'r15';
   const temp = Math.round(150 + (Math.min(ccm, 90) - 50) * 1.8 + {o:0, s:6, r:18}[a.kind] + (d < 0 ? -d * 7 : -d * 1.5)), tune = ['zyl', 'verg', 'aus', 'rit'].filter(k => pick[k] !== ORIGP[k]).concat(pick.zuend !== 'zo' ? ['zuend'] : []);
@@ -134,7 +134,7 @@ const tray = (c, mode) => {
 };
 
 const ps1 = x => String(x).replace('.', ',');
-const carPic = (v, roller = true) => `<div class="car">${pic(v.key, '', v.name)}${roller ? '<div class="roller"></div>' : ''}</div>`;
+const carPic = (v, roller = true) => (v.key === 's51' && window.TuneFoto && view === 'w2' && W2.veh === 's51' && car() && car().ph === 3) ? TuneFoto.html(car().pick, W2.fade) : `<div class="car">${pic(v.key, '', v.name)}${roller ? '<div class="roller"></div>' : ''}</div>`;
 const statBar = (l, val, pct, col) => `<div class="stat"><div><span>${l}</span><b>${val}</b></div><div class="bar"><i style="width:${Math.max(3, Math.min(100, pct))}%;${col ? `background:${col}!important;box-shadow:0 0 10px ${col}` : ''}"></i></div></div>`;
 const videoBtn = (id = '') => `<button class="btn vid" id="${id}" onclick="videoShare()"><span class="vi">🎬</span> Video teilen<small>Dein Prüfstandslauf als Clip</small></button>`;
 
@@ -207,7 +207,7 @@ function w2Shop(c, v) {
   <p class="m">Preise und Werte sind gerundete Beispiele zum Rechnen, keine Angebote.</p>
   <button class="btn" ${over ? 'disabled' : ''} onclick="w2Mission(3)">${over ? 'Budget überschritten' : 'Teile bestellen (Aufgaben)'}</button></div></div>`;
 }
-function w2Choose(slot, id) { const c = car(); c.pick[slot] = id; w2save(); FX.clink(); const y = window.scrollY, hs = [...document.querySelectorAll('.hscroll')].map(h => h.scrollLeft); $('#app').innerHTML = w2View(); document.querySelectorAll('.hscroll').forEach((h, i) => h.scrollLeft = hs[i] || 0); window.scrollTo(0, y) }
+function w2Choose(slot, id) { const c = car(); c.pick[slot] = id; W2.fade = slot; w2save(); FX.clink(); const y = window.scrollY, hs = [...document.querySelectorAll('.hscroll')].map(h => h.scrollLeft); $('#app').innerHTML = w2View(); document.querySelectorAll('.hscroll').forEach((h, i) => h.scrollLeft = hs[i] || 0); window.scrollTo(0, y); W2.fade = null }
 
 function w2Asm(c, v) {
   const done = c.put.length === BP.length;

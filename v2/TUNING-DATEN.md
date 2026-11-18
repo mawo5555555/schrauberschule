@@ -145,7 +145,7 @@ Die Spalte "Bohrung" ist für 60/70 ccm nicht belegt. "PS-Faktor" ist eine Schä
 ## Paket 10: Serienleistung der Fahrzeuge (17.11.2026)
 | Modell | Spielwert Serie | Quelle / Hinweis |
 |---|---|---|
-| S51 | 3,7 PS (2,7 kW) bei 5500/min | Datenblatt motorradundreisen.de (andere Angabe dort 4 PS); Vorgabe Auftraggeber |
+| S51 | 3,4 PS (2,5 kW) bei 5500/min | 18.11.2026 vom Nutzer auf 3,4 PS festgelegt (Datenblätter: 3,4 bis 4 PS) |
 | Schwalbe KR51/2 | 3,6 PS | Vorgabe Auftraggeber (Herstellerangaben ca. 3,6 PS), nicht einzeln neu belegt |
 | SR50 | 3,6 PS | wie KR51/2 |
 | S50 | 3,4 PS | Vorgabe Auftraggeber |

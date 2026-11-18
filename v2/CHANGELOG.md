@@ -5,6 +5,12 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.2.0 (18.11.2026, Tuning-Fotos S51)
+- Tuning nur S51: Teile erscheinen als Fotoebenen (v2/img/ki/tune/, Code v2/tune-foto.js) im Teile-Shop: Sitzbank, Auspuff (Sport/Resonanz), Zylinder (60/70/85/130), Vergaser (19/24/28), Alu-Schrauben (schwarz, blau, hellblau, rot, violett, pink). Zündung und Ritzel bleiben unsichtbar. Geänderte Ebene blendet weich ein.
+- Sechs flache Sitzbänke (sf1–sf6) ersetzen sb1/sb2; alte Spielstände werden umgestellt (sb1→sf1, sb2→sf2).
+- Werte: S51 Serie 3,4 PS (vorher 3,7), Leistungsmodell (Hubraum-Exponent 1,7), 60er 41 mm, 85er 49 mm, Texte mit Spannen; Belege in chef/nacht/tuning-werte-BERICHT.md (außerhalb des Repos). Mathe-Aufgaben und Garage-Angabe auf 3,4 PS.
+- Bild-Cache ss-img-v10, tune-foto.js im Core. Offen für ein Update: Schrauben realistischer (größere Nahaufnahme).
+
 ## 3.1.0 (18.11.2026, M1 Grundgerüst)
 - Antippen: Browser-Seitenübergang abgeschaltet (schluckte Taps ca. 0,3 s und konnte nach dem Antippen zurückspringen); ganze Karten sind Knöpfe (Kinder-Elemente fangen keine Taps ab).
 - Installationshinweis war durch ein CSS-Problem ein großer runder Klecks über den Garagenkarten; jetzt flache Leiste.
