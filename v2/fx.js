@@ -74,3 +74,5 @@ let ROTX = false; try { ROTX = sessionStorage.getItem('rotx') === '1' } catch (e
 const rotHint = () => ROTX ? '' : `<div class="hint" id="rot"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M12 18h.01"/></svg>Handy drehen für bessere Ansicht<button onclick="rotClose()" aria-label="Hinweis schließen">×</button></div>`;
 function rotClose() { ROTX = true; try { sessionStorage.setItem('rotx', '1') } catch (e) {} document.querySelectorAll('.hint').forEach(h => h.remove()) }
 (function () { const q = (location.search.match(/farbe=(\w+)/) || [])[1]; if (q) document.documentElement.dataset.farbe = q })();
+// Ton-Module (pruefstand-ton.js, pruefstand-video.js) greifen über window.FX zu; const allein hängt FX nicht an window.
+window.FX = FX;

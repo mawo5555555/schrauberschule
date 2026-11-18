@@ -112,7 +112,50 @@ function kPartSvg(id, c) {
   if (id === 'motor') return o.id === 'mp' ? '<circle cx="280" cy="170" r="22" fill="#1a2a42" stroke="#5fb8ff" stroke-width="4"/><path d="M282 154 L272 174 L280 174 L277 188 L291 166 L283 166Z" fill="#ffd24a"/>' : '<rect x="214" y="132" width="52" height="34" rx="6" fill="#8aa0ba" stroke="#d9e2ec"/><rect x="222" y="120" width="18" height="12" fill="#5a6b82"/><circle cx="276" cy="150" r="10" fill="#0a1220" stroke="#d9e2ec" stroke-width="3"/>';
   return '';
 }
+// ---- Foto-Szene (DDR-Mifa-Klapprad, Teile als Fotos). KFOTO = false schaltet auf die alte Zeichnung zurück.
+const KFOTO = false;
+const KIMG = id => 'v2/img/klapp/' + id + '.webp';
+const KPF = {reifen:'rad', ritzel:'ritzel', kette:'kurbel', licht:'licht', hupe:'klingel', zub:'reflektor', gepaeck:'gepaeck', motor:'nabe'};
+// Maßstab: Radstand ca. 1 m = 179 Einheiten; Rad 20 Zoll = 89 Einheiten. Hinterachse (108,183), Vorderachse (287,184), Tretlager (176,184).
+const KBOXF = {reifen:[63,139,268,91], ritzel:[97,172,22,22], kette:[156,164,54,40], licht:[264,110,28,34], hupe:[216,48,26,20], zub:[56,148,24,22], gepaeck:[72,124,72,58], motor:[270,168,34,34]};
+const kHit = id => { const b = KBOXF[id]; return `<rect x="${b[0]}" y="${b[1]}" width="${b[2]}" height="${b[3]}" fill="transparent"/>` };
+const kImg = (f, x, y, w, extra = '') => `<image href="${KIMG(f)}" x="${x}" y="${y}" width="${w}" ${extra}/>`;
+function kPartF(id, c, c2) {
+  const o = kopt(id, c.pick[id]), has = x => c2.present(x);
+  if (id === 'reifen') { const k = o.id === 'rs' ? .97 : o.id === 'rb' ? 1.04 : 1, w = 89 * k;
+    return [108, 287].map((cx, i) => kImg('rad', cx - w / 2, (i ? 184.5 : 183) - w / 2, w)).join('') }
+  if (id === 'ritzel') return kImg('ritzel', 99, 174, 18 + (o.z - 16) * .9);
+  if (id === 'kette') { const w = 50 * (o.z / 44) ** .7; return kImg('kurbel', 176 - w * .297, 184 - w * .3, w) }
+  if (id === 'licht') return kImg('licht', 266, 112, 24) + (o.id === 'la' ? '<rect x="262" y="132" width="5" height="9" rx="2" fill="#5fb8ff"/>' : '');
+  if (id === 'hupe') return kImg('klingel', 222, 50, 16) + (o.id === 'hg' ? '<circle cx="246" cy="58" r="6" fill="#ff8a1f" stroke="#fff" stroke-width=".8"/><path d="M251 58 L258 54 L258 63Z" fill="#ff8a1f"/>' : o.id === 'hx' ? '<rect x="243" y="53" width="16" height="10" rx="2" fill="#1c2230" stroke="#8aa0ba" stroke-width=".8"/><path d="M259 55 L266 51 L266 65 L259 61Z" fill="#8aa0ba"/>' : '');
+  if (id === 'zub') { let g = (c.pick.gepaeck === 'gr' && (c2.mode === 'view' || has('gepaeck'))) ? '' : kImg('reflektor', 60, 150, 15);
+    if (o.id !== 'zn' && has('reifen')) g += `<g transform="rotate(45 130 161)">${kImg('sp1', 122, 157, 16)}</g><g transform="rotate(-40 268 200)">${kImg('sp2', 260, 196, 16)}</g>`;
+    if (o.id !== 'zn') g += '<path d="M69 148 L69 96" stroke="#d9e2ec" stroke-width="1.2"/><path d="M69 96 L69 82 L90 88 L69 94" fill="#ff8a1f" stroke="#fff" stroke-width=".8"/>';
+    if (o.tacho) g += '<circle cx="232" cy="64" r="6" fill="#101c2f" stroke="#5fb8ff" stroke-width="1.2"/><text x="232" y="66" font-size="4.5" fill="#5fb8ff" text-anchor="middle">km/h</text>';
+    return g }
+  if (id === 'gepaeck') return o.id === 'gb' ? '<rect x="76" y="94" width="62" height="36" rx="5" fill="#1f6fe0" stroke="#d9e2ec" stroke-width="1.5"/><rect x="92" y="104" width="30" height="4" rx="2" fill="#d9e2ec"/>' : `<g transform="translate(143 0) scale(-1 1)">${kImg('gepaeck', 73, 126, 70)}</g>`.replace('translate(143 0)', 'translate(216 0)');
+  if (id === 'motor') return o.id === 'mp' ? kImg('nabe', 280, 177, 14) + kImg('akku', 134, 88, 17) : '<rect x="190" y="150" width="34" height="22" rx="4" fill="#8aa0ba" stroke="#d9e2ec"/><rect x="196" y="142" width="12" height="8" fill="#5a6b82"/><circle cx="230" cy="161" r="7" fill="#0a1220" stroke="#d9e2ec" stroke-width="1.5"/>';
+  return '';
+}
+function kBoardF(c, mode) {
+  const lst = kList(c, mode), has = id => lst.some(p => p.id === id), present = id => mode === 'view' || (mode === 'dis' ? !c.took.includes(id) : c.put.includes(id));
+  const canDis = p => !p.need || c.took.includes(p.need), canAsm = p => ({reifen:'ritzel', ritzel:'kette', motor:'reifen'}[p.id]) ? c.put.includes({reifen:'ritzel', ritzel:'kette', motor:'reifen'}[p.id]) : true;
+  const c2 = {present, mode};
+  const part = p => { if (!has(p.id)) return ''; const on = present(p.id), nd = mode === 'dis' ? canDis(p) : canAsm(p), b = KBOXF[p.id];
+    if (on) return `<g class="bp ${mode !== 'view' && nd ? 'go' : ''} ${mode === 'asm' && W2.last === p.id ? 'in' : ''}" data-id="${p.id}" onclick="w2Tap('${p.id}')">${kHit(p.id)}${kPartF(p.id, c, c2)}</g>`;
+    if (mode !== 'asm') return '';
+    const lab = p.lab || p.n.split(' ')[0], rw = p.id === 'reifen', fs = rw ? 8 : Math.min(7, (b[2] - 4) / (lab.length * .58)).toFixed(1);
+    return `<g class="ghost ${nd ? 'go' : ''}" data-id="${p.id}" onclick="w2Tap('${p.id}')">${rw ? [108, 287].map((cx, i) => `<circle cx="${cx}" cy="${i ? 184.5 : 183}" r="44" fill="rgba(95,184,255,${i ? .08 : .05})" stroke="var(--a)" stroke-dasharray="5 4" opacity="${nd ? .9 : .3}"/>`).join('') : `<rect x="${b[0]}" y="${b[1]}" width="${b[2]}" height="${b[3]}" rx="5" stroke-dasharray="4 3" opacity="${nd ? .9 : .3}"/>`}<text x="${rw ? 287 : b[0] + b[2] / 2}" y="${rw ? 188 : b[1] + b[3] / 2 + 3}" font-size="${fs}" text-anchor="middle" opacity="${nd ? 1 : .5}">${lab}</text></g>` };
+  let s = `<svg viewBox="0 0 360 260" width="100%" class="bsvg"><defs><linearGradient id="kwall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4b525f"/><stop offset="1" stop-color="#2a2e36"/></linearGradient><linearGradient id="kbench" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b4a2b"/><stop offset="1" stop-color="#4b3220"/></linearGradient></defs>
+  <rect width="360" height="260" fill="url(#kwall)"/><rect y="232" width="360" height="28" fill="url(#kbench)"/><rect y="230" width="360" height="3" fill="#2a1b10"/><ellipse cx="195" cy="231" rx="135" ry="3.5" fill="#000" opacity=".4"/>`;
+  s += part(KBP[0]);
+  s += `<image href="${KIMG('rahmen')}" x="70" y="34" width="220" style="pointer-events:none"/>`;
+  if (present('ritzel') && present('kette') && has('ritzel') && has('kette')) s += '<path d="M176 167.5 L108 174.5 M176 200.5 L108 192.5" stroke="#3b3f46" stroke-width="1.6" stroke-dasharray="2 1.2" fill="none"/>';
+  KBP.slice(1).forEach(p => { s += part(p) });
+  return s + '</svg>';
+}
 function kBoard(c, mode) {
+  if (KFOTO) return kBoardF(c, mode);
   const lst = kList(c, mode), has = id => lst.some(p => p.id === id), present = id => mode === 'view' || (mode === 'dis' ? !c.took.includes(id) : c.put.includes(id));
   const canDis = p => !p.need || c.took.includes(p.need), canAsm = p => ({reifen:'ritzel', ritzel:'kette', motor:'reifen'}[p.id]) ? c.put.includes({reifen:'ritzel', ritzel:'kette', motor:'reifen'}[p.id]) : true;
   let s = `<svg viewBox="0 0 360 260" width="100%" class="bsvg"><defs><linearGradient id="kwall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#31363f"/><stop offset="1" stop-color="#1b1e24"/></linearGradient><linearGradient id="kbench" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b4a2b"/><stop offset="1" stop-color="#4b3220"/></linearGradient></defs>
@@ -130,7 +173,7 @@ function kBoard(c, mode) {
 }
 const kVb = p => ({reifen:'20 110 120 120', motor:'230 120 100 100', licht:'260 70 90 100', hupe:'206 26 70 50', zub:'10 40 100 180', gepaeck:'4 86 92 70', ritzel:'50 140 60 60', kette:'135 140 70 70'}[p.id]);
 const kTray = (c, mode) => { const ids = mode === 'dis' ? c.took : kList(c, 'asm').map(p => p.id).filter(i => !c.put.includes(i));
-  return `<div class="tray"><b>${mode === 'dis' ? 'Auf dem Werktisch' : 'Noch einzubauen'}</b><div>${ids.length ? ids.map(i => { const p = KBP.find(x => x.id === i); return `<button class="chip2" ${mode === 'asm' ? `onclick="w2Tap('${i}')"` : ''}><span class="tm"><svg viewBox="${kVb(p)}" width="36" height="30" preserveAspectRatio="xMidYMid meet">${kPartSvg(i, c)}</svg></span>${p.n}<small>${p.en}</small></button>` }).join('') : '<span class="m">noch nichts</span>'}</div></div>` };
+  return `<div class="tray"><b>${mode === 'dis' ? 'Auf dem Werktisch' : 'Noch einzubauen'}</b><div>${ids.length ? ids.map(i => { const p = KBP.find(x => x.id === i); return `<button class="chip2" ${mode === 'asm' ? `onclick="w2Tap('${i}')"` : ''}><span class="tm">${KFOTO ? `<img src="${KIMG(KPF[i])}" width="36" height="30" style="object-fit:contain" alt="">` : `<svg viewBox="${kVb(p)}" width="36" height="30" preserveAspectRatio="xMidYMid meet">${kPartSvg(i, c)}</svg>`}</span>${p.n}<small>${p.en}</small></button>` }).join('') : '<span class="m">noch nichts</span>'}</div></div>` };
 
 // ---- Prüfstandskurve: Widerstand gegen Muskel (Watt über km/h)
 function kCurve(p, base, anim = true, cur) {
@@ -171,7 +214,7 @@ function kSelect() {
   <div class="lay"><div class="la">${carPic(v, false)}</div><div class="lb2"><h1 style="margin-top:10px">${v.name}</h1><div class="m">${v.sub}</div><p class="m">${v.text}</p>
   ${statBar('Muskelkraft (Dauer)', 'ca. ' + KPMAX + ' W', KPMAX / 3)}${statBar('Tempo bei Serie', 'ca. ' + kde(b.vmax, 0) + ' km/h', b.vmax * 2)}
   <div class="spec"><div><span>Räder</span><b>20 Zoll</b></div><div><span>Gewicht</span><b>ca. 15 kg</b></div><div><span>Gebaut</span><b>1967–1990</b></div><div><span>Antrieb</span><b>Muskeln</b></div></div>
-  <div class="m">${run2 ? 'Auftrag läuft: Schritt ' + Math.min(c.ph, 6) + ' von 6' : 'Neuer Auftrag'}</div><button class="btn" onclick="w2Pick('klapp')">${run2 ? 'Auftrag fortsetzen' : 'Auftrag annehmen'}</button></div></div>
+  <div class="m">${run2 ? 'Auftrag läuft: Schritt ' + Math.min(c.ph, 6) + ' von 6' : 'Neuer Auftrag'}</div>${run2 ? `<button class="btn" onclick="w2Pick('klapp')">Auftrag fortsetzen</button>` : '<div class="lkcard">🔧 Tuning für das Klapprad kommt später. Lackieren, Waschen und Prüfstand gehen schon.</div><button class="btn" disabled>Tuning kommt später</button>'}</div></div>
   <p class="m">Abbauen, Teile wählen, einbauen, Muskel-Prüfstand, Abnahme. Aufgaben zu Übersetzung, Hebel, Dynamo und Strom. Hersteller: Mifa (Mitteldeutsche Fahrradwerke), Sangerhausen. Modelle 901, 903 und 904. Zähnezahlen, Preise und Watt sind Spielwerte.</p>
   <h2>Deine Sachen</h2><div class="fgrid"><button class="fc" onclick="go('gal')"><i>Garage-Galerie</i><b>${W2.garage.length} Umbauten</b></button><button class="fc" onclick="go('alb')"><i>Kartenalbum</i><b>${W2.album.length} Karten</b></button><button class="fc" onclick="go('lbd')"><i>Familien-Bestenliste</i><b>${W2.players.length || 1} Spieler</b></button><button class="fc" onclick="startMix()"><i>Mix-Training</i><b>8 gemischte Aufgaben</b></button><button class="fc" onclick="go('hub')"><i>Missionen und Werkzeug</i><b>Fehlersuche, Kunden, Tagesauftrag</b></button></div>
   ${(W2.kb || []).length ? `<h2>Fertige Klappräder</h2>${W2.kb.slice(-3).reverse().map(g => `<div class="item"><div class="dot" style="background:rgba(var(--ar),.18)">🚲</div><div><b>${esc(g.name)}</b><span class="m">${kde(g.vmax)} km/h · ${Math.round(g.watt)} W · ${g.date}</span></div></div>`).join('')}` : ''}`;

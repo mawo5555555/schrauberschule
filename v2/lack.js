@@ -84,7 +84,7 @@
       <div class="lk-mx">${pb('r', 'Rot', '#c82828')}${pb('y', 'Gelb', '#f5cd1e')}${pb('b', 'Blau', '#1e50be')}</div>
       <div class="lk-mx"><button onclick="LACK.mixW(1)"><i style="background:#fff"></i>+ Weiß</button><button onclick="LACK.mixW(-1)"><i style="background:#111"></i>+ Schwarz</button><button onclick="LACK.mixReset()">Neu</button></div>
       <div class="lk-res"><i style="background:${mc || '#2a3648'}"></i><div class="lk-m">${mc ? '<b>' + mixName() + '</b>, Tippe zwei Grundfarben (zuerst eine, dann die zweite).' : 'Tippe eine oder zwei Grundfarben.'}${mc ? `<br><button class="lk-ghost" ${open ? '' : 'disabled'} onclick="LACK.useMix()">${open ? 'Als Wunschfarbe nehmen' : '🔒 Wunschfarbe noch gesperrt'}</button>` : ''}</div></div></details>
-    <button class="lk-go" onclick="LACK.go()">🎨 In die Lackierkabine</button>
+    <button class="lk-go" onclick="LACK.go()">🎨 Lackieren</button>
     <button class="lk-ghost" style="width:100%;margin-top:8px" onclick="LACK.share()">📤 Foto teilen</button>
     ${now ? '<div style="height:8px"></div><button class="lk-ghost" onclick="LACK.reset()">Zurück zur Grundfarbe</button>' : ''}</div>`;
   }
@@ -296,7 +296,7 @@
     mixW(d) { if (mix.a) mix.w = Math.max(-3, Math.min(3, mix.w + d)); wr() }, mixReset() { mix = {a: null, b: null, w: 0}; wr() },
     useMix() { const c = mixColor(); if (c && wishOpen()) { pick = {k: 'w', n: 'Gemischte Wunschfarbe', hex: c}; wr() } },
     reset() { if (lk()[cur]) { delete lk()[cur]; save(); applyAll(); tintAll() } pick = null; wr() },
-    go() { const c = pick || lk()[cur] || {k: 'o', n: DATA[cur].list[0][0], hex: DATA[cur].list[0][1]}; lk()[cur] = {k: c.k, n: c.n, hex: c.hex}; save(); applyAll(); const id = cur; if (ov) ov.style.display = 'none'; kabine(id, c.hex, c.n); try { tintAll() } catch (e) {} },
+    go() { const c = pick || lk()[cur] || {k: 'o', n: DATA[cur].list[0][0], hex: DATA[cur].list[0][1]}; lk()[cur] = {k: c.k, n: c.n, hex: c.hex}; save(); applyAll(); const id = cur; close(); try { tintAll() } catch (e) {} try { if (typeof toast === 'function') toast('✅ ' + DATA[id].name + ' in ' + c.n + ' lackiert. Du siehst die Farbe jetzt in Prüfstand, Garage und Werkstatt.') } catch (e) {} },
     share() { shareImg() }, shareDone() { const k = kab; if (k) shareImg(k.id, k.hex, k.name) },
     again() { const k = kab; if (k) kabine(k.id, k.hex, k.name) }, skip() { if (kab && kab.skip) kab.skip() },
     kabine, tintAll, applyAll, wishOpen};

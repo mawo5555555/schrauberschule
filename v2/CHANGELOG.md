@@ -5,6 +5,13 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.3.0 (2026-11-18)
+- Prüfstand-Ton repariert (window.FX).
+- Lackieren ohne Kabinen-Animation, direkter Farbwechsel.
+- Prüfstand-Tab: Fahrzeugwechsel rendert Prüfstand statt Werkstatt-Auswahl.
+- Werkbank mit Foto-Teilen, Waschen mit Hochdruckreiniger, neue Lern-Fotos.
+- Fußzeile ohne alte Versionsnummer.
+
 ## 3.2.0 (18.11.2026, Tuning-Fotos S51)
 - Tuning nur S51: Teile erscheinen als Fotoebenen (v2/img/ki/tune/, Code v2/tune-foto.js) im Teile-Shop: Sitzbank, Auspuff (Sport/Resonanz), Zylinder (60/70/85/130), Vergaser (19/24/28), Alu-Schrauben (schwarz, blau, hellblau, rot, violett, pink). Zündung und Ritzel bleiben unsichtbar. Geänderte Ebene blendet weich ein.
 - Sechs flache Sitzbänke (sf1–sf6) ersetzen sb1/sb2; alte Spielstände werden umgestellt (sb1→sf1, sb2→sf2).

@@ -109,6 +109,8 @@ const BP = [
   {id:'zuend', n:'Zündung (Polrad)', en:'ignition', x:14, y:292, s:82, need:null, fact:'Das Polrad erzeugt Strom und steuert den Zündzeitpunkt.'},
   {id:'rit', n:'Ritzel', en:'sprocket', x:268, y:300, s:76, need:null, fact:'Das Ritzel treibt die Kette. Mehr Zähne: mehr Endgeschwindigkeit.'}
 ];
+// Foto-Teile: [x, y, Breite, Höhe] in Szene-Einheiten; Größenverhältnisse nach echten Maßen (Kerze M14 ca. 20x65 mm, Kopf ca. 80, Zylinder ca. 90, Kolben 40, Vergaser 55x80, Polrad ca. 100, Ritzel ca. 55 mm)
+const MOTORFOTO = {kerze: [166, 10, 22, 60], kopf: [143, 62, 76, 80], zyl: [138, 132, 86, 96], kolben: [160, 226, 42, 47], verg: [24, 200, 56, 84], zuend: [6, 296, 92, 92], aus: [262, 150, 70, 110], rit: [276, 316, 56, 56]};
 function partOf(id, c) {
   if (id === 'kerze') return ART.kerze(c.kerzeTone || 'rehbraun'); if (id === 'kopf') return ART.kopf(); if (id === 'kolben') return ART.kolben();
   const o = opt(id, c.pick[id]); return partArt(id, o);
@@ -120,17 +122,17 @@ function board(c, mode) {
   let s = `<svg viewBox="0 0 360 420" width="100%" class="bsvg"><defs><pattern id="peg" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="7" cy="7" r="1.4" fill="#000" opacity=".55"/></pattern><linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#31363f"/><stop offset="1" stop-color="#1b1e24"/></linearGradient><linearGradient id="bench" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b4a2b"/><stop offset=".08" stop-color="#8b6338"/><stop offset="1" stop-color="#4b3220"/></linearGradient><radialGradient id="spot" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#ffe9b8" stop-opacity=".35"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient></defs>
   <rect width="360" height="420" fill="url(#wall)"/><rect width="360" height="420" fill="url(#peg)" opacity=".6"/><rect y="388" width="360" height="32" fill="url(#bench)"/><rect y="386" width="360" height="4" fill="#2a1b10"/><ellipse cx="180" cy="190" rx="190" ry="210" fill="url(#spot)"/>`;
   // Kurbelgehäuse
-  s += `<svg x="98" y="250" width="164" height="148" viewBox="10 20 80 72" overflow="visible">${ART.motor()}</svg>`;
+  s += `<image href="v2/img/motor/gehaeuse.webp" x="118" y="262" width="124" height="130" preserveAspectRatio="xMidYMax meet"/>`;
   BP.forEach(p => {
     const on = present(p.id), nd = mode === 'dis' ? canDis(p) : (need2[p.id] ? c.put.includes(need2[p.id]) : true);
-    if (on) s += `<g class="bp ${mode !== 'view' && nd ? 'go' : ''} ${mode === 'asm' && W2.last === p.id ? 'in' : ''}" data-id="${p.id}" onclick="w2Tap('${p.id}')"><svg x="${p.x}" y="${p.y}" width="${p.s}" height="${p.s}" viewBox="0 0 100 100" overflow="visible">${partOf(p.id, c)}</svg></g>`;
+    if (on) s += `<g class="bp ${mode !== 'view' && nd ? 'go' : ''} ${mode === 'asm' && W2.last === p.id ? 'in' : ''}" data-id="${p.id}" onclick="w2Tap('${p.id}')">${MOTORFOTO[p.id] ? `<image href="v2/img/motor/${p.id}.webp" x="${MOTORFOTO[p.id][0]}" y="${MOTORFOTO[p.id][1]}" width="${MOTORFOTO[p.id][2]}" height="${MOTORFOTO[p.id][3]}" preserveAspectRatio="xMidYMid meet"/>` : `<svg x="${p.x}" y="${p.y}" width="${p.s}" height="${p.s}" viewBox="0 0 100 100" overflow="visible">${partOf(p.id, c)}</svg>`}</g>`;
     else if (mode === 'asm') s += `<g class="ghost ${nd ? 'go' : ''}" onclick="w2Tap('${p.id}')"><rect x="${p.x}" y="${p.y + p.s * .1}" width="${p.s}" height="${p.s * .8}" rx="10" fill="rgba(255,138,31,.07)" stroke="var(--a)" stroke-dasharray="5 4" opacity="${nd ? .9 : .3}"/><text x="${p.x + p.s / 2}" y="${p.y + p.s / 2 + 4}" fill="#ffb066" font-size="10" text-anchor="middle" opacity="${nd ? 1 : .4}">${p.n.split(' ')[0]}</text></g>`;
   });
   return s + '</svg>';
 }
 const tray = (c, mode) => {
   const ids = mode === 'dis' ? c.took : BP.map(p => p.id).filter(i => !c.put.includes(i));
-  return `<div class="tray"><b>${mode === 'dis' ? 'Auf dem Werktisch' : 'Noch einzubauen'}</b><div>${ids.length ? ids.map(i => { const p = BP.find(x => x.id === i); return `<button class="chip2" ${mode === 'asm' ? `onclick="w2Tap('${i}')"` : ''}><span class="tm">${ART.svg(partOf(i, c))}</span>${p.n}<small>${p.en}</small></button>` }).join('') : '<span class="m">noch nichts</span>'}</div></div>`;
+  return `<div class="tray"><b>${mode === 'dis' ? 'Auf dem Werktisch' : 'Noch einzubauen'}</b><div>${ids.length ? ids.map(i => { const p = BP.find(x => x.id === i); return `<button class="chip2" ${mode === 'asm' ? `onclick="w2Tap('${i}')"` : ''}><span class="tm">${MOTORFOTO[i] ? `<img src="v2/img/motor/${i}.webp" alt="" style="width:100%;height:100%;object-fit:contain">` : ART.svg(partOf(i, c))}</span>${p.n}<small>${p.en}</small></button>` }).join('') : '<span class="m">noch nichts</span>'}</div></div>`;
 };
 
 const ps1 = x => String(x).replace('.', ',');
@@ -153,7 +155,7 @@ const w2Head = (t, c) => `<div class="nav"><button class="back" onclick="w2Home(
 const jobTools = () => { const id = W2.veh; if (!id) return ''; return `<div class="lk-btn jobtools wzd"><button class="lk-ghost" onclick="window.LACK&&LACK.open('${id}')">🎨 Lackieren</button><button class="lk-ghost wz-btn" onclick="window.WASCH&&WASCH.open('${id}')">🧽 Waschen</button></div>` };
 let rankW2 = () => W2.orders >= 6 ? 'Werkstattmeister' : W2.orders >= 3 ? 'Tuner' : W2.orders >= 1 ? 'Geselle' : 'Azubi';
 function w2Home() { W2.veh = null; w2save(); go('w2') }
-function w2Sel(id) { W2.sel = id; w2save(); const y = window.scrollY; $('#app').innerHTML = w2View(); window.scrollTo(0, y) }
+function w2Sel(id) { W2.sel = id; w2save(); const y = window.scrollY; $('#app').innerHTML = (view === 'pr' && typeof w2Pr === 'function') ? w2Pr() : w2View(); window.scrollTo(0, y) }
 function w2Select() {
   const v = V2V[W2.sel] || V2V.s51, c = W2.cars[v.id], run2 = c && c.ph > 1;
   return `<div class="hud"><span class="pill">${rankW2()}</span><span class="pill">🔧 ${W2.orders} Aufträge</span><span class="pill" style="margin-left:auto">Budget ${BUDGET} €</span></div>
@@ -162,7 +164,7 @@ function w2Select() {
   <h1 style="margin-top:10px">${v.name}</h1><div class="m">${v.sub}</div><p class="m">${v.text}</p>
   ${statBar('Leistung (Serie)', 'ca. ' + ps1(v.ps) + ' PS', v.ps / 12 * 100)}${statBar('Höchstgeschwindigkeit', 'ca. ' + v.vmax + ' km/h', v.vmax)}
   <div class="m">${run2 ? 'Auftrag läuft: Schritt ' + Math.min(c.ph, 6) + ' von 6' : 'Neuer Auftrag'}</div>
-  <button class="btn" onclick="w2Pick('${v.id}')">${run2 ? 'Auftrag fortsetzen' : 'Auftrag annehmen'}</button></div></div>
+  ${(v.id !== 's51' && !run2) ? '<div class="lkcard">🔧 Tuning für dieses Modell kommt später. Du kannst es schon lackieren, waschen und auf dem Prüfstand testen.</div><button class="btn" disabled>Tuning kommt später</button>' : `<button class="btn" onclick="w2Pick('${v.id}')">${run2 ? 'Auftrag fortsetzen' : 'Auftrag annehmen'}</button>`}</div></div>
   <p class="m">Zerlegen, Teile wählen, einbauen, Prüfstand, Abnahme. Zu jedem Schritt gibt es Aufgaben aus Mathe, Deutsch, Englisch und NaWi.</p>
   <h2>Deine Sachen</h2><div class="fgrid"><button class="fc" onclick="go('gal')"><i>Garage-Galerie</i><b>${W2.garage.length} Umbauten</b></button><button class="fc" onclick="go('alb')"><i>Kartenalbum</i><b>${W2.album.length} Karten</b></button><button class="fc" onclick="go('lbd')"><i>Familien-Bestenliste</i><b>${W2.players.length || 1} Spieler</b></button><button class="fc" onclick="startMix()"><i>Mix-Training</i><b>8 gemischte Aufgaben</b></button><button class="fc" onclick="go('hub')"><i>Missionen und Werkzeug</i><b>Fehlersuche, Kunden, Tagesauftrag</b></button></div>
   ${W2.garage.length ? `<h2>Fertige Aufbauten</h2>${W2.garage.slice(-3).reverse().map(g => `<div class="item"><div class="dot" style="background:rgba(var(--ar),.18)">🏁</div><div><b>${esc(g.name)}</b><span class="m">${g.ccm} cm³ · ${ps1(g.ps)} PS · ${g.vmax} km/h · ${g.date}</span></div></div>`).join('')}` : ''}
@@ -363,7 +365,7 @@ function home2(p) {
   <h2>Heute</h2>${ringsHTML()}
   <h2>Das große Ziel</h2><button class="item" onclick="go('garage')"><div class="dot" style="background:#ff453a33">🏆</div><div style="flex:1"><b>${esc(PROJECT.name)}</b><span class="m">${projectDone() ? 'Geschafft! Urkunde in der Garage' : projectPct() + ' % der Etappen geschafft'}</span><div class="bar" style="margin-top:8px"><i style="width:${Math.max(3, projectPct())}%"></i></div></div></button>
   <h2>Deine Garage</h2><div class="card gcard" onclick="openVeh('${g.id}')"><div class="gimg">${gimg(g)}</div><div style="flex:1"><b>${esc(g.name)}</b>${nxt ? `<div class="m">Noch ${nxt.need - S.points} Punkte bis ${esc(nxt.name)}</div><div class="bar" style="margin-top:8px"><i style="width:${Math.max(4, 100 * (S.points - g.need) / (nxt.need - g.need))}%"></i></div>` : '<div class="m">Alles freigeschaltet!</div>'}</div></div>
-  <p class="m center" style="margin-top:16px"><button class="chip" onclick="go('parents')">Eltern</button> <span class="chip">Schrauberschule v3.0</span></p>`;
+  <p class="m center" style="margin-top:16px"><button class="chip" onclick="go('parents')">Eltern</button> <span class="chip">Schrauberschule</span></p>`;
   return `<div class="hgrid"><div class="la">${left}</div><div class="lb2">${right}</div></div>`;
 }
 

@@ -3,16 +3,14 @@
 // Beim Ändern: version, ggf. schema und news anpassen, CHANGELOG.md ergänzen.
 self.APP = {
   name: 'Schrauberschule',
-  version: '3.2.0',
+  version: '3.3.0',
   schema: 2,            // Schema-Version des Spielstands (nur erhöhen, wenn sich die Struktur ändert; dann Migration in migrate.js)
   date: '2026-11-18',
-  news: [               // "Was ist neu" nach einem Update, kindgerecht und kurz
-    '🏍️ Tuning auf dem echten S51-Foto: Sitzbank, Auspuff, Zylinder, Vergaser und bunte Schrauben siehst du jetzt am Moped.',
-    '🪑 Sechs neue flache Sitzbänke (gesteppt, Raute, Wabe, braun).',
-    '📊 Neue Leistungswerte: Die S51 hat jetzt ca. 3,4 PS.',
-    '👆 Antippen klappt jetzt sofort: ganze Karten sind Knöpfe, nichts springt mehr zurück.',
-    '📲 Du kannst die Schrauberschule jetzt als App installieren.',
-    '💾 Dein Spielstand ist sicherer: Sichern, Wiederherstellen und Code zum Übertragen.',
-    '🖥️ Sieht jetzt auch auf Tablet und Computer gut aus.'
+  news: [
+    '🔊 Der Prüfstand macht wieder Ton.',
+    '🎨 Lackieren geht jetzt sofort: Farbe wählen, fertig.',
+    '🔧 Die Werkbank zeigt echte Fotos der Motorteile.',
+    '🚿 Waschen mit dem Hochdruckreiniger.',
+    '🏍️ Prüfstand: Beim Fahrzeugwechsel flackert nichts mehr.'
   ]
 };
