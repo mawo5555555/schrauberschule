@@ -519,7 +519,7 @@
     const st = P.idle && P.idle.host === host ? P.idle : null; if (!st) return;
     stop(); P.st = st; st.stop = false;
     if (RM() && !opts.force) { st.final(); return }
-    if (window.PSTSND && FX.on()) { try { st.sound = PSTSND.start(st, cx) } catch (e) { st.sound = null } }
+    if (window.PSTSND && FX.on() && !(window.PSTCLIPS && PSTCLIPS.has && PSTCLIPS.has(cx.id))) { try { st.sound = PSTSND.start(st, cx) } catch (e) { st.sound = null } }
     let last = performance.now(), acc = 0;
     const loop = now => {
       if (st.stop) return; if (!st.host.isConnected) { stop(); return }

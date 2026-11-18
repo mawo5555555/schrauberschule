@@ -5,6 +5,9 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.3.4 (2026-11-18)
+- Prüfstand: KI-Clip inline statt Overlay über Comic-Szene, Standbild-Poster, kein doppelter Synth-Ton.
+
 ## 3.3.3 (2026-11-18)
 - Neues Rolltor (Foto, DDR-Werkstatt, nachtblau, Simson-Silhouette), Blech-Rolltor-Ton.
 
