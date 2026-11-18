@@ -5,6 +5,9 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.4.2 (2026-11-18)
+- Rasentraktor im Prüfstand: fotorealistisches Werkstattfoto (Flow) statt freigestelltem Foto.
+
 ## 3.4.1 (2026-11-18)
 - Limits wieder aktiv (test:false). Rasentraktor im Prüfstand (Foto, ohne Gurte, echter Sound CC BY 4.0 WWS/Tekniska museet).
 - Werkstatt/Prüfstand plausibel (BERICHT-werkstatt-pruefstand.md), Klassenstufe (BERICHT-klassenstufe.md), fix-ui.js (Neustart, Toast, alte Werkstatt).

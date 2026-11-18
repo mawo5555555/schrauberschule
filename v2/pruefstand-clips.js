@@ -71,7 +71,10 @@
   const poster = id => 'v2/img/clips/pruefstand-' + FILE[id] + '-poster.jpg';
   function inl() {
     const w = document.querySelector('.pst-sc-w'); if (!w) return null;
-    const c = PST.ctxNow(); if (!c || !FILE[c.id]) return null;
+    const c = PST.ctxNow(); if (!c) return null;
+    if (c.id === 'rasen') { let im = w.querySelector('img.pcv'); if (!im) { w.querySelectorAll('video.pcv').forEach(x => x.remove()); im = document.createElement('img'); im.className = 'pcv'; im.alt = 'Rasentraktor auf dem Prüfstand'; im.src = 'v2/img/clips/pruefstand-rasen-poster.jpg'; w.classList.add('has-v'); w.appendChild(im) } return null }
+    w.querySelectorAll('img.pcv').forEach(x => x.remove());
+    if (!FILE[c.id]) { w.classList.remove('has-v'); return null }
     let v = w.querySelector('video.pcv');
     if (v && v.dataset.id === c.id) return v;
     if (v) v.remove();
@@ -81,14 +84,14 @@
     w.classList.add('has-v'); w.appendChild(v); return v;
   }
   function playInl(id) {
-    const v = inl(); if (!v) return show(id);
+    const v = inl(); if (!v) return id === 'rasen' ? null : show(id);
     let snd = false; try { snd = !!(window.FX && FX.on()) } catch (e) {}
     v.muted = !snd; try { v.currentTime = 0 } catch (e) {}
     const p = v.play(); if (p && p.catch) p.catch(() => { v.muted = true; v.play().catch(() => {}) });
   }
   window.PSTCLIPS.has = id => !!FILE[id];
   if (appEl) new MutationObserver(() => { try { inl() } catch (e) {} }).observe(appEl, {childList: true, subtree: true});
-  st.textContent += '.pst-sc-w.has-v>svg.pst-sc,.pst-sc-w.has-v>canvas.pst-cn{visibility:hidden}.pst-sc-w.has-v{aspect-ratio:1/1}.pst-sc-w video.pcv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 52%;background:#0d131c}';
+  st.textContent += '.pst-sc-w.has-v>svg.pst-sc,.pst-sc-w.has-v>canvas.pst-cn{visibility:hidden}.pst-sc-w.has-v{aspect-ratio:1/1}.pst-sc-w .pcv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 52%;background:#0d131c}';
   const after = () => { try { const c = PST.ctxNow(); if (c && PST.P.st) playInl(c.id) } catch (e) { if (window.console) console.warn('pcl', e) } };
   ['w2Run', 'kRun'].forEach(k => { const o = window[k]; if (typeof o === 'function') window[k] = function () { const r = o.apply(this, arguments); setTimeout(after, 30); return r } });
 })();

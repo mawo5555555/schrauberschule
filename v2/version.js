@@ -3,12 +3,12 @@
 // Beim Ändern: version, ggf. schema und news anpassen, CHANGELOG.md ergänzen.
 self.APP = {
   name: 'Schrauberschule',
-  version: '3.4.1',
+  version: '3.4.2',
   test: false,         // true = Testversion (alles frei)
   schema: 2,            // Schema-Version des Spielstands (nur erhöhen, wenn sich die Struktur ändert; dann Migration in migrate.js)
   date: '2026-11-18',
   news: [
-    '🚜 Neu im Prüfstand: der graue Rasentraktor, mit echtem Motorsound.',
+    '🚜 Neu im Prüfstand: der graue Rasentraktor als echtes Werkstattfoto, mit echtem Motorsound.',
     '🔧 Werkstatt: Teile passen jetzt genau zum Motor, Prüfstandswerte realistisch zum Tuning.',
     '📚 Aufgaben für Klasse 6/7 geprüft, schwere sind als Profi-Aufgabe markiert.',
     '🐞 Prüfstand startet nach einem Lauf wieder, oberer Rand immer bedienbar.',
