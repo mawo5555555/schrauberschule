@@ -99,7 +99,7 @@
       const t = (now - t0) / 1000;
       if (t >= 0) frame(Math.min(t, TOR.T + TOR.tw));
       if (t < TOR.T + TOR.tw) requestAnimationFrame(step);
-      else if (!done) { done = true; frame(TOR.T + TOR.tw); g.classList.add('fade'); setTimeout(() => g.remove(), 700) }
+      else if (!done) { done = true; frame(TOR.T + TOR.tw); g.classList.add('fade'); setTimeout(() => g.remove(), 1300) }
     };
     requestAnimationFrame(step); setTimeout(() => g.remove(), 9000);
     return g;
@@ -343,7 +343,7 @@
 // Fotorealistische Bildebenen (v2/img/anim/), rAF-Bewegung nur mit transform/opacity, Sound über FX (nur bei FX.on()). Läuft bei jedem Tipp, blendet nach ca. 2,5 s aus, blockiert keine Taps.
 (function () {
   const mk = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html) e.innerHTML = html; return e };
-  const busy = () => !!document.querySelector('.rt,.an');
+  const busy = () => !!document.querySelector('.rt:not(.fade),.an:not(.fade)');
   const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
   const ease3 = u => 1 - Math.pow(1 - clamp(u, 0, 1), 3), eio = u => { u = clamp(u, 0, 1); return u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2 };
   const IMG = {pr: 'pr-kabine.jpg', lern: 'lern-schublade.jpg', key: 'lern-schluessel.png', tor: 'garage-tor.jpg', innen: 'garage-innen.jpg', s51: 's51-quer.png'};
@@ -358,7 +358,7 @@
       if (!g.isConnected) return;
       const t = (now - t0) / 1000;
       if (t < dur) { if (t >= 0) frame(t); requestAnimationFrame(step) }
-      else if (!done) { done = true; frame(dur); g.classList.add('fade'); setTimeout(() => g.remove(), 560) }
+      else if (!done) { done = true; frame(dur); g.classList.add('fade'); setTimeout(() => g.remove(), 1300) }
     };
     requestAnimationFrame(step); setTimeout(() => g.remove(), 6000);
   }
@@ -374,19 +374,20 @@
   }
   Object.assign(FX, {
     // Prüfstand: Schütz klackt, Relais tickt im Takt der Warnleuchte, Rolle dreht hoch (Motor + Lagerpfeifen + Abrollgeräusch)
-    prSnd() {
+    prSnd(K) {
+      const k = K || 1;
       if (!this.on()) return; const s = sk(); if (!s) return; const {c, out, t0, hit, tone, loop} = s;
       hit(t0, 1800, .22, .04); hit(t0, 190, .3, .09, 'lowpass');
-      [.12, .55, .98, 1.41].forEach(d => { hit(t0 + d, 2600, .07, .014); tone(t0 + d, 900, 700, .02, .05, 'square') });
+      [.12, .55, .98, 1.41].forEach(d => { d *= k; hit(t0 + d, 2600, .07, .014); tone(t0 + d, 900, 700, .02, .05, 'square') });
       const mix = c.createGain(), lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 1.2; mix.connect(lp); lp.connect(out); mix.gain.value = 0;
       const o1 = c.createOscillator(), o2 = c.createOscillator(); o1.type = 'sawtooth'; o2.type = 'sawtooth';
-      o1.frequency.setValueAtTime(34, t0 + .15); o1.frequency.exponentialRampToValueAtTime(250, t0 + 1.55); o2.frequency.setValueAtTime(34.7, t0 + .15); o2.frequency.exponentialRampToValueAtTime(254, t0 + 1.55);
-      lp.frequency.setValueAtTime(160, t0 + .15); lp.frequency.exponentialRampToValueAtTime(1900, t0 + 1.55);
-      mix.gain.setValueAtTime(.005, t0 + .15); mix.gain.linearRampToValueAtTime(.075, t0 + 1.4); mix.gain.setValueAtTime(.075, t0 + 1.7); mix.gain.setTargetAtTime(0, t0 + 1.85, .12);
-      o1.connect(mix); o2.connect(mix); o1.start(t0); o2.start(t0); o1.stop(t0 + 2.4); o2.stop(t0 + 2.4);
-      const w = c.createOscillator(), wg = c.createGain(); w.type = 'sine'; w.frequency.setValueAtTime(260, t0 + .2); w.frequency.exponentialRampToValueAtTime(2300, t0 + 1.55); wg.gain.setValueAtTime(0, t0 + .2); wg.gain.linearRampToValueAtTime(.022, t0 + 1.5); wg.gain.setTargetAtTime(0, t0 + 1.75, .12); w.connect(wg); wg.connect(out); w.start(t0 + .2); w.stop(t0 + 2.4);
-      loop(500, 3200, .09, t0 + .2, 1.8, 'bandpass', .8);
-      hit(t0 + 1.9, 160, .12, .25, 'lowpass');
+      o1.frequency.setValueAtTime(34, t0 + .15*k); o1.frequency.exponentialRampToValueAtTime(250, t0 + 1.55*k); o2.frequency.setValueAtTime(34.7, t0 + .15*k); o2.frequency.exponentialRampToValueAtTime(254, t0 + 1.55*k);
+      lp.frequency.setValueAtTime(160, t0 + .15*k); lp.frequency.exponentialRampToValueAtTime(1900, t0 + 1.55*k);
+      mix.gain.setValueAtTime(.005, t0 + .15*k); mix.gain.linearRampToValueAtTime(.075, t0 + 1.4*k); mix.gain.setValueAtTime(.075, t0 + 1.7*k); mix.gain.setTargetAtTime(0, t0 + 1.85*k, .12);
+      o1.connect(mix); o2.connect(mix); o1.start(t0); o2.start(t0); o1.stop(t0 + 2.4*k); o2.stop(t0 + 2.4*k);
+      const w = c.createOscillator(), wg = c.createGain(); w.type = 'sine'; w.frequency.setValueAtTime(260, t0 + .2*k); w.frequency.exponentialRampToValueAtTime(2300, t0 + 1.55*k); wg.gain.setValueAtTime(0, t0 + .2*k); wg.gain.linearRampToValueAtTime(.022, t0 + 1.5*k); wg.gain.setTargetAtTime(0, t0 + 1.75*k, .12); w.connect(wg); wg.connect(out); w.start(t0 + .2*k); w.stop(t0 + 2.4*k);
+      loop(500, 3200, .09, t0 + .2*k, 1.8*k, 'bandpass', .8);
+      hit(t0 + 1.9*k, 160, .12, .25, 'lowpass');
     },
     // Lernen: Schublade rollt auf (Rollen-Rumpeln, Holz-Anschlag), dann Kreide kratzt, Schraubenschlüssel klackt aufs Heft
     lernSnd() {
@@ -400,11 +401,12 @@
       const tk = t0 + 1.0; tone(tk + .02, 2300, 1900, .06, .18, 'triangle'); tone(tk + .02, 3700, 3400, .035, .12, 'sine'); hit(tk, 1800, .13, .05, 'highpass'); hit(tk + .02, 300, .1, .06, 'lowpass');
     },
     // Garage: Holz knarrt (Reibungston durch Resonanzfilter), zuerst Riegel klackt, am Ende Anschlag der Flügel
-    garSnd() {
+    garSnd(K) {
+      const k = K || 1;
       if (!this.on()) return; const s = sk(); if (!s) return; const {c, out, t0, hit, tone} = s;
       // Riegel zurückschieben: Eisen-Klack, Nachklappern
-      hit(t0 + .05, 2200, .2, .03); tone(t0 + .05, 1400, 900, .05, .05, 'square'); hit(t0 + .05, 180, .3, .09, 'lowpass');
-      hit(t0 + .3, 1700, .25, .04); hit(t0 + .3, 140, .4, .15, 'lowpass'); tone(t0 + .31, 2600, 2300, .04, .2, 'triangle');
+      hit(t0 + .05*k, 2200, .2, .03); tone(t0 + .05*k, 1400, 900, .05, .05, 'square'); hit(t0 + .05*k, 180, .3, .09, 'lowpass');
+      hit(t0 + .3*k, 1700, .25, .04); hit(t0 + .3*k, 140, .4, .15, 'lowpass'); tone(t0 + .31*k, 2600, 2300, .04, .2, 'triangle');
       const creak = (ts, len, base) => {
         const o = c.createOscillator(), bp = c.createBiquadFilter(), bp2 = c.createBiquadFilter(), g = c.createGain();
         o.type = 'sawtooth'; bp.type = 'bandpass'; bp.frequency.value = 600 + Math.random() * 400; bp.Q.value = 7; bp2.type = 'bandpass'; bp2.frequency.value = 1500 + Math.random() * 700; bp2.Q.value = 4;
@@ -412,9 +414,9 @@
         for (let t = 0; t <= len; t += .015) { const k = t / len, j = Math.sin(t * 41) * .2 + (Math.random() - .5) * .35; o.frequency.setValueAtTime(Math.max(18, base * (1 + .55 * Math.sin(k * Math.PI)) * (1 + j)), ts + t); g.gain.setValueAtTime(.055 * Math.sin(k * Math.PI) * (.6 + Math.random() * .4), ts + t) }
         g.gain.setValueAtTime(0, ts + len + .01); o.start(ts); o.stop(ts + len + .05);
       };
-      creak(t0 + .4, .6, 36); creak(t0 + .55, .75, 27); creak(t0 + 1.05, .55, 42); creak(t0 + 1.3, .4, 24);
-      for (let t = .4; t < 1.5; t += .06) hit(t0 + t, 700 + Math.random() * 900, .02, .07);
-      const te = t0 + 1.5; hit(te, 120, .5, .3, 'lowpass'); hit(te, 520, .2, .14); [.14, .27].forEach((d, k) => hit(te + d, 300, .15 / (k + 1), .08));
+      creak(t0 + .4*k, .6*k, 36); creak(t0 + .55*k, .75*k, 27); creak(t0 + 1.05*k, .55*k, 42); creak(t0 + 1.3*k, .4*k, 24);
+      for (let t = .4*k; t < 1.5*k; t += .06*k) hit(t0 + t, 700 + Math.random() * 900, .02, .07);
+      const te = t0 + 1.5*k; hit(te, 120, .5, .3, 'lowpass'); hit(te, 520, .2, .14); [.14, .27].forEach((d, k) => hit(te + d, 300, .15 / (k + 1), .08));
       for (let k = 0; k < 8; k++) hit(te + .05 + k * .06, 4000 + Math.random() * 3000, .018 * Math.exp(-k * .25), .02, 'highpass');
     },
     // Tagesstart: Zweitakter fährt vorbei (Knattern mit Doppler-Effekt), kurz
@@ -430,13 +432,30 @@
     }
   });
 
+  // Echtes KI-Video (Google Flow) als Ebene: muted, playsinline, Standbild bleibt Poster. Startet es nicht, läuft die bisherige Animation (vs.dead)
+  function video(box, name, poster) {
+    const vs = {ok: false, dead: false};
+    let v = null;
+    const fail = () => { if (vs.dead || vs.ok) return; vs.dead = true; try { v && v.remove() } catch (e) {} };
+    try {
+      v = document.createElement('video'); v.muted = true; v.defaultMuted = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('muted', ''); v.preload = 'auto'; v.className = 'vd';
+      v.poster = 'v2/img/anim/' + poster; v.src = 'v2/img/anim/' + name + '.mp4'; box.appendChild(v);
+      v.addEventListener('error', fail);
+      v.addEventListener('playing', () => { if (vs.dead) return; vs.ok = true; v.classList.add('on'); const st = box.parentNode; if (st) st.classList.add('vid') });
+      const p = v.play(); if (p && p.catch) p.catch(fail);
+      setTimeout(() => { if (!vs.ok) fail() }, 1500);
+    } catch (e) { fail() }
+    return vs;
+  }
+
   // ---------- 1. Prüfstand: dunkle Kabine, Warnleuchte blinkt, Rolle dreht hoch, Drehzahlzeiger schnellt hoch ----------
   function prAnim() {
     const g = stage('ap', '<div class="pk"></div><div class="pro"><div class="prs"></div></div><div class="plp"></div><div class="pgd"></div><div class="pdl"><div class="pnd"></div></div>');
     const box = g.querySelector('.abx'), lamp = g.querySelector('.plp'), st = g.querySelector('.prs'), nd = g.querySelector('.pnd'), ro = g.querySelector('.pro');
-    let ph = 0, last = 0; const DUR = 1.95;
-    FX.prSnd();
-    run(g, DUR, t => {
+    let ph = 0, last = 0; const K = 2.3, DUR = 4.6;   // länger (ca. 4,6 s): Video; die Ersatz-Animation läuft entsprechend gedehnt
+    const vs = video(box, 'pruefstand-kabine', 'pr-kabine.jpg'); FX.prSnd(K);
+    run(g, DUR, T => {
+      if (!vs.dead) return; const t = T / K;
       const dt = Math.max(0, t - last); last = t;
       const b = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2.3 - .6)), 2);   // rotierende Warnleuchte: kurzes Aufblitzen im Takt
       lamp.style.opacity = (.12 + .88 * b).toFixed(3);
@@ -472,8 +491,10 @@
     let dust = ''; const N = 16, P = []; for (let i = 0; i < N; i++) { const p = {x: 52 + Math.random() * 40, y: 30 + Math.random() * 45, s: .6 + Math.random() * 1.4, f: .6 + Math.random() * 1.2, a: Math.random() * 6.28}; P.push(p); dust += `<i style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}%;width:${(3 * p.s).toFixed(1)}px;height:${(3 * p.s).toFixed(1)}px"></i>` }
     const g = stage('ag', '<div class="gi"></div><div class="gb"></div><div class="gd">' + dust + '</div><div class="gl"><u></u></div><div class="gr"><u></u></div><div class="gf"></div>');
     const gi = g.querySelector('.gi'), gb = g.querySelector('.gb'), L = g.querySelector('.gl'), R = g.querySelector('.gr'), gf = g.querySelector('.gf'), ds = [...g.querySelectorAll('.gd i')], Ls = L.firstChild, Rs = R.firstChild;
-    const DUR = 1.95; FX.garSnd();
-    run(g, DUR, t => {
+    const K = 1.9, DUR = 4.0, box = g.querySelector('.abx');
+    const vs = video(box, 'garage-tor', 'garage-tor.jpg'); FX.garSnd(K);
+    run(g, DUR, T => {
+      if (!vs.dead) return; const t = T / K;
       const u = eio(clamp((t - .4) / 1.0, 0, 1)), a = 84 * u, wob = t < .4 ? Math.sin(t * 70) * (t > .3 ? 1.2 : 0) : 0;   // Riegel klackt, dann schwingen die Flügel auf
       const stop = t > 1.4 ? Math.exp(-(t - 1.4) * 9) * Math.sin((t - 1.4) * 30) * 1.6 : 0;
       L.style.transform = `rotateY(${(a + wob + stop).toFixed(2)}deg)`; R.style.transform = `rotateY(${(-a - wob - stop).toFixed(2)}deg)`;
@@ -499,7 +520,7 @@
   }
 
   // ---------- Auslöser: bei jedem Tipp auf den Bereich (auch bei reduzierter Bewegung), nicht doppelt ----------
-  const MAP = {pr: prAnim, missions: lernAnim, garage: garAnim};
+  const MAP = {pr: prAnim, missions: lernAnim};   // Garage: neues Video mit Werkstatt kommt (garAnim bleibt vorbereitet)
   const _go2 = window.go;
   window.go = function (v) {
     try { const f = MAP[v]; if (f && !busy()) f() } catch (e) {}

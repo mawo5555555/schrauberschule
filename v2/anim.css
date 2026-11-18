@@ -111,8 +111,11 @@ svg.bsvg .imp{fill:#000;transform-box:fill-box;transform-origin:center;opacity:0
 }
 
 /* ===== Rolltor neu (nur erster Besuch): Lamellen rollen oben auf die Welle; nur transform/opacity ===== */
-.rt{position:fixed;inset:0;z-index:120;pointer-events:none;overflow:hidden;transition:opacity .6s ease}
+.rt{position:fixed;inset:0;z-index:120;pointer-events:none;overflow:hidden;transition:opacity 1.1s cubic-bezier(.2,.7,.3,1)}
 .rt.fade{opacity:0}
+/* sanftes Ausblenden: Kamera-Übergang, die App darunter scheint durch */
+.rt .rbx{transition:transform 1.2s cubic-bezier(.2,.7,.3,1)}
+.rt.fade .rbx{transform:translateX(-50%) scale(1.05)}
 .rt .rl{position:absolute;inset:0;opacity:0;background:radial-gradient(120% 70% at 50% 100%,rgba(255,244,214,.75),rgba(255,236,190,.3) 45%,rgba(255,236,190,0) 75%),linear-gradient(180deg,rgba(255,250,235,.0),rgba(255,246,222,.35));will-change:opacity}
 .rt .rc{position:absolute;left:0;right:0;top:0;height:calc(100% + 8px);will-change:transform;transform:translate3d(0,0,0);
  background:linear-gradient(90deg,rgba(0,0,0,.34),rgba(255,255,255,.12) 18%,rgba(0,0,0,.06) 50%,rgba(255,255,255,.14) 80%,rgba(0,0,0,.36)),
@@ -156,8 +159,12 @@ svg.bsvg .imp{fill:#000;transform-box:fill-box;transform-origin:center;opacity:0
 html{background:var(--bg) radial-gradient(circle at 50% -10%,var(--glow),var(--bg) 62%) fixed}
 body{background:transparent!important}
 /* Übergangs-Animationen: Prüfstand (.ap), Lernen (.al), Garage (.ag), Tagesstart S51 (.as). Box im 9:16-Format wie .rbx, keine aspect-ratio (ältere iPhones) */
-.an{position:fixed;inset:0;z-index:120;pointer-events:none;overflow:hidden;transition:opacity .5s ease}
+.an{position:fixed;inset:0;z-index:120;pointer-events:none;overflow:hidden;transition:opacity 1.1s cubic-bezier(.2,.7,.3,1)}
 .an.fade{opacity:0}
+.an .abx{transition:transform 1.2s cubic-bezier(.2,.7,.3,1)}
+.an.fade .abx{transform:translateX(-50%) scale(1.06)}
+.an .vd{inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s linear}
+.an .vd.on{opacity:1}
 .an .abx{position:absolute;left:50%;bottom:0;width:max(100vw,55.82vh);height:max(179.17vw,100vh);transform:translateX(-50%);--bw:max(100vw,55.82vh);--bh:max(179.17vw,100vh);overflow:hidden}
 .an .abx>*{position:absolute;pointer-events:none}
 /* Prüfstand */
@@ -191,3 +198,6 @@ body{background:transparent!important}
 .as .ss{position:absolute;left:4%;right:4%;bottom:-3%;height:8%;border-radius:50%;background:radial-gradient(rgba(0,0,0,.45),rgba(0,0,0,0) 70%)}
 .as .sp{position:absolute;left:0;top:auto;bottom:calc(22% + 10px);width:0;height:0}
 .as .sp i{position:absolute;left:0;top:0;width:34px;height:34px;margin:-17px;border-radius:50%;opacity:0;background:radial-gradient(rgba(205,205,210,.6),rgba(205,205,210,0) 70%);will-change:transform,opacity}
+/* Videoebene (Flow-Clips): blendet nach dem Start ein, Ersatz-Ebenen darunter werden dann ausgeblendet */
+.ap.vid .pro,.ap.vid .plp,.ap.vid .pgd,.ap.vid .pdl,.ap.vid .pk{display:none}
+.ag.vid .gi,.ag.vid .gb,.ag.vid .gd,.ag.vid .gl,.ag.vid .gr,.ag.vid .gf{display:none}
