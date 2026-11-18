@@ -5,6 +5,9 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.5.4 (2026-11-18)
+- Start-Ton: echte Aufnahme Tomos Colibri 50 cm³ (Work With Sounds / Technisches Museum Slowenien, CC BY 4.0), Credit auf der Elternseite.
+
 ## 3.5.3 (2026-11-18)
 - Weiches Einblenden aller Übergänge (0,55 s). Rolltor-Aufnahme gefiltert (Lowpass 3 kHz, Notch 2420 Hz). Start-Ton: echter Simson-Leerlauf folgt.
 

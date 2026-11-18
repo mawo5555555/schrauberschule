@@ -571,9 +571,9 @@
   };
 })();
 
-// Hofeinfahrt-Ton: echte Motoraufnahme (Prüfstand-Clip der S51, Leerlauf, Gas, Anfahren), auf 4,5 s zugeschnitten mit weichem Ein-/Ausblenden. Nur bei FX.on(), nur für die Start-Animation (mit K). Sonst/bei Fehler der bisherige Synth.
+// Hofeinfahrt-Ton: echte Aufnahme eines Tomos-50-cm³-Zweitakt-Mopeds (Work With Sounds / Technical Museum of Slovenia, CC BY 4.0), Leerlauf mit Gasstoß, 4,5 s, weich ein-/ausgeblendet. Nur bei FX.on(), nur für die Start-Animation (mit K). Sonst/bei Fehler der Synth.
 (function () {
-  if (true || !window.FX || !FX.s51Snd) return;   // vorerst aus: echter Simson-Leerlauf-Ton wird gesucht
+  if (!window.FX || !FX.s51Snd) return;
   const syn = FX.s51Snd, URL = 'v2/img/anim/s51-start.m4a'; let raw = null, buf = null, failed = false;
   try { fetch(URL).then(r => r.ok ? r.arrayBuffer() : Promise.reject()).then(b => { raw = b }).catch(() => { failed = true }) } catch (e) { failed = true }
   FX.s51Snd = function (K) {

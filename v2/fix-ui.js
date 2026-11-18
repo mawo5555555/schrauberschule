@@ -44,3 +44,5 @@
 })();
 // Namensnennung (CC BY 4.0) für den Rasentraktor-Sound auf der Eltern-Seite
 (function () { const p = window.parents; if (typeof p !== 'function') return; window.parents = function () { return p.apply(null, arguments) + '<div class="card"><p class="m">Rasentraktor-Ton: „WWS Lawnmower“, Work With Sounds / Tekniska museet, Wikimedia Commons, Lizenz CC BY 4.0 (gekürzt und als Schleife bearbeitet).</p></div>' } })();
+// Namensnennung (CC BY 4.0) für den Moped-Leerlauf der Start-Animation auf der Eltern-Seite
+(function () { const p = window.parents; if (typeof p !== 'function') return; window.parents = function () { return p.apply(null, arguments) + '<div class="card"><p class="m">Moped-Ton Start-Animation: „WWS MotorcycleTOMOS Colibri special D-3“, Work With Sounds / Technical Museum of Slovenia, Wikimedia Commons, Lizenz CC BY 4.0 (gekürzt, Ein-/Ausblendung).</p></div>' } })();
