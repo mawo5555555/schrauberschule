@@ -2,7 +2,7 @@
 // Prüfstand-Clips (KI-Videos): beim Prüfstandslauf spielt über der gezeichneten Szene das freigegebene Video des Fahrzeugs.
 // Die Simulation (Monitor, Messwerte) läuft darunter normal weiter. Ohne Clip/Fehler bleibt alles wie bisher.
 (function () {
-  const FILE = {s51: 's51', s50: 's50', star: 'star', habicht: 'habicht', kr51: 'schwalbe', sr50: 'sr50', duo: 'duo', klapp: 'klapprad'};
+  const FILE = {s51: 's51', s50: 's50', star: 'star', habicht: 'habicht', kr51: 'schwalbe', sr50: 'sr50', duo: 'duo', klapp: 'klapprad', rasen: 'rasen'};
   function clearOv() { document.querySelectorAll('.pcl').forEach(o => { try { o.querySelector('video').pause() } catch (e) {} o.remove() }) }
   function show(id) {
     clearOv(); const f = FILE[id]; if (!f) return;
@@ -21,7 +21,7 @@
     const p = v.play(); if (p && p.catch) p.catch(() => { v.muted = true; const q = v.play(); if (q && q.catch) q.catch(() => o.remove()) });
   }
   // ---------- Teilen / Speichern des KI-Clips ----------
-  const NAME = {s51: 'S51', s50: 'S50', star: 'Star', habicht: 'Habicht', kr51: 'Schwalbe', sr50: 'SR50', duo: 'Duo', klapp: 'Klapprad'};
+  const NAME = {s51: 'S51', s50: 'S50', star: 'Star', habicht: 'Habicht', kr51: 'Schwalbe', sr50: 'SR50', duo: 'Duo', klapp: 'Klapprad', rasen: 'Rasentraktor'};
   const url = id => 'v2/img/clips/pruefstand-' + FILE[id] + '-app.mp4';
   const fname = id => 'Schrauberschule-' + (NAME[id] || id) + '-Pruefstand.mp4';
   function msg(t) { try { if (typeof window.toast === 'function') return window.toast(t) } catch (e) {} const d = document.createElement('div'); d.className = 'pcm-t'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600) }
@@ -72,7 +72,6 @@
   function inl() {
     const w = document.querySelector('.pst-sc-w'); if (!w) return null;
     const c = PST.ctxNow(); if (!c) return null;
-    if (c.id === 'rasen') { let im = w.querySelector('img.pcv'); if (!im) { w.querySelectorAll('video.pcv').forEach(x => x.remove()); im = document.createElement('img'); im.className = 'pcv'; im.alt = 'Rasentraktor auf dem Prüfstand'; im.src = 'v2/img/clips/pruefstand-rasen-poster.jpg'; w.classList.add('has-v'); w.appendChild(im) } return null }
     w.querySelectorAll('img.pcv').forEach(x => x.remove());
     if (!FILE[c.id]) { w.classList.remove('has-v'); return null }
     let v = w.querySelector('video.pcv');
@@ -84,7 +83,7 @@
     w.classList.add('has-v'); w.appendChild(v); return v;
   }
   function playInl(id) {
-    const v = inl(); if (!v) return id === 'rasen' ? null : show(id);
+    const v = inl(); if (!v) return show(id);
     let snd = false; try { snd = !!(window.FX && FX.on()) } catch (e) {}
     v.muted = !snd; try { v.currentTime = 0 } catch (e) {}
     const p = v.play(); if (p && p.catch) p.catch(() => { v.muted = true; v.play().catch(() => {}) });
