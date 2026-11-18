@@ -307,7 +307,7 @@
   const T = window.__TOR; if (!T) return;
   T.ta = 1.1; T.tv = 2.6; T.tb = 1.0; T.tw = .8; T.T = T.ta + T.tv + T.tb;
   try { const i = new Image(); i.src = 'img/anim/tor-blatt.webp'; const j = new Image(); j.src = 'img/anim/tor-rahmen.webp' } catch (e) {}
-  FX.gateSnd = function () {
+  FX.gateSndHolz = function () {
     if (!this.on()) return; const c = this.A(); if (!c) return;
     const t0 = c.currentTime + .18, out = this.out(), D = T.T;
     const vel = t => Math.max(0, (T.pos(t + .01) - T.pos(t - .01)) / .02), vmax = 1 / (T.tv + (T.ta + T.tb) / 2);
