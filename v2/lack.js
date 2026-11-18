@@ -66,7 +66,7 @@
   const mixName = () => { const a = mix.a, b = mix.b, s = [a, b].filter(Boolean).sort().join(''); const base = {r: 'Rot', y: 'Gelb', b: 'Blau', br: 'Violett', by: 'Grün', ry: 'Orange'}[s === 'bry' ? 'ry' : s] || '';
     return base + (mix.w > 0 ? ', heller' : mix.w < 0 ? ', dunkler' : '') + (mix.w ? ' (' + Math.abs(mix.w) + ')' : '') };
   function wahlHtml() {
-    const D = DATA[cur], now = selNow(cur), hx = hexNow(), nm = pick ? pick.n : (now ? now.n : 'Grundfarbe der App');
+    const D = DATA[cur], now = selNow(cur), hx = hexNow(), nm = pick ? pick.n : (now ? now.n : 'Originalfarbe');
     const sw = D.list.map((c, i) => `<button class="${hx.toLowerCase() === c[1] && pick && pick.i === i || (!pick && now && now.k === 'o' && now.hex === c[1] && now.n === c[0]) ? 'on' : ''}" onclick="LACK.pickO(${i})" aria-label="${esc(c[0])}"><i style="background:${c[1]}"></i><div><b>${esc(c[0])}</b><em class="${BADGE[c[3]][0]}">${BADGE[c[3]][1]}</em><span>ca. ${c[1]} · ${esc(c[2])}</span></div></button>`).join('');
     const mc = mixColor(), open = wishOpen();
     const pb = (k, n, c) => `<button class="${mix.a === k || mix.b === k ? 'on' : ''}" onclick="LACK.mixP('${k}')"><i style="background:${c}"></i>${n}</button>`;
@@ -95,7 +95,7 @@
     const pv = ov && ov.querySelector('.lk-pv'); if (!pv || !window.LackFoto || LackFoto.ids.indexOf(cur) < 0) return; const tok = ++pvTok, id = cur, hx = hex || hexNow();
     try {
       let cv = pv.querySelector('canvas.lk-ph'); const fresh = !cv; if (!cv) cv = document.createElement('canvas'), cv.className = 'lk-ph';
-      const tmp = document.createElement('canvas'); await LackFoto.draw(tmp, id, hx); if (tok !== pvTok || !ov || id !== cur) return;
+      const tmp = document.createElement('canvas'); await LackFoto.draw(tmp, id, hx, (!hex && !pick && !selNow(id)) ? 0 : undefined); if (tok !== pvTok || !ov || id !== cur) return;
       cv.width = tmp.width; cv.height = Math.round(tmp.height * .62); cv.getContext('2d').drawImage(tmp, 0, Math.round(tmp.height * .08), tmp.width, cv.height, 0, 0, tmp.width, cv.height);
       cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', DATA[id].name + ' in der gewählten Farbe');
       if (fresh) { const sv = pv.querySelector('svg'); if (sv) sv.replaceWith(cv); else pv.prepend(cv) }

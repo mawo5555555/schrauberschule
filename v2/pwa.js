@@ -41,7 +41,7 @@
   if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !hs) {
     const had = !!navigator.serviceWorker.controller;
     navigator.serviceWorker.addEventListener('controllerchange', () => { if (!had && !rd().offlineSaid) { const o = rd(); o.offlineSaid = 1; wr(o); setTimeout(() => T('Jetzt auch ohne Internet nutzbar ✓'), 600); return } if (reloading) return; reloading = true; location.reload() });
-    addEventListener('load', () => navigator.serviceWorker.register(new URL('sw.js', location.href).href).then(reg => {
+    addEventListener('load', () => navigator.serviceWorker.register(new URL('sw.js', location.href).href, {updateViaCache: 'none'}).then(reg => {
       if (reg.waiting && navigator.serviceWorker.controller) offerUpdate(reg);
       reg.addEventListener('updatefound', () => { const n = reg.installing; if (n) n.addEventListener('statechange', () => { if (n.state === 'installed' && navigator.serviceWorker.controller) offerUpdate(reg) }) });
       const chk = () => reg.update().catch(() => {}); document.addEventListener('visibilitychange', () => { if (!document.hidden) chk() }); setInterval(chk, 36e5);

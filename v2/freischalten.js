@@ -2,12 +2,15 @@
 // Pflicht-Regel: Teile, Modelle und Budget hängen am Lernfortschritt. Kein Freischalten ohne Lernen.
 // Budget = 150 € + 10 € je absolvierter Mission (höchstens 600 €). Teile und Modelle brauchen absolvierte Missionen in einem Fach.
 const SUBJN = {mathe: ['Mathe-Mission', 'Mathe-Missionen'], deutsch: ['Deutsch-Mission', 'Deutsch-Missionen'], englisch: ['Englisch-Mission', 'Englisch-Missionen'], nawi: ['NaWi-Mission', 'NaWi-Missionen'], alle: ['Mission', 'Missionen']};
-const doneIn = k => MISSIONS.filter(m => !m.speech && (k === 'alle' || m.subject === k) && S.done[m.id]).length;
+// TEST-MODUS (version.js test:true): alles frei zum Ausprobieren. Vor dem echten Einsatz auf false stellen!
+const TESTALL = !!(self.APP && self.APP.test);
+if (TESTALL && typeof GARAGE !== 'undefined') GARAGE.forEach(g => { g.need = 0 });
+const doneIn = k => TESTALL ? 99 : MISSIONS.filter(m => !m.speech && (k === 'alle' || m.subject === k) && S.done[m.id]).length;
 const budgetNow = () => Math.min(600, 150 + 10 * doneIn('alle'));
 const LK = {   // Teil-ID: [Fach, Anzahl]
-  z60: ['mathe', 2], z70: ['mathe', 4], z85: ['mathe', 7], v19: ['nawi', 2], v24: ['nawi', 5], as: ['nawi', 3], ar: ['nawi', 7], ze: ['englisch', 2], zv: ['englisch', 4], r14: ['mathe', 1], r16: ['mathe', 1], r17: ['mathe', 3],
+  z60: ['mathe', 2], z70: ['mathe', 4], z85: ['mathe', 7], v19: ['nawi', 2], v24: ['nawi', 5], as: ['nawi', 3], ar: ['nawi', 7], ze: ['englisch', 2], zv: ['englisch', 4], r16: ['mathe', 1], r17: ['mathe', 3],
   // Klapprad
-  rs: ['mathe', 1], rb: ['nawi', 1], k38: ['mathe', 1], k50: ['mathe', 3], q14: ['mathe', 2], q18: ['mathe', 1], la: ['nawi', 2], lb: ['nawi', 1], hg: ['deutsch', 1], hx: ['deutsch', 3], gr: ['deutsch', 1], gb: ['deutsch', 2], zs: ['englisch', 1], zt: ['englisch', 2], mp: ['nawi', 5], mv: ['nawi', 8]
+  rb: ['nawi', 1], k38: ['mathe', 1], k50: ['mathe', 3], q14: ['mathe', 2], q18: ['mathe', 1], la: ['nawi', 2], lb: ['nawi', 1], hg: ['deutsch', 1], hx: ['deutsch', 3], gr: ['deutsch', 1], gb: ['deutsch', 2], zs: ['englisch', 1], zt: ['englisch', 2], mp: ['nawi', 5], mv: ['nawi', 8]
 };
 // MTX-Stil Großhubraum-Aufbau (Showbau, höchste Stufe): erst 30 Missionen UND alle Stufen 1 bis 4 (= alle Tuningteile der Stufen davor freigeschaltet: Mathe 7 für den 85er, NaWi 7 für den Resonanzauspuff, Englisch 4 für die Vape-Zündung)
 const MTXREQ = [['alle', 30], ['mathe', 7], ['nawi', 7], ['englisch', 4]];

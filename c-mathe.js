@@ -143,7 +143,7 @@ MISSIONS.push(
   N('Ein 85er hat das Wievielfache des Hubraums von 50 cm³? (Dezimalzahl)', 1.7, '85 ÷ 50 = 1,7.', {hint:'85 geteilt durch 50.'}),
   N('Wie viel Liter sind 85 cm³?', 0.085, '85 cm³ ÷ 1 000 = 0,085 l.', {unit:'Liter', hint:'1 000 cm³ sind 1 Liter.'}),
   M('Hubraum in Litern', [['50 cm³', '0,05 l'], ['60 cm³', '0,06 l'], ['70 cm³', '0,07 l'], ['85 cm³', '0,085 l']], 'Ordne jedem Hubraum den Wert in Litern zu.'),
-  Q('Mehr Hubraum heißt: Mehr Gemisch passt in den Zylinder. Was muss man deshalb beim Tuning meist mitdenken?', 'Einen passenden Vergaser und Auspuff', ['Eine dickere Antenne', 'Ein größeres Rücklicht', 'Nichts, es passt immer'], 'Der Motor braucht mehr Gemisch und muss mehr Abgas loswerden. Sonst bringt der größere Zylinder wenig.')
+  Q('Mehr Hubraum heißt: Mehr Gemisch passt in den Zylinder. Was muss man deshalb beim Tuning meist mitdenken?', 'Einen passenden Vergaser und Auspuff', ['Eine dickere Antenne und ein Radio', 'Ein größeres Rücklicht und neue Spiegel', 'Nichts, es passt immer ohne Änderung'], 'Der Motor braucht mehr Gemisch und muss mehr Abgas loswerden. Sonst bringt der größere Zylinder wenig.')
 ]},
 
 {id:'mathe-9', subject:'mathe', theme:'tuning', topic:'Rechnen mit Größen', title:'Übersetzung und Tempo', sub:'Ritzel, Kettenrad und Geschwindigkeit', min:14,
@@ -160,7 +160,7 @@ MISSIONS.push(
   N('Das Hinterrad hat 1,8 m Umfang. Wie weit rollt es bei 100 Umdrehungen?', 180, '100 · 1,8 m = 180 m.', {unit:'m'}),
   N('Bei 600 Radumdrehungen pro Minute: Wie viele Meter legt das Moped in einer Minute zurück?', 1080, '600 · 1,8 m = 1 080 m.', {unit:'m'}),
   N('1 080 Meter pro Minute: Wie viele km/h sind das? (60 Minuten sind eine Stunde, 1 000 m sind 1 km)', 64.8, '1 080 m · 60 = 64 800 m pro Stunde = 64,8 km pro Stunde.', {unit:'km/h', hint:'Erst mal 60 (eine Stunde), dann durch 1 000 (Kilometer).'}),
-  Q('Du nimmst ein größeres Ritzel (mehr Zähne) und lässt das Kettenrad gleich. Was ändert sich meist?', 'Die Übersetzung wird länger: Mehr Endtempo, aber weniger Zug beim Beschleunigen.', ['Das Moped wird schwerer.', 'Der Tank wird größer.', 'Der Motor braucht kein Öl mehr.'], 'Weniger Umdrehungen am Hinterrad pro Motorumdrehung: höheres Tempo, weniger Kraft am Rad.')
+  Q('Du nimmst ein größeres Ritzel (mehr Zähne) und lässt das Kettenrad gleich. Was ändert sich meist?', 'Die Übersetzung wird länger: mehr Endtempo, aber weniger Zug.', ['Das Moped wird schwerer, und der Motor braucht dadurch mehr Benzin.', 'Der Tank wird größer, und es passt mehr Gemisch hinein.', 'Der Motor braucht kein Öl mehr, weil die Kette alles schmiert.'], 'Weniger Umdrehungen am Hinterrad pro Motorumdrehung: höheres Tempo, weniger Kraft am Rad.')
 ]},
 
 {id:'mathe-10', subject:'mathe', theme:'tuning', topic:'Rechnen mit Geld', title:'Teile-Warenkorb', sub:'Rechnen wie im Online-Shop', min:12,

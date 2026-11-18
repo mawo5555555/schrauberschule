@@ -15,7 +15,7 @@ MISSIONS.push(
   N('Hubraum bei 38 mm Bohrung und 44 mm Hub (in cm³)?', 49.9, '11,34 cm² · 4,4 cm = 49,9 cm³.', {tol:.2, unit:'cm³'}),
   N('Ein „60er“ hat 41 mm Bohrung bei 44 mm Hub. Wie viel Hubraum ergibt das? (cm³)', 58.1, 'π/4 · 4,1² · 4,4 = 13,20 · 4,4 = 58,1 cm³. Händler nennen das „60 ccm“. Mit etwas längerem Hub kommt man auf 60.', {tol:.3, unit:'cm³'}),
   N('Bohrung 45 mm, Hub 44 mm. Welchen Hubraum hat der Zylinder? (cm³)', 70, 'π/4 · 4,5² · 4,4 = 15,90 · 4,4 = 70,0 cm³. Das ist ein „70er“.', {tol:.3, unit:'cm³'}),
-  Q('Die Bohrung wird 1,2-mal so groß, der Hub bleibt gleich. Der Hubraum wird …', 'etwa 1,44-mal so groß', ['1,2-mal so groß', '2,4-mal so groß', 'doppelt so groß'], 'Die Bohrung geht quadratisch ein: 1,2² = 1,44.'),
+  Q('Die Bohrung wird 1,2-mal so groß, der Hub bleibt gleich. Der Hubraum wird …', 'etwa 1,44-mal so groß', ['genau 1,2-mal so groß', 'etwa 2,4-mal so groß', 'fast doppelt so groß'], 'Die Bohrung geht quadratisch ein: 1,2² = 1,44.'),
   N('Ein 125er hat 50 mm Hub. Welche Bohrung braucht er? (mm, ganze Zahl). Tipp: d = Wurzel aus (4 · V ÷ (π · h)), mit V = 125 cm³ und h = 5 cm.', 56, 'd = √(4 · 125 ÷ (π · 5)) = √31,83 = 5,64 cm = 56,4 mm.', {tol:.5, unit:'mm', hint:'Nutze die Wurzeltaste im Rechner.'})
 ]},
 
@@ -30,9 +30,9 @@ MISSIONS.push(
   N('Hubraum 50 cm³, Brennraum 6,25 cm³. Wie groß ist das Verdichtungsverhältnis (ε)?', 9, '(50 + 6,25) ÷ 6,25 = 56,25 ÷ 6,25 = 9.', {tol:.05, hint:'Erst addieren, dann teilen.'}),
   N('Du willst ε = 10 bei 50 cm³ Hubraum. Wie groß muss der Brennraum sein? (cm³)', 5.56, 'ε = (Vh + Vc) ÷ Vc → Vc = Vh ÷ (ε − 1) = 50 ÷ 9 = 5,56 cm³.', {tol:.05, unit:'cm³', hint:'Stelle die Formel nach Vc um: Vc = Vh ÷ (ε − 1).'}),
   Q('Du fräst den Zylinderkopf ab, der Brennraum wird kleiner. Was passiert mit ε?', 'ε wird größer', ['ε wird kleiner', 'ε bleibt gleich', 'ε wird negativ'], 'Brennraum im Nenner kleiner → Ergebnis größer.'),
-  Q('Was nennt man „Klopfen“?', 'Das Gemisch entzündet sich unkontrolliert und zu früh von allein.', ['Das Anklopfen an die Tür', 'Das Ticken der Kette', 'Das Geräusch der Bremse'], 'Klopfen kann Kolben und Lager zerstören.'),
-  Q('Wie bestimmt man den Brennraum praktisch?', 'Man füllt ihn mit Flüssigkeit aus einer Messspritze (Auslitern).', ['Man wiegt den Kopf', 'Man schätzt ihn nach Gefühl', 'Man misst die Außentemperatur'], 'So misst man das Volumen genau.'),
-  Q('Was bewirkt die Quetschkante?', 'Sie verwirbelt das Gemisch kurz vor der Zündung.', ['Sie kühlt das Öl', 'Sie schmiert den Kolben', 'Sie hält die Kerze'], 'Verwirbeltes Gemisch verbrennt schneller und vollständiger.')
+  Q('Was nennt man „Klopfen“?', 'Das Gemisch zündet unkontrolliert und zu früh von allein.', ['Ein Klopfen an der Tür, wenn jemand die Werkstatt betritt.', 'Das Ticken der Kette, wenn sie zu locker auf dem Ritzel läuft.', 'Das Geräusch der Bremse, wenn sie zu stark am Rad schleift.'], 'Klopfen kann Kolben und Lager zerstören.'),
+  Q('Wie bestimmt man den Brennraum praktisch?', 'Man füllt ihn mit Flüssigkeit aus einer Messspritze (Auslitern).', ['Man wiegt den Zylinderkopf auf einer Waage und rechnet um.', 'Man schätzt ihn nach Gefühl und trägt eine Zahl ein.', 'Man misst mit dem Thermometer die Temperatur am Zylinderkopf.'], 'So misst man das Volumen genau.'),
+  Q('Was bewirkt die Quetschkante?', 'Sie verwirbelt das Gemisch kurz vor der Zündung.', ['Sie kühlt das Öl im Kurbelgehäuse und im Getriebe.', 'Sie schmiert den Kolben mit Öl aus dem Gemisch.', 'Sie hält die Zündkerze fest im Zylinderkopf.'], 'Verwirbeltes Gemisch verbrennt schneller und vollständiger.')
 ]},
 
 {...PRO, id:'technik-3', topic:'Steuerzeiten', title:'Steuerzeiten und Gradscheibe', sub:'Wann öffnet der Auslass? Messen und rechnen', min:20,
@@ -46,10 +46,10 @@ MISSIONS.push(
       return `<div style="max-width:300px;margin:0 auto">${z.svg}</div><div class="center"><b style="font-size:22px">Auslass öffnet bei ${de(a, 0)}° nach OT</b><br>Steuerzeit: ${de(360 - 2 * a, 0)}°<br><span class="m">Kleiner Abstand: Auslass öffnet früher, Steuerzeit länger.</span></div>`; }),
   N('Der Auslass öffnet bei 95° nach OT. Wie lang ist die Auslass-Steuerzeit? (in Grad)', 170, '360° − 2 · 95° = 170°.', {unit:'°'}),
   N('Bei 6 000 U/min dauert eine Umdrehung 10 ms. Wie lange bleibt der Auslass bei 170° Steuerzeit offen? (ms)', 4.72, '170 ÷ 360 · 10 ms = 4,72 ms.', {tol:.05, unit:'ms', hint:'Anteil an einer Umdrehung: 170 ÷ 360.'}),
-  Q('Du feilst den Auslass höher. Was passiert meist?', 'Er öffnet früher, die Steuerzeit wird länger, oben gibt es mehr Leistung.', ['Er öffnet später, der Motor wird leiser.', 'Nichts verändert sich.', 'Der Motor braucht dann kein Öl mehr.'], 'Frühes Öffnen lässt die Abgase eher entweichen. Das passt zu hohen Drehzahlen.'),
-  Q('Welchen Nachteil hat eine sehr lange Steuerzeit?', 'Unten herum geht Drehmoment verloren, der Motor wird zickiger.', ['Der Tank wird kleiner.', 'Das Moped wird schwerer.', 'Das Licht flackert.'], 'Bei niedrigen Drehzahlen strömt Frischgas teilweise mit hinaus.'),
-  Q('Wozu braucht man eine Messuhr beim Messen der Steuerzeiten?', 'Um den oberen Totpunkt genau zu finden.', ['Um das Öl zu messen.', 'Um die Kette zu spannen.', 'Um den Reifendruck zu prüfen.'], 'Von OT aus liest man den Winkel an der Gradscheibe ab.'),
-  Q('Warum öffnet der Auslass vor den Überströmern?', 'Erst sollen die Abgase abströmen, dann kann das Frischgas nachströmen.', ['Das ist Zufall.', 'Damit es lauter wird.', 'Damit die Kerze heller leuchtet.'], 'So entsteht eine saubere Spülung.')
+  Q('Du feilst den Auslass höher. Was passiert meist?', 'Er öffnet früher, die Steuerzeit wird länger, oben gibt es mehr Leistung.', ['Er öffnet später, die Steuerzeit wird kürzer, der Motor wird leiser.', 'Nichts verändert sich, der Auslass bleibt bei jeder Höhe gleich.', 'Der Motor braucht dann kein Öl mehr im Gemisch und wird sparsam.'], 'Frühes Öffnen lässt die Abgase eher entweichen. Das passt zu hohen Drehzahlen.'),
+  Q('Welchen Nachteil hat eine sehr lange Steuerzeit?', 'Unten herum geht Drehmoment verloren, der Motor wird zickiger.', ['Der Tank wird kleiner, und der Motor braucht viel mehr Sprit.', 'Das Moped wird schwerer, und die Reifen nutzen sich schneller ab.', 'Das Licht flackert, und die Batterie wird dabei sehr schnell leer.'], 'Bei niedrigen Drehzahlen strömt Frischgas teilweise mit hinaus.'),
+  Q('Wozu braucht man eine Messuhr beim Messen der Steuerzeiten?', 'Um den oberen Totpunkt genau zu finden.', ['Um das Öl im Kurbelgehäuse zu messen.', 'Um die Kette richtig zu spannen und zu prüfen.', 'Um den Reifendruck am Hinterrad zu prüfen.'], 'Von OT aus liest man den Winkel an der Gradscheibe ab.'),
+  Q('Warum öffnet der Auslass vor den Überströmern?', 'Erst strömen die Abgase ab, dann kann Frischgas nachströmen.', ['Das ist reiner Zufall, denn die Reihenfolge spielt keine Rolle.', 'Damit es lauter wird, weil die Abgase herausknallen sollen.', 'Damit die Kerze heller leuchtet und der Funke stärker wird.'], 'So entsteht eine saubere Spülung.')
 ]},
 
 {...PRO, id:'technik-4', topic:'Leistung', title:'Leistung, Drehmoment und PS', sub:'Wie viel Kilowatt kommen aus dem Motor?', min:18,
@@ -63,8 +63,8 @@ MISSIONS.push(
   N('4 Nm bei 8 000 U/min. Wie viel Leistung ist das? (kW, 2 Nachkommastellen)', 3.35, '4 · 8 000 ÷ 9 549 = 32 000 ÷ 9 549 = 3,35 kW.', {tol:.03, unit:'kW'}),
   N('Ein Motor hat 4,4 kW. Wie viel PS sind das? (1 kW = 1,36 PS)', 5.98, '4,4 · 1,36 = 5,98 PS.', {tol:.1, unit:'PS'}),
   N('Ein Motor leistet 6,2 kW bei 8 500 U/min. Welches Drehmoment liegt an? (Nm, 1 Nachkommastelle)', 7, 'M = P · 9 549 ÷ n = 6,2 · 9 549 ÷ 8 500 = 6,97 Nm.', {tol:.1, unit:'Nm', hint:'Stelle die Formel nach M um.'}),
-  Q('Bei gleichem Drehmoment wird die Drehzahl verdoppelt. Was passiert mit der Leistung?', 'Sie verdoppelt sich ebenfalls.', ['Sie halbiert sich.', 'Sie bleibt gleich.', 'Sie wird viermal so groß.'], 'P ist proportional zu n.'),
-  Q('Was bedeutet „breites Leistungsband“?', 'Der Motor liefert über einen großen Drehzahlbereich gute Leistung.', ['Der Motor hat ein breites Kabel.', 'Der Tank ist groß.', 'Der Auspuff ist dick.'], 'Das macht ein Moped alltagstauglich.'),
+  Q('Bei gleichem Drehmoment wird die Drehzahl verdoppelt. Was passiert mit der Leistung?', 'Sie verdoppelt sich ebenfalls.', ['Sie halbiert sich dadurch.', 'Sie bleibt trotzdem gleich.', 'Sie wird dadurch viermal so groß.'], 'P ist proportional zu n.'),
+  Q('Was bedeutet „breites Leistungsband“?', 'Der Motor liefert über viele Drehzahlen gute Leistung.', ['Der Motor hat ein breites Kabel zur Batterie.', 'Der Tank ist groß, deshalb läuft der Motor länger.', 'Der Auspuff ist dick, und der Motor wird sehr laut.'], 'Das macht ein Moped alltagstauglich.'),
   Q('Welche Einheit hat das Drehmoment?', 'Newtonmeter (Nm)', ['Kilowatt (kW)', 'Liter (l)', 'Kilometer (km)'], 'Kraft mal Hebelarm: Newton mal Meter.')
 ]},
 
@@ -78,8 +78,8 @@ MISSIONS.push(
   N('Pleuel 62 mm, Kurbelradius 22 mm. Wie groß ist das Pleuelverhältnis? (l ÷ r, 2 Nachkommastellen)', 2.82, '62 ÷ 22 = 2,82.', {tol:.03}),
   N('Mit 50 mm Hub und 9 000 U/min: Wie groß ist die mittlere Kolbengeschwindigkeit? (m/s)', 15, '2 · 0,05 · 9 000 ÷ 60 = 15 m/s.', {tol:.1, unit:'m/s'}),
   Q('Was passiert mit dem Verschleiß, wenn die Drehzahl höher wird?', 'Er steigt stark an.', ['Er sinkt.', 'Er bleibt gleich.', 'Er verschwindet.'], 'Höhere Geschwindigkeit bedeutet mehr Reibung und größere Kräfte.'),
-  Q('Wo ist die Beschleunigung des Kolbens am größten?', 'Im oberen und unteren Totpunkt, wo er die Richtung wechselt.', ['In der Mitte des Hubs', 'Nur beim Anlassen', 'Nirgends'], 'Dort kehrt sich die Bewegung um.'),
-  Q('Was ist die Aufgabe des Pleuels?', 'Es verbindet Kolben und Kurbelwelle.', ['Es zündet das Gemisch.', 'Es kühlt den Zylinder.', 'Es spannt die Kette.'], 'Es überträgt die Kraft vom Kolben auf die Kurbelwelle.')
+  Q('Wo ist die Beschleunigung des Kolbens am größten?', 'Im oberen und unteren Totpunkt, wo er die Richtung wechselt.', ['In der Mitte des Hubs, wo der Kolben am schnellsten fährt.', 'Nur beim Anlassen, danach bleibt sie dauerhaft gleich.', 'Nirgends, der Kolben bewegt sich überall gleich schnell.'], 'Dort kehrt sich die Bewegung um.'),
+  Q('Was ist die Aufgabe des Pleuels?', 'Es verbindet Kolben und Kurbelwelle.', ['Es zündet das Gemisch im Brennraum.', 'Es kühlt den Zylinder von außen.', 'Es spannt die Kette am Hinterrad.'], 'Es überträgt die Kraft vom Kolben auf die Kurbelwelle.')
 ]},
 
 {...PRO, id:'technik-6', topic:'Antrieb', title:'Gesamtübersetzung und Tempo', sub:'Primär, Getriebe, Kette: Wie schnell fährst du?', min:20,
@@ -94,8 +94,8 @@ MISSIONS.push(
   N('Bei 6 000 U/min Motordrehzahl und i = 9: Wie viele km/h bei 1,7 m Radumfang? (1 Nachkommastelle)', 68, 'n_Rad = 6 000 ÷ 9 = 666,7. v = 666,7 · 1,7 · 60 ÷ 1 000 = 68,0 km/h.', {tol:.2, unit:'km/h'}),
   N('Das Kettenrad wird auf 32 Zähne gewechselt (Ritzel 15). Wie groß wird die Gesamtübersetzung? (2 Nachkommastellen)', 9.6, 'i_K = 32 ÷ 15 = 2,133. i = 3 · 1,5 · 2,133 = 9,6.', {tol:.03}),
   N('Mit i = 9,6 und 6 000 U/min: Wie viele km/h? (1 Nachkommastelle)', 63.8, 'n_Rad = 625. v = 625 · 1,7 · 0,06 = 63,75 ≈ 63,8 km/h.', {tol:.2, unit:'km/h'}),
-  Q('Ein größeres Kettenrad bei gleichem Ritzel macht die Übersetzung …', 'kürzer: weniger Endtempo, mehr Zug', ['länger: mehr Endtempo', 'gleich', 'unwirksam'], 'Mehr Übersetzung drückt die Drehzahl am Rad herunter. Das Moped zieht besser, ist aber nicht so schnell.'),
-  Q('Warum sollte man nach Änderungen am Antrieb den Tacho prüfen?', 'Weil die Anzeige dann nicht mehr stimmen kann und die Papiere passen müssen.', ['Weil der Tacho dann leuchtet.', 'Weil der Tacho sonst rostet.', 'Das ist völlig egal.'], 'Der Tacho muss die tatsächliche Geschwindigkeit anzeigen.')
+  Q('Ein größeres Kettenrad bei gleichem Ritzel macht die Übersetzung …', 'kürzer: weniger Endtempo, mehr Zug', ['länger: mehr Endtempo, weniger Zug', 'gleich: Tempo und Zug bleiben gleich', 'unwirksam: es ändert sich gar nichts'], 'Mehr Übersetzung drückt die Drehzahl am Rad herunter. Das Moped zieht besser, ist aber nicht so schnell.'),
+  Q('Warum sollte man nach Änderungen am Antrieb den Tacho prüfen?', 'Weil die Anzeige nicht mehr stimmen kann und die Papiere passen müssen.', ['Weil der Tacho dann nachts viel heller leuchtet und blendet.', 'Weil der Tacho sonst von der neuen Kette rostet und bricht.', 'Das ist völlig egal, der Tacho zeigt nach jedem Umbau richtig an.'], 'Der Tacho muss die tatsächliche Geschwindigkeit anzeigen.')
 ]},
 
 {...PRO, id:'technik-7', topic:'Gemisch', title:'Vergaser und Kerzenbild', sub:'Fett oder mager? Das Gemisch richtig lesen', min:18,
@@ -105,12 +105,12 @@ MISSIONS.push(
     'Das **Kerzenbild** hilft beim Beurteilen: Man fährt kurz unter Volllast, schaltet aus und liest die Farbe der Elektrode.'),
   M('Kerzenbild lesen', [['hell, weißlich-grau', 'Gemisch zu mager'], ['rehbraun', 'passt gut'], ['schwarz, rußig', 'Gemisch zu fett']], 'Welche Farbe passt zu welchem Gemisch?'),
   Q('Welche Düse arbeitet vor allem bei Volllast?', 'Die Hauptdüse', ['Die Leerlaufdüse', 'Die Tankdüse', 'Die Hupendüse'], 'Bei Vollgas fließt der meiste Kraftstoff über die Hauptdüse.'),
-  Q('Du baust einen größeren Zylinder ein, der Vergaser bleibt gleich. Was droht?', 'Ein mageres Gemisch und damit Überhitzung', ['Ein zu kaltes Gemisch', 'Ein größerer Tank', 'Nichts'], 'Der Motor braucht mehr Luft und mehr Kraftstoff. Sonst wird das Gemisch mager.'),
-  Q('Wie ändert sich das Gemisch, wenn die Luft kälter und dichter wird?', 'Es wird magerer, weil mehr Sauerstoff in den Zylinder kommt.', ['Es wird fetter.', 'Es bleibt immer gleich.', 'Es verdampft nicht mehr.'], 'Kalte Luft ist dichter. Der Vergaser gibt nicht automatisch mehr Kraftstoff dazu.'),
-  Q('Was ist „Nebenluft“?', 'Luft, die durch undichte Stellen am Ansaugweg in den Motor gelangt.', ['Luft im Reifen', 'Die Luft im Tank', 'Der Wind beim Fahren'], 'Sie macht das Gemisch mager und kann den Motor beschädigen.'),
+  Q('Du baust einen größeren Zylinder ein, der Vergaser bleibt gleich. Was droht?', 'Ein mageres Gemisch und damit Überhitzung', ['Ein zu kaltes Gemisch und ein kühler Motor', 'Ein größerer Tank und deshalb mehr Reichweite', 'Nichts, der Vergaser passt sich von allein an'], 'Der Motor braucht mehr Luft und mehr Kraftstoff. Sonst wird das Gemisch mager.'),
+  Q('Wie ändert sich das Gemisch, wenn die Luft kälter und dichter wird?', 'Es wird magerer, weil mehr Sauerstoff in den Zylinder kommt.', ['Es wird fetter, weil weniger Luft in den Zylinder kommt.', 'Es bleibt immer gleich, egal wie kalt die Luft ist.', 'Es verdampft nicht mehr und der Motor springt nie an.'], 'Kalte Luft ist dichter. Der Vergaser gibt nicht automatisch mehr Kraftstoff dazu.'),
+  Q('Was ist „Nebenluft“?', 'Luft, die durch undichte Stellen im Ansaugweg in den Motor kommt.', ['Die Luft im Reifen, die beim Fahren durch das Ventil entweicht.', 'Die Luft im Tank, die beim Tanken nach oben entweicht.', 'Der Wind beim Fahren, der den Fahrer von der Seite trifft.'], 'Sie macht das Gemisch mager und kann den Motor beschädigen.'),
   N('Wie viel kg Benzin braucht man etwa für 14,7 kg Luft bei λ = 1?', 1, 'Das ideale Verhältnis ist 14,7 : 1.', {unit:'kg'}),
   N('Bei einem Gemisch 14,7 : 1 strömen 29,4 kg Luft durch den Motor. Wie viel Benzin gehört dazu? (kg)', 2, '29,4 ÷ 14,7 = 2 kg.', {tol:.01, unit:'kg'}),
-  Q('Das Kerzenbild ist weiß und trocken. Was ist sinnvoll?', 'Sofort aufhören, nicht mehr hoch drehen und die Abstimmung prüfen.', ['Mehr Gas geben', 'Einfach weiterfahren', 'Weniger Öl tanken'], 'Weißes Bild bedeutet meist mager. Das kann den Kolben ruinieren.')
+  Q('Das Kerzenbild ist weiß und trocken. Was ist sinnvoll?', 'Sofort aufhören, nicht hochdrehen und die Abstimmung prüfen.', ['Mehr Gas geben, damit der Motor richtig freibrennt.', 'Einfach weiterfahren, es wird schon wieder besser.', 'Weniger Öl ins Gemisch geben, damit die Kerze sauber bleibt.'], 'Weißes Bild bedeutet meist mager. Das kann den Kolben ruinieren.')
 ]},
 
 {...PRO, id:'technik-8', topic:'Auspuff', title:'Der Resonanzauspuff', sub:'Wie Schallwellen Leistung machen', min:20,
@@ -123,8 +123,8 @@ MISSIONS.push(
   N('Der Auslass ist 160° offen. Wie viele ms sind das bei 8 000 U/min? (2 Nachkommastellen)', 3.33, '160 ÷ 360 · 7,5 ms = 3,33 ms.', {tol:.03, unit:'ms'}),
   N('Eine Welle läuft mit 500 m/s. Wie weit kommt sie in 3 ms? (m)', 1.5, '500 m/s · 0,003 s = 1,5 m.', {tol:.01, unit:'m'}),
   N('Die Welle läuft hin und zurück in 3 ms (1,5 m). Wie lang ist dann etwa der Weg bis zum Reflektor? (m)', 0.75, 'Hin und zurück sind zwei Strecken: 1,5 m ÷ 2 = 0,75 m.', {tol:.01, unit:'m'}),
-  Q('Warum klingt ein Resonanzauspuff meist nur in einem Drehzahlbereich „gut“?', 'Er ist auf eine bestimmte Wellenlaufzeit und damit Drehzahl abgestimmt.', ['Er ist zu heiß.', 'Er ist zu schwer.', 'Er ist zu glänzend.'], 'Außerhalb der abgestimmten Drehzahl treffen die Wellen zur falschen Zeit ein.'),
-  Q('Was macht der Diffusor?', 'Er erzeugt eine Unterdruckwelle, die den Zylinder leerzieht.', ['Er füllt den Tank.', 'Er kühlt die Kette.', 'Er dämpft den Reifen.'], 'Der erweiternde Querschnitt lässt die Welle als Unterdruck zurückkommen.')
+  Q('Warum klingt ein Resonanzauspuff meist nur in einem Drehzahlbereich „gut“?', 'Er ist auf eine bestimmte Wellenlaufzeit und Drehzahl abgestimmt.', ['Er wird bei hohen Drehzahlen zu heiß und schmilzt fast.', 'Er ist für alle Drehzahlen zu schwer und träge.', 'Er ist zu glänzend, und das stört den Klang im Motor.'], 'Außerhalb der abgestimmten Drehzahl treffen die Wellen zur falschen Zeit ein.'),
+  Q('Was macht der Diffusor?', 'Er erzeugt eine Unterdruckwelle, die den Zylinder leerzieht.', ['Er füllt beim Fahren den Tank von allein wieder auf.', 'Er kühlt die Kette mit einem Luftstrom vom Auspuff.', 'Er dämpft den Reifen und macht die Fahrt weicher.'], 'Der erweiternde Querschnitt lässt die Welle als Unterdruck zurückkommen.')
 ]},
 
 {...PRO, id:'technik-9', topic:'Zündung', title:'Zündzeitpunkt und Vorzündung', sub:'Millimeter vor OT in Grad umrechnen', min:18,
@@ -138,9 +138,9 @@ MISSIONS.push(
       return `<div style="max-width:300px;margin:0 auto">${z.svg}</div><div class="center"><b style="font-size:22px">${de(a, 0)}° vor OT</b><br><span class="m">${v.z < 1.2 ? 'Eher spät: wenig Klopfen, aber Leistungsverlust' : v.z > 2.6 ? 'Sehr früh: Klopfgefahr, Motor in Gefahr' : 'Im üblichen Bereich'}</span></div>`; }),
   N('Wie viel Grad vor OT entsprechen 1,8 mm im Modell? (ganze Zahl)', 20, 'Mit Hub 44 mm, Pleuel 62 mm ergibt 1,8 mm etwa 20°.', {tol:1, unit:'°'}),
   N('Bei 6 000 U/min dauert eine Umdrehung 10 ms. Wie lange dauern 20° Kurbelwinkel? (ms, 3 Nachkommastellen)', 0.556, '20 ÷ 360 · 10 ms = 0,556 ms.', {tol:.005, unit:'ms'}),
-  Q('Die Zündung steht zu früh. Was kann passieren?', 'Klopfen und Kolbenklemmer', ['Der Tank läuft leer', 'Die Kette springt ab', 'Der Reifen platzt'], 'Das Gemisch verbrennt gegen den aufsteigenden Kolben und erzeugt Spitzen in Druck und Hitze.'),
-  Q('Die Zündung steht zu spät. Was merkst du?', 'Weniger Leistung, der Motor wird heiß, der Auspuff kann glühen.', ['Der Motor ist leiser und kühler', 'Der Tank wird voller', 'Das Licht geht an'], 'Die Verbrennung läuft noch, wenn der Auslass schon offen ist.'),
-  Q('Womit stellt man die Vorzündung genau ein?', 'Mit einer Messuhr am Kolben oder einer Stroboskop-Zündlampe', ['Mit dem Zollstock', 'Mit der Wasserwaage', 'Mit dem Thermometer'], 'So findet man den Zündzeitpunkt genau.')
+  Q('Die Zündung steht zu früh. Was kann passieren?', 'Klopfen und Kolbenklemmer', ['Der Tank läuft sofort leer', 'Die Kette springt vom Ritzel ab', 'Der Reifen platzt von selbst'], 'Das Gemisch verbrennt gegen den aufsteigenden Kolben und erzeugt Spitzen in Druck und Hitze.'),
+  Q('Die Zündung steht zu spät. Was merkst du?', 'Weniger Leistung, der Motor wird heiß, der Auspuff kann glühen.', ['Der Motor ist leiser und kühler und verbraucht weniger.', 'Der Tank wird dabei voller, und das Moped wird schneller.', 'Das Licht geht von allein an, und die Hupe tutet leise.'], 'Die Verbrennung läuft noch, wenn der Auslass schon offen ist.'),
+  Q('Womit stellt man die Vorzündung genau ein?', 'Mit einer Messuhr am Kolben oder einer Stroboskoplampe', ['Mit einem Zollstock, den man an den Zylinder hält', 'Mit einer Wasserwaage, die man auf den Kopf legt', 'Mit einem Thermometer, das man ins Kurbelgehäuse hält'], 'So findet man den Zündzeitpunkt genau.')
 ]},
 
 {...PRO, id:'technik-10', topic:'Fehlersuche', title:'Fehlersuche: Der Motor springt nicht an', sub:'Wie ein Profi systematisch vorgeht', min:16,
@@ -150,9 +150,9 @@ MISSIONS.push(
     'Sicherheit: Beim Prüfen des Zündfunkens nie die Kerze oder das Kabel in der Hand halten. Verwende dafür eine Zange mit Isolierung oder lass einen Erwachsenen helfen.'),
   O('Eine sinnvolle Prüfreihenfolge', ['Ist Kraftstoff im Tank und der Hahn offen?', 'Ist die Kerze trocken und kommt ein Zündfunke?', 'Läuft Kraftstoff in den Vergaser (Schwimmerkammer)?', 'Ist genug Verdichtung da (lässt sich der Kolben anschieben)?'], 'Tippe die Prüfschritte in einer sinnvollen Reihenfolge an. Es gibt nur eine richtige Reihenfolge.'),
   M('Symptom und Ursache', [['Kerze ist nass vom Kicken (abgesoffen)', 'Kerze trocknen, mit Gas kicken'], ['Kein Funke trotz neuer Kerze', 'Zündspule oder Zündkabel prüfen'], ['Motor läuft nur mit Choke', 'Nebenluft oder zu magere Leerlaufeinstellung'], ['Kolben lässt sich kaum bewegen', 'Kolbenklemmer, Motor nicht weiter drehen']], 'Welche Ursache passt wahrscheinlich?'),
-  Q('Die Kerze ist nach vielen Kickversuchen nass. Was bedeutet das meist?', 'Der Motor ist abgesoffen: zu viel Kraftstoff im Brennraum.', ['Der Tank ist leer', 'Der Kolben fehlt', 'Das Licht ist an'], 'Nasse Kerze: trocknen, Gas auf und kicken.'),
-  Q('Wie erkennst du fehlende Verdichtung?', 'Der Kolben lässt sich leicht durchdrehen und es fehlt der Widerstand.', ['Der Tank ist zu voll', 'Die Reifen sind hart', 'Die Spiegel sind locker'], 'Verdichtung baut Widerstand auf. Ohne ihn läuft der Motor nicht.'),
-  Q('Warum prüft ein Profi zuerst die einfachen Dinge (Kraftstoff, Funke)?', 'Weil die meisten Fehler dort liegen und das Prüfen schnell geht.', ['Weil es Spaß macht.', 'Weil es teuer ist.', 'Weil er keine Werkzeuge hat.'], 'Erst einfach, dann aufwendig.'),
+  Q('Die Kerze ist nach vielen Kickversuchen nass. Was bedeutet das meist?', 'Der Motor ist abgesoffen: zu viel Kraftstoff im Brennraum.', ['Der Tank ist leer, deshalb fehlt der Funke.', 'Der Kolben fehlt, und die Kerze ist darum nass.', 'Der Zündfunke ist zu stark und macht die Kerze nass.'], 'Nasse Kerze: trocknen, Gas auf und kicken.'),
+  Q('Wie erkennst du fehlende Verdichtung?', 'Der Kolben dreht leicht durch, es fehlt der Widerstand.', ['Der Tank ist zu voll, und das Moped läuft schwer an.', 'Die Reifen sind hart, und das Moped rollt schlecht.', 'Die Spiegel sind locker, und das Moped wackelt.'], 'Verdichtung baut Widerstand auf. Ohne ihn läuft der Motor nicht.'),
+  Q('Warum prüft ein Profi zuerst die einfachen Dinge (Kraftstoff, Funke)?', 'Weil dort die meisten Fehler liegen und das Prüfen schnell geht.', ['Weil es ihm Spaß macht und er gern am Tank herumschraubt.', 'Weil es dort am teuersten ist und sich am meisten lohnt.', 'Weil er keine Werkzeuge hat und sonst nichts prüfen kann.'], 'Erst einfach, dann aufwendig.'),
   Q('Der Motor läuft im Leerlauf unruhig und nimmt schlecht Gas an. Was ist eine Ursache?', 'Nebenluft am Ansaugstutzen', ['Zu viel Reifendruck', 'Ein zu heller Scheinwerfer', 'Ein neuer Sitz'], 'Nebenluft macht das Gemisch mager und unruhig.')
 ]},
 

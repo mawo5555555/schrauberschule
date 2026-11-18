@@ -16,7 +16,7 @@ const COLORS = [[0, 'Original'], [195, 'Blau'], [95, 'Grün'], [320, 'Pink'], [2
 const tuneOf = st => { st.tune = Object.assign({}, ORIG, st.tune || {}); st.own = st.own || []; return st.tune };
 
 function perf(t) {
-  let ps = {50: 3.7, 60: 4.6, 70: 5.6}[t.zyl]; const note = [];
+  let ps = {50: 3.4, 60: 4.2, 70: 5.1}[t.zyl]; const note = [];
   if (t.verg === 19) ps *= t.zyl > 50 ? 1.08 : 1; else if (t.zyl === 70) { ps *= .88; note.push('Der 16er Vergaser ist für den 70er zu klein: Der Motor bekommt zu wenig Gemisch.') }
   if (t.aus) ps *= 1.15; if (t.luft) ps *= 1.03; if (t.zuend) ps *= 1.03;
   const ideal = Math.round((70 + (t.zyl - 50) * .9 + (t.verg === 19 ? 12 : 0) + (t.luft ? 4 : 0) + (t.aus ? 4 : 0)) / 2) * 2, d = t.duese - ideal;
@@ -25,7 +25,7 @@ function perf(t) {
   else if (d > 4) { kerze = 'schwarz'; ps *= Math.max(.7, 1 - (d - 4) * .025); note.push('Zu fett: Er qualmt, stottert und verliert Leistung. Kleinere Hauptdüse einbauen.') }
   const peak = 5500 + (t.aus ? 900 : 0) + (t.zyl - 50) * 15, width = t.aus ? 1500 : 2300, red = 7000 + (t.aus ? 800 : 0);
   const legal = t.zyl === 50 && !t.aus && t.verg === 16 && t.rit <= 0 && !t.luft;
-  return {ps: Math.round(ps * 10) / 10, vmax: Math.round(60 * Math.sqrt(ps / 3.7) * (1 + t.rit * .06)), acc: ps / 3.7 / (1 + t.rit * .06), peak, width, red, ideal, d, kerze, lean, note, legal};
+  return {ps: Math.round(ps * 10) / 10, vmax: Math.round(60 * Math.sqrt(ps / 3.4) * (1 + t.rit * .06)), acc: ps / 3.4 / (1 + t.rit * .06), peak, width, red, ideal, d, kerze, lean, note, legal};
 }
 // Schaltspiel mit Tuning-Werten
 function raceOf(v) {

@@ -95,3 +95,7 @@ body:not(.kbd) :focus:not(:focus-visible){outline:none}
   .lay.dy .pst>*{min-width:0}
   .hgrid{grid-template-columns:1.2fr 1fr}
 }
+/* Prüfung 18.11.: Zertifikat Tablet, Tippflächen */
+.lay>*,.cert{min-width:0}.cert .car,.cert img{max-width:100%}
+.back,.x,.lk-x{min-width:44px!important;min-height:44px!important}
+.hint button,.hint .x,.hint>b:last-child{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}

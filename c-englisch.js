@@ -138,13 +138,13 @@ MISSIONS.push(
  rlp:'Leseverstehen: kurze Texte global und im Detail verstehen, Fragen beantworten',
  steps:[
   W('Read the text', 'A day on Tom’s farm\n\nTom lives on a farm near a small village. Every morning at six o’clock he feeds the cows and the chickens. His sister Anna collects the eggs. After breakfast, Tom’s father drives the big tractor to the field. He is mowing the grass for hay. Tom helps him in the afternoon. He drives the small tractor and carries water to the sheep. In the evening the family eats dinner together. Tom is tired, but he is happy. He loves the farm.'),
-  Q('What does Tom do at six o’clock?', 'He feeds the cows and the chickens.', ['He drives the big tractor.', 'He collects the eggs.', 'He eats dinner.'], 'Im Text: „Every morning at six o’clock he feeds the cows and the chickens.“'),
+  Q('What does Tom do at six o’clock?', 'He feeds the cows and the chickens.', ['He drives the big tractor to the field.', 'He collects the eggs from the barn.', 'He eats dinner with his family.'], 'Im Text: „Every morning at six o’clock he feeds the cows and the chickens.“'),
   Q('Who collects the eggs?', 'Anna', ['Tom', 'The father', 'The sheep'], 'Anna ist Toms Schwester und sammelt die Eier.'),
-  Q('What is the father doing with the big tractor?', 'He is mowing the grass for hay.', ['He is feeding the sheep.', 'He is washing the tractor.', 'He is eating dinner.'], 'Im Text: „He is mowing the grass for hay.“'),
+  Q('What is the father doing with the big tractor?', 'He is mowing the grass for hay.', ['He is feeding the sheep in the barn.', 'He is washing the tractor in the yard.', 'He is eating dinner with the family.'], 'Im Text: „He is mowing the grass for hay.“'),
   Q('What does Tom carry to the sheep in the afternoon?', 'water', ['hay', 'eggs', 'milk'], 'Im Text: „carries water to the sheep“.'),
   T('Find the word: Tom lives on a ___ near a small village. (ein Wort aus dem Text)', 'farm', 'Der erste Satz nennt die farm.', {}),
-  Q('How does Tom feel in the evening?', 'He is tired but happy.', ['He is sad.', 'He is angry.', 'He is afraid.'], 'Im Text: „Tom is tired, but he is happy.“'),
-  Q('Welcher Satz fasst den Text am besten zusammen?', 'Tom hilft auf dem Bauernhof und mag das Leben dort.', ['Tom verkauft Traktoren.', 'Tom lernt im Urlaub Englisch.', 'Tom zieht in die Stadt.'], 'Der Text beschreibt einen Tag auf dem Hof und Toms Freude daran.')
+  Q('How does Tom feel in the evening?', 'He is tired but happy.', ['He is sad and very lonely.', 'He is angry and very loud.', 'He is afraid of the dark.'], 'Im Text: „Tom is tired, but he is happy.“'),
+  Q('Welcher Satz fasst den Text am besten zusammen?', 'Tom hilft auf dem Bauernhof und mag das Leben dort.', ['Tom verkauft auf dem Markt Traktoren und Ersatzteile.', 'Tom lernt im Urlaub Englisch und besucht eine Stadt.', 'Tom zieht in die Stadt und arbeitet dort im Büro.'], 'Der Text beschreibt einen Tag auf dem Hof und Toms Freude daran.')
 ]},
 
 {id:'englisch-11', subject:'englisch', theme:'tuning', topic:'Dialog', title:'At the parts shop', sub:'Ein Teil bestellen oder kaufen', min:14,
@@ -153,7 +153,7 @@ MISSIONS.push(
   W('Im Ersatzteilladen', 'Wichtige Sätze:\n\n• Can I help you? – Kann ich helfen?\n• I’d like a spark plug, please. – Ich hätte gern eine Zündkerze.\n• How much is it? – Wie viel kostet es?\n• It’s three euros ninety. – Es kostet 3,90 €.\n• Here you are. – Bitte sehr.\n• Anything else? – Sonst noch etwas?\n• That’s all, thanks. – Das ist alles, danke.\n\nZahlen: 13 thirteen, 14 fourteen, 15 fifteen, 20 twenty, 30 thirty, 50 fifty, 100 a hundred.'),
   O('Der Dialog in der richtigen Reihenfolge', ['Hello, can I help you?', 'Yes, I’d like a new spark plug, please.', 'Here you are. That’s three euros ninety.', 'Thank you. Here are five euros.', 'And one euro ten change. Goodbye!'], 'Tippe die Zeilen in der richtigen Reihenfolge an.'),
   Q('Wie fragst du nach dem Preis?', 'How much is it?', ['What time is it?', 'Where is it?', 'Who is it?'], '„How much is it?“ fragt nach dem Preis.'),
-  Q('Du möchtest eine Kette kaufen. Was sagst du?', 'I’d like a chain, please.', ['I am chain, please.', 'Chain I would a like.', 'Give chain me.'], 'Höflich mit „I’d like … , please.“'),
+  Q('Du möchtest eine Kette kaufen. Was sagst du?', 'I’d like a chain, please.', ['I am chain, please, thank you.', 'Chain I would a like, please.', 'Give chain me, quickly please.'], 'Höflich mit „I’d like … , please.“'),
   T('Wie schreibt man 15 auf Englisch?', 'fifteen', '13 thirteen, 14 fourteen, 15 fifteen.', {}),
   T('Wie schreibt man 50 auf Englisch?', 'fifty', '40 forty, 50 fifty, 60 sixty.', {}),
   Q('„It’s three euros ninety.“ Wie viel kostet es?', '3,90 €', ['3,09 €', '39 €', '0,39 €'], 'three euros und ninety (cent).'),
@@ -172,11 +172,11 @@ MISSIONS.push(
   W('Read the text', 'The MTX engine\n\nThe Honda MTX is a small enduro motorcycle from the 1980s. Its two-stroke engine is liquid-cooled. A pump moves the coolant through the engine and the radiator. The coolant takes the heat away from the cylinder.\n\nSome fans put the MTX engine into a Simson frame. This is called an engine swap. For a bigger cylinder, they often need a stronger carburettor and a new exhaust.\n\nWords: liquid-cooled (flüssigkeitsgekühlt), coolant (Kühlmittel), radiator (Kühler), pump (Pumpe), engine swap (Motorumbau), displacement (Hubraum).'),
   Q('How is the MTX engine cooled?', 'With liquid', ['With air only', 'With oil only', 'It is not cooled'], 'Im Text: „liquid-cooled“.'),
   Q('What moves the coolant through the engine?', 'A pump', ['A chain', 'A tyre', 'A seat'], 'Im Text: „A pump moves the coolant.“'),
-  Q('What does the coolant do?', 'It takes the heat away from the cylinder.', ['It makes the engine louder.', 'It fills the tank.', 'It cleans the tyres.'], 'Im Text: „The coolant takes the heat away from the cylinder.“'),
+  Q('What does the coolant do?', 'It takes the heat away from the cylinder.', ['It makes the engine louder and faster.', 'It fills the tank with fresh petrol.', 'It cleans the tyres from the dirt.'], 'Im Text: „The coolant takes the heat away from the cylinder.“'),
   T('Wie heißt „Kühler“ auf Englisch? (ein Wort)', 'radiator', 'Radiator – the coolant gives its heat to the air in the radiator.', {}),
   T('Wie heißt „Hubraum“ auf Englisch? (ein Wort)', 'displacement', 'Displacement is the volume that the pistons move.', {}),
-  Q('What is an engine swap?', 'You put a different engine into a frame.', ['You wash the engine.', 'You sell the engine.', 'You paint the engine.'], 'Swap = tauschen.'),
-  Q('What do they often need for a bigger cylinder?', 'A stronger carburettor and a new exhaust', ['A new seat', 'A new horn', 'A new mirror'], 'Im letzten Satz des Textes.')
+  Q('What is an engine swap?', 'You put a different engine into a frame.', ['You wash the engine with warm water.', 'You sell the engine to your neighbour.', 'You paint the engine with bright colours.'], 'Swap = tauschen.'),
+  Q('What do they often need for a bigger cylinder?', 'A stronger carburettor and a new exhaust', ['A softer seat and a louder horn', 'A new mirror and a bigger headlight', 'New tyres and a fancy red helmet'], 'Im letzten Satz des Textes.')
 ]}
 
 );

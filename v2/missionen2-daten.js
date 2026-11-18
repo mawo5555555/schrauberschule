@@ -39,7 +39,7 @@ M2('sim-fehler-1', 'nawi', 'fehler', 'Springt nicht an: Der Funke fehlt', 'Kerze
       {id: 'komp', ic: '💪', n: 'Kompression fühlen', ok: true, res: 'Beim Kicken spürst du klaren Widerstand. Die Verdichtung ist in Ordnung.'}],
     causes: [{n: 'Die Zündkerze ist verrußt und gibt keinen kräftigen Funken', right: 1}, {n: 'Der Benzinhahn ist zu', why: 'Der Hahn steht auf „Auf“ und der Vergaser bekommt Gemisch.'}, {n: 'Der Vergaser ist verstopft', why: 'Es kommt Gemisch an. Der Vergaser ist in Ordnung.'}, {n: 'Der Kolben ist festgefressen', why: 'Beim Kicken spürst du Kompression. Ein Klemmer würde den Kickstarter blockieren.'}],
     fix: 'Kerze ausbauen, mit Drahtbürste reinigen oder gegen eine neue tauschen und den Elektrodenabstand auf etwa **0,6 mm** einstellen. Danach springt die Simson wieder an.'}),
-  Q('Welche drei Dinge braucht ein Verbrennungsmotor, damit er läuft?', 'Kraftstoff, Luft und Zündfunke', ['Wasser, Öl und Licht', 'Gummi, Strom und Wasser', 'Nur Benzin'], 'Brennstoff, Sauerstoff und Zündenergie bilden das Verbrennungsdreieck.'),
+  Q('Welche drei Dinge braucht ein Verbrennungsmotor, damit er läuft?', 'Kraftstoff, Luft und Zündfunke', ['Wasser, Öl und genug Licht', 'Gummi, Strom und etwas Wasser', 'Nur Benzin, mehr braucht er nicht'], 'Brennstoff, Sauerstoff und Zündenergie bilden das Verbrennungsdreieck.'),
   N('Ein Zweitakter zündet bei jeder Umdrehung einmal. Bei 3000 Umdrehungen pro Minute: Wie viele Zündfunken springen pro Sekunde?', 50, '3000 : 60 = 50 Umdrehungen pro Sekunde, also 50 Zündungen.', {unit: 'pro Sekunde', hint: 'Eine Minute hat 60 Sekunden.'}),
   Q('Wie groß ist der Elektrodenabstand einer Zündkerze etwa?', 'ca. 0,6 mm', ['ca. 6 mm', 'ca. 0,06 mm', 'ca. 2 cm'], 'Ungefähr ein halber Millimeter, so dick wie etwa sechs Blatt Papier.')
 ], {tool: null}),
@@ -60,7 +60,7 @@ M2('sim-fehler-2', 'deutsch', 'fehler', 'Springt nicht an: Kein Sprit', 'Ursache
     fix: 'Hahn abbauen, Sieb auswaschen und wieder einbauen. Benzin ist leicht entzündlich: nur draußen, ohne Funken und mit Erwachsenen. Danach fließt das Gemisch wieder.'}),
   GAP('Ursache und Folge', 'Das Sieb ist verstopft, {deshalb|darum} ist die Schwimmerkammer leer. Die Simson geht aus, {weil} zu wenig Benzin ankommt.', ['obwohl', 'damit']),
   Q('Welcher Satz ist richtig?', 'Der Motor geht aus, weil kein Benzin mehr ankommt.', ['Der Motor geht aus, weil kommt kein Benzin mehr an.', 'Der Motor geht aus, weil kein Benzin mehr kommt an.', 'Der Motor geht aus, deshalb kein Benzin mehr ankommt.'], 'Nach „weil“ steht das Verb am Ende des Nebensatzes.'),
-  Q('Kerze trocken und hell, Schwimmerkammer leer. Was folgt daraus?', 'Es kommt zu wenig Gemisch an. Man sucht zwischen Tank und Vergaser.', ['Der Zündfunke fehlt.', 'Der Kolben ist zu groß.', 'Der Auspuff ist zu laut.'], 'Eine trockene Kerze bekommt kaum Kraftstoff. Der Fehler liegt im Kraftstoffweg.')
+  Q('Kerze trocken und hell, Schwimmerkammer leer. Was folgt daraus?', 'Es kommt zu wenig Gemisch an, Fehler zwischen Tank und Vergaser.', ['Der Zündfunke fehlt, man sucht am Zündkabel und an der Spule.', 'Der Kolben ist zu groß, man sucht ihn im Zylinder nach.', 'Der Auspuff ist zu laut, man sucht am Schalldämpfer.'], 'Eine trockene Kerze bekommt kaum Kraftstoff. Der Fehler liegt im Kraftstoffweg.')
 ]),
 // ------------------------------------------------------------------ Ziehen 1
 M2('sim-ziehen-1', 'nawi', 'ziehen', 'Motor-Puzzle: Teile an die richtige Stelle', 'Zweitaktmotor: Teile ziehen, auch mit dem Finger', 10, [
@@ -70,7 +70,7 @@ M2('sim-ziehen-1', 'nawi', 'ziehen', 'Motor-Puzzle: Teile an die richtige Stelle
     items: [{l: 'Zündkerze', en: 'spark plug', z: 'kerze'}, {l: 'Zylinderkopf', en: 'cylinder head', z: 'kopf'}, {l: 'Zylinder', en: 'cylinder', z: 'zyl'}, {l: 'Kolben', en: 'piston', z: 'kolben'}, {l: 'Vergaser', en: 'carburettor', z: 'verg'}, {l: 'Auspuff', en: 'exhaust', z: 'aus'}, {l: 'Kurbelgehäuse', en: 'crankcase', z: 'kurbel'}],
     why: 'Du kennst jetzt Aufbau und Namen des Motors, auf Deutsch und Englisch.'}),
   Q('Wo wird beim Zweitakter das frische Gemisch vorverdichtet?', 'im Kurbelgehäuse', ['im Auspuff', 'in der Zündkerze', 'im Tank'], 'Der Kolben drückt beim Abwärtsgang das Gemisch im Kurbelgehäuse zusammen und schiebt es durch Überströmkanäle nach oben.'),
-  Q('Wozu dienen die Kühlrippen am Zylinder?', 'Sie vergrößern die Oberfläche, damit mehr Wärme an die Luft abgegeben wird.', ['Sie machen den Motor leiser.', 'Sie halten das Öl im Motor.', 'Sie sehen nur schön aus.'], 'Mehr Fläche heißt mehr Wärme, die der Fahrtwind wegträgt (Luftkühlung).')
+  Q('Wozu dienen die Kühlrippen am Zylinder?', 'Sie vergrößern die Oberfläche und geben so mehr Wärme an die Luft ab.', ['Sie machen den Motor leiser, weil sie den Schall schlucken.', 'Sie halten das Öl im Motor und verhindern, dass es ausläuft.', 'Sie sehen nur schön aus und haben sonst keine Aufgabe am Motor.'], 'Mehr Fläche heißt mehr Wärme, die der Fahrtwind wegträgt (Luftkühlung).')
 ]),
 // ------------------------------------------------------------------ Ziehen 2
 M2('sim-ziehen-2', 'englisch', 'ziehen', 'Werkzeugwand: Tools auf Englisch', 'Werkzeug dem richtigen Auftrag zuordnen', 10, [

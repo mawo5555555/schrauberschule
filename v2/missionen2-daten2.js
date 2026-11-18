@@ -45,7 +45,7 @@ M2('sim-bild-2', 'englisch', 'bild', 'Bilderquiz: Motorteile auf Englisch', 'Wie
   Q('Welche Frage stellst du dem Kollegen auf Englisch?', 'Can you pass me the wrench, please?', ['Can you passes me the wrench, please?', 'Can you pass me wrench please?', 'You pass me the wrench?'], 'Can you + Grundform des Verbs (pass).')
 ]),
 M2('sim-blitz-1', 'mathe', 'blitz', 'Blitzrunde Mathe: Hubraum und Drehzahl', 'Kurze Rechnungen, nur als Spiel mit Zeit', 8, [
-  W('Hubraum', 'Hubraum V = Fläche · Hub = π · (d : 2)² · h. Mit Bohrung d = 40 mm und Hub h = 39,5 mm: V ≈ 49,6 cm³ (das ist die S51 mit „50er“-Klasse). Drehzahl pro Sekunde = U/min : 60.', 'Ein größerer Kolben macht mehr Hubraum, aber auch mehr Hitze und Belastung.'),
+  W('Hubraum', 'Hubraum V = Fläche · Hub = π · (d : 2)² · h. Mit Bohrung d = 38 mm und Hub h = 44 mm: V ≈ 49,9 cm³ (das ist die S51 mit „50er“-Klasse). Drehzahl pro Sekunde = U/min : 60.', 'Ein größerer Kolben macht mehr Hubraum, aber auch mehr Hitze und Belastung.'),
   stp('bl1', {type: 'blitz', title: 'Blitzrunde: Rechnen wie ein Tuner', text: 'Fünf kurze Aufgaben. Tippe die richtige Antwort an.', sek: 90, items: [
     {q: '3000 U/min sind wie viele Umdrehungen pro Sekunde?', o: ['50', '30', '100', '300'], why: '3000 : 60 = 50'},
     {q: 'Wie viele cm³ sind 1 Liter?', o: ['1000', '100', '10', '10 000'], why: '1 l = 1 dm³ = 1000 cm³'},

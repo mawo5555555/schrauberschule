@@ -3,15 +3,16 @@
 // Beim Ändern: version, ggf. schema und news anpassen, CHANGELOG.md ergänzen.
 self.APP = {
   name: 'Schrauberschule',
-  version: '3.3.4',
+  version: '3.4.0',
+  test: true,          // TESTVERSION: alles freigeschaltet. Für den echten Einsatz auf false!
   schema: 2,            // Schema-Version des Spielstands (nur erhöhen, wenn sich die Struktur ändert; dann Migration in migrate.js)
   date: '2026-11-18',
   news: [
-    '🚪 Neues Rolltor zur Werkstatt: Schrauber Scheune Sonnenberg, fährt langsam hoch, bei jedem Start.',
-    '🎬 Prüfstand: Das echte Video läuft jetzt direkt im Bild, mit Messkurve darunter.',
-    '🎨 Lackieren geht jetzt sofort: Farbe wählen, fertig.',
-    '🔧 Die Werkbank zeigt echte Fotos der Motorteile.',
-    '🚿 Waschen mit dem Hochdruckreiniger.',
-    '🏍️ Prüfstand: Beim Fahrzeugwechsel flackert nichts mehr.'
+    '🧪 TESTVERSION: Alle Fahrzeuge, Teile und die Garage sind zum Ausprobieren frei.',
+    '📦 Offline-Paket: Unter Spielstand alle Bilder und Prüfstand-Videos laden, dann geht alles ohne Internet.',
+    '🔧 Ritzel 14 und Schmalreifen sind von Anfang an frei.',
+    '📏 Leistung und Hubraum aller Simsons geprüft und vereinheitlicht.',
+    '❓ Quizfragen überarbeitet: Die richtige Antwort ist nicht mehr die längste.',
+    '✨ Leicht bewegter Hintergrund in den Hauptansichten.'
   ]
 };

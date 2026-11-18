@@ -151,7 +151,7 @@
     pan.innerHTML = `<div class="ss-sh"><button class="ss-x" data-a="close" aria-label="Schließen">✕</button><h3>Spielstand sichern</h3><p class="ss-s">Alles bleibt auf deinem Gerät. Nichts wird ins Internet geschickt.</p>${hint}<ul class="ss-stat" id="ss-stat"></ul><div class="ss-msg" id="ss-msg" role="status" aria-live="polite"></div>
       <div class="ss-grid"><section><h4>💾 Als Datei</h4><button class="ss-b" data-a="exp">Sichern (Datei speichern oder teilen)</button><label class="ss-b alt ss-file" tabindex="0">Datei laden<input type="file" accept=".json,application/json" hidden></label></section>
       <section><h4>🔁 Auf anderes Gerät</h4><button class="ss-b alt" data-a="code">Code und QR zeigen</button><div id="ss-code-out"></div><textarea id="ss-code-in" rows="2" placeholder="Code hier einfügen (SS1-…)" aria-label="Code einfügen"></textarea><div class="ss-row"><button class="ss-b alt" data-a="rcode">Code einlesen</button>${'BarcodeDetector' in window ? '<button class="ss-b alt" data-a="scan">QR scannen</button>' : ''}</div></section></div>
-      <details class="ss-more"><summary>Mehr</summary><button class="ss-b alt" data-a="perm">Dauerhaften Speicher anfragen</button><button class="ss-b alt" data-a="warm">Bilder für Offline-Nutzung laden</button><button class="ss-b alt" data-a="bks">Automatische Sicherungskopien zeigen</button><div id="ss-more-out"></div></details></div>`;
+      <button class="ss-b" data-a="warm">📦 Offline-Paket laden (Bilder und Videos)</button><details class="ss-more"><summary>Mehr</summary><button class="ss-b alt" data-a="perm">Dauerhaften Speicher anfragen</button><button class="ss-b alt" data-a="bks">Automatische Sicherungskopien zeigen</button><div id="ss-more-out"></div></details></div>`;
     document.body.appendChild(pan); msgEl = $$('#ss-msg', pan); refresh();
     try { history.pushState({ssModal: 1, v: typeof view !== 'undefined' ? view : 'home'}, '') } catch (e) {}
     pan.onclick = async e => { const a = e.target.dataset && e.target.dataset.a;
@@ -174,10 +174,10 @@
   }
   function warm() {
     const I = window.IMGS || {}, urls = []; for (const d in I) (I[d] || []).forEach(n => urls.push(new URL(`v2/img/${d}/${n}.jpg`, document.baseURI).href));
-    (window.IMGS_ROOT || []).forEach(p => urls.push(new URL(p, document.baseURI).href));
+    (window.IMGS_ROOT || []).concat(window.IMGS_EXTRA || []).forEach(p => urls.push(new URL(p, document.baseURI).href));
     const sw = navigator.serviceWorker && navigator.serviceWorker.controller; if (!sw) return say('Offline-Paket gibt es nur, wenn die App über das Internet (https) geöffnet wurde.', 1);
-    say(`Lade ${urls.length} Bilder … (WLAN empfohlen)`); sw.postMessage({type: 'WARM', urls});
-    navigator.serviceWorker.addEventListener('message', function f(e) { const d = e.data; if (d && d.type === 'WARM') { say(d.done ? 'Fertig: Die Bilder gibt es jetzt auch ohne Internet.' : `Geladen: ${d.n} von ${d.of}`); if (d.done) navigator.serviceWorker.removeEventListener('message', f) } });
+    say(`Lade ${urls.length} Bilder und Videos (ca. 40 MB, WLAN empfohlen) …`); sw.postMessage({type: 'WARM', urls});
+    navigator.serviceWorker.addEventListener('message', function f(e) { const d = e.data; if (d && d.type === 'WARM') { say(d.done ? 'Fertig: Bilder und Prüfstand-Videos gehen jetzt auch ohne Internet.' : `Geladen: ${d.n} von ${d.of}`); if (d.done) navigator.serviceWorker.removeEventListener('message', f) } });
   }
 
   // ---------- Wiederherstellung aus der zweiten Kopie ----------

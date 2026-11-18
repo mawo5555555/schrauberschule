@@ -13,8 +13,9 @@
   const cfg = () => ({on: window.APP_STAT_ENABLED === true, ep: String(window.APP_STAT_ENDPOINT || '')});
   const epOk = ep => /^https:\/\/[a-z0-9.-]+\/count$/i.test(ep);
   const dnt = () => { const n = navigator; return n.doNotTrack === '1' || n.doNotTrack === 'yes' || window.doNotTrack === '1' || n.msDoNotTrack === '1' || n.globalPrivacyControl === true };
-  const optin = () => { try { return localStorage.getItem(OPT) === '1' } catch (e) { return false } };
-  const setOpt = v => { try { v ? localStorage.setItem(OPT, '1') : localStorage.removeItem(OPT) } catch (e) {} };
+  // Standard AN (anonym, ohne Cookie/Kennung, DSGVO-arm); Eltern können es ausschalten
+  const optin = () => { try { return localStorage.getItem(OPT) !== '0' } catch (e) { return false } };
+  const setOpt = v => { try { localStorage.setItem(OPT, v ? '1' : '0') } catch (e) {} };
   const localHost = () => !/^https?:$/.test(location.protocol) || /^(localhost|127\.|\[::1\]|0\.0\.0\.0)/.test(location.hostname);
   let locT = null;   // nur für den Selbsttest
   const blocked = () => locT !== null ? locT : (localHost() || /shot=/.test(location.hash));
@@ -29,6 +30,22 @@
     sent.push(url);
     try { send(url, {method: 'GET', mode: 'no-cors', credentials: 'omit', referrerPolicy: 'no-referrer', keepalive: true, cache: 'no-store'}).catch(() => {}) } catch (e) {}
   }
+  // Ereignisse (Missionen, Bewertungen, Prüfstand, Lack, Waschen): nur grobe Namen, nie Spielername oder Spielstand
+  const evSeen = {};
+  function ev(name) {
+    if (!active()) return; const k = String(name).replace(/[^a-z0-9\/_-]/gi, '').slice(0, 60); const now = Date.now(); if (evSeen[k] && now - evSeen[k] < 5000) return; evSeen[k] = now;
+    const url = cfg().ep + '?p=' + encodeURIComponent(k) + '&e=true&t=&r=&rnd=' + Math.random().toString(36).slice(2, 8); sent.push(url);
+    try { send(url, {method: 'GET', mode: 'no-cors', credentials: 'omit', referrerPolicy: 'no-referrer', keepalive: true, cache: 'no-store'}).catch(() => {}) } catch (e) {}
+  }
+  const wrap = (k, fn) => { const o = window[k]; if (typeof o === 'function') window[k] = function () { try { fn.apply(null, arguments) } catch (e) {} return o.apply(this, arguments) } };
+  setTimeout(() => {
+    wrap('start', id => { const m = (typeof MISSIONS !== 'undefined' ? MISSIONS : []).find(x => x.id === id); ev('mission-start/' + (m ? m.subject : 'x') + '/' + id) });
+    wrap('finish', () => { const R = typeof run !== 'undefined' && run, m = R && R.m; if (m) ev('mission-fertig/' + (m.subject || 'box') + '/' + m.id); if (R && R.score) ev('bewertung/' + run.score + '-sterne') });
+    wrap('w2Run', () => ev('pruefstand/' + ((window.W2 && W2.veh) || 'x'))); wrap('kRun', () => ev('pruefstand/klapprad'));
+    if (window.LACK && LACK.open) { const o = LACK.open; LACK.open = function () { ev('lackieren'); return o.apply(this, arguments) } }
+    if (window.WASCH && WASCH.open) { const o = WASCH.open; WASCH.open = function () { ev('waschen'); return o.apply(this, arguments) } }
+    ev('version/' + ((self.APP && APP.version) || '?') + (window.matchMedia && matchMedia('(display-mode: standalone)').matches ? '/installiert' : '/browser'));
+  }, 800);
   // Ansicht beobachten (nur wenn aktiv wird überhaupt gezählt; sonst kehrt count() sofort zurück)
   if (typeof render === 'function') { const r = render; render = function () { const x = r.apply(this, arguments); try { count(view) } catch (e) {} return x } }
   // Eltern-Seite: Hinweis immer, Schalter erst bei konfiguriertem Endpunkt
@@ -36,14 +53,15 @@
     const c = cfg(), conf = epOk(c.ep), on = c.on && conf && optin() && !dnt();
     const state = on ? 'an' : 'aus';
     const why = !conf ? 'Diese App sendet derzeit nichts an irgendeinen Server.' : !c.on ? 'Die Zählung ist vom Entwickler noch nicht freigegeben, es wird nichts gesendet.' : dnt() ? 'Dein Browser hat „Do Not Track“ eingestellt. Darum wird nichts gesendet.' : '';
-    return `<div class="card" id="statcard"><div class="row sp"><b>Anonyme Besucherzahlen: ${state}</b>${conf && c.on ? `<label style="display:flex;gap:8px;align-items:center"><input type="checkbox" ${optin() ? 'checked' : ''} ${dnt() ? 'disabled' : ''} onchange="STAT.set(this.checked)"> ${optin() ? 'an' : 'aus'}</label>` : ''}</div>
-    <p class="m">${why ? why + ' ' : ''}Wenn du sie einschaltest, zählt ein datensparsamer Zähler (GoatCounter) nur, welche Bereiche der App (z. B. „Start“ oder „Werkstatt“) wie oft geöffnet werden. Es gibt kein Cookie, keine Kennung, keinen Namen, keinen Spielstand und keine Mission-Namen. Du kannst es jederzeit wieder ausschalten.</p></div>`;
+    return `<div class="card" id="statcard"><div class="row sp"><b>Anonyme Nutzungsstatistik: ${state}</b>${conf && c.on ? `<label style="display:flex;gap:8px;align-items:center"><input type="checkbox" ${optin() ? 'checked' : ''} ${dnt() ? 'disabled' : ''} onchange="STAT.set(this.checked)"> ${optin() ? 'an' : 'aus'}</label>` : ''}</div>
+    <p class="m">${why ? why + ' ' : ''}Ein datensparsamer Zähler (GoatCounter) zählt, welche Bereiche geöffnet und welche Missionen begonnen, geschafft und mit wie vielen Sternen bewertet werden. So kann der Entwickler die App verbessern. Es gibt kein Cookie, keine Kennung, keinen Namen und keinen Spielstand. Du kannst es jederzeit wieder ausschalten.</p></div>`;
   }
   const pp = window.parents;
   if (typeof pp === 'function') window.parents = function () {
     const h = pp.apply(null, arguments), i = h.indexOf('<div class="card"><b>Version</b>'); return i < 0 ? h + card() : h.slice(0, i) + card() + h.slice(i);
   };
   window.STAT = {
+    ev,
     set(v) { setOpt(!!v); if (typeof render === 'function' && view === 'parents') render() },
     active, state: () => ({enabled: cfg().on, endpoint: !!epOk(cfg().ep), optin: optin(), dnt: dnt(), local: blocked(), active: active(), sent: sent.length}),
     // Selbsttest (nur Hook #shot=p8-stat-test): prüft Standard = nichts gesendet, und mit allen Freigaben + Stub-Netz genau eine grobe Anfrage

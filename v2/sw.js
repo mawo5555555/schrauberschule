@@ -16,13 +16,16 @@ self.addEventListener('message', e => {
   else if (d.type === 'VERSION' && e.source) e.source.postMessage({type: 'VERSION', version: V});
   else if (d.type === 'WARM' && Array.isArray(d.urls)) e.waitUntil(caches.open(IMG).then(async c => { let n = 0; for (const u of d.urls) { try { if (!(await c.match(u))) await c.add(u); n++; if (e.source && n % 5 === 0) e.source.postMessage({type: 'WARM', n, of: d.urls.length}) } catch (x) {} } if (e.source) e.source.postMessage({type: 'WARM', n, of: d.urls.length, done: true}) }));
 });
+// Videos aus dem Offline-Paket: Safari fragt Teilstücke (Range) an, daher 206 aus dem Cache bauen
+async function part(res, rg) { const b = await res.blob(), m = /bytes=(\d*)-(\d*)/.exec(rg) || [], s = +m[1] || 0, e = m[2] ? Math.min(+m[2], b.size - 1) : b.size - 1;
+  return new Response(b.slice(s, e + 1), {status: 206, headers: {'Content-Type': 'video/mp4', 'Content-Range': `bytes ${s}-${e}/${b.size}`, 'Content-Length': String(e - s + 1), 'Accept-Ranges': 'bytes'}}) }
 self.addEventListener('fetch', e => {
   const r = e.request; if (r.method !== 'GET') return;
   const u = new URL(r.url); if (u.origin !== self.location.origin) return;
   const isImg = /\.(jpg|jpeg|png|webp|gif|svg|mp3|ogg|wav)$/i.test(u.pathname) && !/\/v2\/icons\//.test(u.pathname);
   e.respondWith((async () => {
     const hit = await caches.match(r, {ignoreSearch: true});
-    if (hit) return hit;
+    if (hit) { const rg = r.headers.get('range'); if (rg && /\.mp4$/i.test(u.pathname)) return part(hit, rg); return hit }
     try {
       const res = await fetch(r);
       if (res && res.ok && isImg && !/\/v2\/(shots|alt|entwurf|referenz)\//.test(u.pathname)) { const c = await caches.open(IMG); c.put(r, res.clone()) }

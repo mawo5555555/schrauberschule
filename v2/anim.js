@@ -306,7 +306,7 @@
 (function () {
   const T = window.__TOR; if (!T) return;
   T.ta = 1.1; T.tv = 2.6; T.tb = 1.0; T.tw = .8; T.T = T.ta + T.tv + T.tb;
-  try { const i = new Image(); i.src = 'img/anim/tor-blatt.webp'; const j = new Image(); j.src = 'img/anim/tor-rahmen.webp' } catch (e) {}
+  try { const i = new Image(); i.src = 'v2/img/anim/tor-blatt.webp'; const j = new Image(); j.src = 'v2/img/anim/tor-rahmen.webp' } catch (e) {}
   FX.gateSndHolz = function () {
     if (!this.on()) return; const c = this.A(); if (!c) return;
     const t0 = c.currentTime + .18, out = this.out(), D = T.T;
@@ -330,4 +330,13 @@
     const te = t0 + D; hit(te, 120, .6, .3, 'lowpass'); hit(te, 520, .25, .15); [.16, .31].forEach((d, k) => hit(te + d, 300, .18 / (k + 1), .08));
     for (let k = 0; k < 10; k++) hit(te + .05 + k * .06, 4000 + Math.random() * 3000, .02 * Math.exp(-k * .25), .02, 'highpass');
   };
+})();
+// Animierter Hintergrund für alle Ansichten
+(function () {
+  if (document.querySelector('.bgfx')) return;
+  const gear = (n, cls) => { let d = ''; const R = 50, r = 40, s = Math.PI * 2 / n; for (let i = 0; i < n; i++) { const a = i * s; const p = (rr, aa) => (60 + rr * Math.cos(aa)).toFixed(1) + ' ' + (60 + rr * Math.sin(aa)).toFixed(1); d += (i ? 'L' : 'M') + p(r, a) + 'L' + p(R, a + s * .15) + 'L' + p(R, a + s * .45) + 'L' + p(r, a + s * .6) } return `<svg class="${cls}" viewBox="0 0 120 120"><path d="${d}Z" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="60" cy="60" r="14" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="60" cy="60" r="28" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 5"/></svg>` };
+  const b = document.createElement('div'); b.className = 'bgfx'; b.setAttribute('aria-hidden', 'true');
+  let dust = ''; for (let i = 0; i < 14; i++) dust += `<i style="left:${(Math.random() * 100).toFixed(1)}%;animation-duration:${(14 + Math.random() * 16).toFixed(1)}s;animation-delay:-${(Math.random() * 25).toFixed(1)}s;transform:scale(${(.6 + Math.random()).toFixed(2)})"></i>`;
+  b.innerHTML = '<div class="g1"></div><div class="g2"></div>' + gear(16, 'z1') + gear(10, 'z2') + gear(12, 'z3') + dust;
+  document.body.insertBefore(b, document.body.firstChild);
 })();

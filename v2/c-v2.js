@@ -10,7 +10,7 @@ MISSIONS.push(
   N('Der Kunde gibt 450 €. Zylinder 169,90 € und Vergaser 79,90 €. Wie viel Budget bleibt (in Euro)?', 200.2, '169,90 + 79,90 = 249,80. 450 − 249,80 = 200,20.', {unit:'€'}),
   N('Eine Zündkerze kostet 3,40 €. Wie viel kosten 4 Stück (in Euro)?', 13.6, '4 · 3,40 = 13,60.', {unit:'€'}),
   N('Die Werkstatt arbeitet 1,5 Stunden und verlangt 40 € pro Stunde. Wie viel kostet die Arbeit (in Euro)?', 60, '1,5 · 40 = 60.', {unit:'€'}),
-  Q('Welcher Satz ist ein guter Kostenvoranschlag?', 'Teile 249,80 €, Arbeit 60,00 €, zusammen 309,80 €', ['Wird schon nicht so teuer.', 'Zylinder teuer, Rest billig.', 'Ungefähr viel.'], 'Ein Voranschlag nennt Einzelposten und die Summe.')
+  Q('Welcher Satz ist ein guter Kostenvoranschlag?', 'Teile 249,80 €, Arbeit 60,00 €, zusammen 309,80 €', ['Wird schon nicht so teuer, ich sage später Bescheid.', 'Zylinder ziemlich teuer, Rest billig, insgesamt günstig.', 'Ungefähr viel, aber genau weiß ich es noch nicht.'], 'Ein Voranschlag nennt Einzelposten und die Summe.')
 ]},
 {id:'mathe-w2', subject:'mathe', theme:'simson', topic:'Verhältnisse', title:'Übersetzung am Ritzel', sub:'Zähne zählen, teilen, vergleichen', min:11,
  rlp:'Zahlen: Division, Verhältnisse; Größen: Geschwindigkeit; Gleichungen und Tabellen',
@@ -29,7 +29,7 @@ MISSIONS.push(
   Q('Die Kurve steigt bis 6500 U/min und fällt dann. Wo liegt die höchste Leistung?', 'bei 6500 U/min', ['bei 0 U/min', 'bei 9000 U/min', 'überall gleich'], 'Der höchste Punkt der Kurve zeigt die Maximalleistung.'),
   N('Original 3,4 PS, getunt 5,1 PS. Wie viel PS mehr?', 1.7, '5,1 − 3,4 = 1,7.', {unit:'PS'}),
   N('1,7 PS mehr bei 3,4 PS. Wie viel Prozent sind das?', 50, '1,7 : 3,4 = 0,5 = 50 %.', {unit:'%'}),
-  Q('Welcher Motor ist im Alltag angenehmer?', 'Mittlere Leistung über ein breites Drehzahlband', ['Hohe Spitze nur bei 9000 U/min', 'Nur Leerlauf', 'Immer die größte Düse'], 'Wer ständig hohe Drehzahl braucht, muss oft schalten und der Motor ist anstrengend.'),
+  Q('Welcher Motor ist im Alltag angenehmer?', 'Mittlere Leistung über ein breites Drehzahlband', ['Hohe Spitze nur knapp bei 9000 U/min, sonst nichts', 'Nur Leerlauf, ohne jemals Gas zu geben', 'Immer die allergrößte Düse im Vergaser einbauen'], 'Wer ständig hohe Drehzahl braucht, muss oft schalten und der Motor ist anstrengend.'),
   TF('Blitzrunde Prüfstand', [['Die x-Achse zeigt hier die Drehzahl.', true, ''], ['Die Leistung wird in Litern gemessen.', false, 'Leistung wird in PS oder kW gemessen.'], ['1 PS sind etwa 0,74 kW.', true, ''], ['Mehr Leistung heißt immer mehr Durchzug.', false, 'Auch das Drehzahlband und das Drehmoment zählen.']])
 ]},
 {id:'deutsch-w1', subject:'deutsch', theme:'simson', topic:'Vorgangsbeschreibung', title:'Anleitung wie vom Profi', sub:'Reihenfolge, Signalwörter, Präsens', min:12,
@@ -38,7 +38,7 @@ MISSIONS.push(
   W('So schreibt man eine Anleitung', 'Eine Anleitung sagt genau, **was zuerst** und **was danach** gemacht wird. Sie steht im **Präsens**, jeder Schritt ist ein kurzer Satz. Signalwörter: zuerst, dann, danach, anschließend, zum Schluss.\n\nBeispiel: „Zuerst löst du die Zündkerze. Dann hebst du den Zylinderkopf ab.“', 'Wichtig für Sicherheit: Immer zuerst den Motor ausschalten und abkühlen lassen.'),
   O('Zylinder ausbauen (Reihenfolge)', ['Zündkerze lösen', 'Zylinderkopf abschrauben', 'Zylinder nach oben abziehen', 'Kolben vom Pleuel nehmen'], 'Bringe die Arbeitsschritte in die richtige Reihenfolge.'),
   GAP('Signalwörter', '{Zuerst} stellst du den Motor aus. {Danach|Dann} lässt du ihn abkühlen. {Zum Schluss} prüfst du, ob alle Schrauben fest sind.', ['Gestern', 'Vielleicht']),
-  Q('Welcher Satz passt in eine Anleitung?', 'Schraube die Zündkerze vorsichtig heraus.', ['Die Zündkerze war schön.', 'Hoffentlich geht alles gut.', 'Ich fand das Werkzeug toll.'], 'Anleitungen sind sachlich, genau und kurz.'),
+  Q('Welcher Satz passt in eine Anleitung?', 'Schraube die Zündkerze vorsichtig heraus.', ['Die Zündkerze war gestern ganz schön schmutzig.', 'Hoffentlich geht beim Schrauben alles gut aus.', 'Ich fand das Werkzeug richtig toll und bunt.'], 'Anleitungen sind sachlich, genau und kurz.'),
   T('Schreibe ein Signalwort für den ersten Schritt einer Anleitung (ein Wort).', ['zuerst', 'erstens', 'als erstes', 'zunächst'], 'Zum Beispiel: zuerst, zunächst.', {}),
   X('Erkläre mündlich in 4 Sätzen: Wie wechselst du eine Zündkerze? Benutze Signalwörter.', 'Tipp: „Zuerst … danach … dann … zum Schluss …“', 60)
 ]},
@@ -47,8 +47,8 @@ MISSIONS.push(
  steps:[
   W('Ein sachlicher Brief', 'Ein Brief an einen Händler hat **Betreff**, **Anrede** (Sehr geehrte Damen und Herren), einen klaren Text und **Gruß** (Mit freundlichen Grüßen).\n\nNenne Fahrzeug, Teil und Frage genau. So kann der Händler schnell antworten.', 'Wer die Teilenummer und das Baujahr nennt, bekommt meist das richtige Teil.'),
   O('Reihenfolge im Brief', ['Betreff', 'Anrede', 'Text mit Frage', 'Gruß', 'Name'], 'Von oben nach unten.'),
-  Q('Welche Anrede passt zu einem Händler, den du nicht kennst?', 'Sehr geehrte Damen und Herren,', ['Hi Leute,', 'Hallo Alter,', 'Liebe Mama,'], 'Fremden Erwachsenen schreibst du höflich.'),
-  Q('Welcher Betreff ist am besten?', 'Anfrage: 70-ccm-Zylinder für Simson S51', ['Hilfe!!!', 'Teil', 'Frage'], 'Der Betreff nennt Thema und Fahrzeug.'),
+  Q('Welche Anrede passt zu einem Händler, den du nicht kennst?', 'Sehr geehrte Damen und Herren,', ['Hi Leute, ich habe mal eine Frage,', 'Hallo Alter, ich brauche ein Teil,', 'Liebe Mama, ich schreibe dir heute,'], 'Fremden Erwachsenen schreibst du höflich.'),
+  Q('Welcher Betreff ist am besten?', 'Anfrage: 70-ccm-Zylinder für Simson S51', ['Hilfe!!! Ich brauche ganz dringend ein Teil!!!', 'Teil, das ich haben will und kaufen möchte', 'Frage, die ich noch ganz kurz stellen wollte'], 'Der Betreff nennt Thema und Fahrzeug.'),
   GAP('Höflich formulieren', 'Ich {möchte} einen Zylinder bestellen. Können Sie mir {bitte} den Preis nennen? Vielen {Dank} im Voraus.', ['Gib', 'Sofort']),
   T('Schreibe den Gruß am Briefende (zwei Wörter, mit Ausrufezeichen oder Komma egal): Mit freundlichen ...', ['grüßen', 'Grüßen'], 'Mit freundlichen Grüßen.', {})
 ]},
@@ -68,8 +68,8 @@ MISSIONS.push(
   W('English in the workshop', 'Viele Teile haben englische Namen, besonders in Katalogen und Videos.\n\ncylinder = Zylinder · piston = Kolben · carburettor = Vergaser · exhaust = Auspuff · spark plug = Zündkerze · crankshaft = Kurbelwelle · chain = Kette · sprocket = Ritzel.', 'Tuningteile werden oft aus dem Ausland bestellt. Dann hilft Englisch.'),
   M('Teile-Quiz', [['Zylinder', 'cylinder'], ['Kolben', 'piston'], ['Vergaser', 'carburettor'], ['Auspuff', 'exhaust'], ['Zündkerze', 'spark plug'], ['Kette', 'chain']], 'Ordne die englischen Wörter zu.'),
   T('Wie heißt „Kurbelwelle“ auf Englisch? (crank...)', ['crankshaft'], 'Crankshaft.', {}),
-  Q('Which tool do you use for a spark plug?', 'a plug spanner', ['a hammer', 'a paintbrush', 'a ruler'], 'Spark plugs are removed with a plug spanner (US: wrench).'),
-  Q('„Tighten the screw“ bedeutet:', 'Die Schraube festziehen', ['Die Schraube lösen', 'Die Schraube kaufen', 'Die Schraube malen'], 'Tighten = festziehen, loosen = lösen.'),
+  Q('Which tool do you use for a spark plug?', 'a plug spanner', ['a heavy hammer', 'a paintbrush', 'a long ruler'], 'Spark plugs are removed with a plug spanner (US: wrench).'),
+  Q('„Tighten the screw“ bedeutet:', 'Die Schraube festziehen', ['Die Schraube lösen und weglegen', 'Die Schraube im Laden kaufen', 'Die Schraube bunt anmalen'], 'Tighten = festziehen, loosen = lösen.'),
   T('Wie heißt „Werkzeug“ auf Englisch? (ein Wort, plural: ...)', ['tool', 'tools'], 'Tool, plural tools.', {})
 ]},
 {id:'englisch-w2', subject:'englisch', theme:'tuning', topic:'Dialog', title:'At the Parts Shop', sub:'Preise erfragen und bestellen', min:10,
@@ -79,7 +79,7 @@ MISSIONS.push(
   O('Gespräch ordnen', ['Hello, can I help you?', 'Do you have a 19 mm carburettor?', 'Yes, it is 79 euros.', 'I would like to take it, please.', 'Thank you. Goodbye!'], 'Bringe den Dialog in die richtige Reihenfolge.'),
   Q('„How much is it?“ bedeutet:', 'Was kostet das?', ['Wie alt ist es?', 'Wie groß ist es?', 'Wo ist es?'], 'How much = wie viel.'),
   T('Schreibe die Zahl als Wort: 79 (seventy-...)', ['seventy-nine', 'seventy nine'], 'Seventy-nine.', {}),
-  Q('Wie bittest du höflich um eine Zündkerze?', 'I would like a spark plug, please.', ['Give spark plug now.', 'Spark plug!', 'Me spark plug.'], 'I would like … please ist höflich.'),
+  Q('Wie bittest du höflich um eine Zündkerze?', 'I would like a spark plug, please.', ['Give spark plug now, and quickly!', 'Spark plug here! I want it now!', 'Me want spark plug, thank you.'], 'I would like … please ist höflich.'),
   X('Sprich laut auf Englisch: „Do you have a 19 mm carburettor? How much is it?“ Dann ein eigener Satz zum Bestellen.', 'Tipp: Langsam und deutlich sprechen. Fehler sind erlaubt.', 45)
 ]},
 {id:'englisch-w3', subject:'englisch', theme:'simson', topic:'Imperativ', title:'Workshop Instructions', sub:'Anleitungen auf Englisch', min:9,
@@ -87,7 +87,7 @@ MISSIONS.push(
  steps:[
   W('Befehlsform', 'Auf Englisch benutzt man in Anleitungen die Grundform ohne „you“.\n**First, remove the spark plug. Then, loosen the cylinder head. Finally, tighten the nuts.**\nVerneinung: **Do not touch the hot engine!**', 'Warnschilder sind oft kurz: Danger! Hot surface!'),
   O('Steps in order', ['First, switch off the engine.', 'Then, let it cool down.', 'Next, remove the exhaust.', 'Finally, clean the parts.'], 'Ordne die Schritte.'),
-  Q('„Do not touch the hot engine!“ heißt:', 'Berühre den heißen Motor nicht!', ['Berühre den Motor!', 'Der Motor ist neu.', 'Starte den Motor!'], 'Do not = nicht.'),
+  Q('„Do not touch the hot engine!“ heißt:', 'Berühre den heißen Motor nicht!', ['Berühre den Motor, er ist heiß!', 'Der Motor ist ganz neu und blau.', 'Starte den Motor, wenn er heiß ist!'], 'Do not = nicht.'),
   GAP('Fill in', '{First}, remove the spark plug. {Then}, clean it. {Finally}, put it back.', ['Never', 'Because']),
   T('Wie heißt „abkühlen lassen“ im Satz „Let it cool ...“? (ein Wort)', ['down'], 'Let it cool down.', {})
 ]},
@@ -95,11 +95,11 @@ MISSIONS.push(
  rlp:'Physik/Chemie: Energie, Wärme, Verbrennung; Technik: Motoren',
  steps:[
   W('Der Zweitaktmotor', 'Beim Zweitakter gibt es zwei Takte pro Umdrehung: **1. Verdichten (oben) und gleichzeitig Ansaugen unten, 2. Arbeiten (Zünden, Kolben geht nach unten) und Ausstoßen**.\n\nDas Öl kommt mit im Benzin (Gemisch 1:50). Es schmiert Kolben und Lager.', 'Ein Viertakter braucht vier Takte, der Zweitakter nur zwei. Deshalb hat er bei gleichem Hubraum oft mehr Leistung, aber auch mehr Abgas.'),
-  Q('Wie viele Kolbenhübe hat ein Arbeitsspiel beim Zweitakter?', '2', ['1', '4', '8'], 'Einmal hoch, einmal runter.'),
+  Q('Was passiert beim Zweitakter gleichzeitig mit dem Verdichten oben?', 'Unter dem Kolben wird frisches Gemisch angesaugt.', ['Unter dem Kolben werden die Abgase verdichtet.', 'Unter dem Kolben wird das Gemisch angezündet.', 'Unter dem Kolben wird das Öl gewechselt.'], 'Beim Verdichten oben entsteht unten ein Unterdruck, der frisches Gemisch ansaugt.'),
   Q('Wozu ist Öl im Benzin?', 'Es schmiert Kolben und Lager.', ['Es macht den Motor größer.', 'Es kühlt den Auspuff.', 'Es färbt den Rauch.'], 'Beim Zweitakter gibt es keinen eigenen Ölkreislauf.'),
   N('Mischung 1:50. Du tankst 5 Liter Benzin. Wie viele Milliliter Öl brauchst du?', 100, '5 Liter = 5000 ml. 5000 : 50 = 100 ml.', {unit:'ml'}),
   O('Der Weg des Gemischs', ['Vergaser', 'Kurbelgehäuse', 'Überströmkanal', 'Brennraum', 'Auspuff'], 'Tippe die Stationen in der richtigen Reihenfolge an.'),
-  Q('Was ist „Spülen“?', 'Frisches Gemisch drückt Abgas aus dem Zylinder.', ['Reinigen mit Wasser', 'Tanken', 'Ölwechsel'], 'Beim Zweitakter geschieht das durch Überströmkanäle.')
+  Q('Was ist „Spülen“?', 'Frisches Gemisch drückt Abgas aus dem Zylinder.', ['Reinigen des Zylinders mit Wasser und Bürste', 'Tanken von frischem Benzingemisch an der Tankstelle', 'Ölwechsel im Getriebe mit frischem Getriebeöl'], 'Beim Zweitakter geschieht das durch Überströmkanäle.')
 ]},
 {id:'nawi-w2', subject:'nawi', theme:'tuning', topic:'Wärme', title:'Kühlrippen und Hitze', sub:'Wärmeleitung und Fläche', min:10,
  rlp:'Physik: Wärme, Wärmeleitung, Wärmeübertragung',
@@ -108,24 +108,24 @@ MISSIONS.push(
   Q('Was bringen mehr Rippen?', 'Mehr Fläche, also bessere Kühlung', ['Mehr Gewicht, weniger Kühlung', 'Mehr Gemisch', 'Lauterer Motor'], 'Mehr Oberfläche gibt mehr Wärme ab.'),
   Q('Welches Material leitet Wärme besser?', 'Aluminium', ['Gusseisen', 'Gummi', 'Holz'], 'Metalle leiten gut, Aluminium sehr gut.'),
   M('Wärmeübertragung', [['Heißer Zylinder berührt kalte Rippe', 'Wärmeleitung'], ['Fahrtwind streicht über Rippen', 'Strömung'], ['Glühendes Metall strahlt', 'Wärmestrahlung']], 'Ordne zu.'),
-  Q('Was passiert bei zu magerem Gemisch?', 'Der Motor wird zu heiß: Kolbenklemmer-Gefahr', ['Er wird kälter', 'Nichts', 'Er braucht weniger Luft'], 'Wenig Benzin kühlt weniger.'),
+  Q('Was passiert bei zu magerem Gemisch?', 'Der Motor wird zu heiß: Kolbenklemmer-Gefahr', ['Er wird kälter und läuft deshalb ruhiger', 'Nichts, ein mageres Gemisch ist dem Motor egal', 'Er braucht jetzt weniger Luft und deshalb weniger Öl'], 'Wenig Benzin kühlt weniger.'),
   TF('Blitzrunde Wärme', [['Metalle leiten Wärme gut.', true, ''], ['Rippen verkleinern die Oberfläche.', false, 'Sie vergrößern sie.'], ['Fahrtwind kühlt den Motor.', true, '']])
 ]},
 {id:'nawi-w3', subject:'nawi', theme:'tuning', topic:'Schall', title:'Resonanz: Welle im Auspuff', sub:'Schwingungen und Druckwellen', min:10,
  rlp:'Physik: Schall, Schwingungen, Wellen',
  steps:[
   W('Der Resonanzauspuff', 'Beim Ausstoßen entsteht eine **Druckwelle** im Auspuff. Ein Resonanzauspuff hat Kegel und Bauch. Die Welle wird zurückgeworfen und **schiebt frisches Gemisch zurück** in den Brennraum, genau zur richtigen Zeit.\n\nDas klappt nur in einem engen Drehzahlbereich. Darum heißt das Tuning „Leistung bei hoher Drehzahl, aber schmales Band“.', 'Schall ist eine Welle aus Druck, die sich in Luft ausbreitet.'),
-  Q('Was ist eine Druckwelle?', 'Abwechselnd hoher und niedriger Luftdruck', ['Ein Funke', 'Ein Zahnrad', 'Eine Kette'], 'Schall besteht aus Druckschwankungen.'),
-  Q('Wann wirkt der Resonanzauspuff am besten?', 'In einem engen Drehzahlbereich', ['Immer gleich gut', 'Nur im Stand', 'Nur im Winter'], 'Die Welle muss zum richtigen Zeitpunkt zurückkommen.'),
+  Q('Was ist eine Druckwelle?', 'Abwechselnd hoher und niedriger Luftdruck', ['Ein Funke, der von der Kerze abspringt', 'Ein Zahnrad, das in der Kette läuft', 'Eine Kette, die vom Ritzel abspringt'], 'Schall besteht aus Druckschwankungen.'),
+  Q('Wann wirkt der Resonanzauspuff am besten?', 'In einem engen Drehzahlbereich', ['Immer gleich gut bei jeder Drehzahl', 'Nur im Stand, wenn der Motor läuft', 'Nur im Winter bei kalter Luft'], 'Die Welle muss zum richtigen Zeitpunkt zurückkommen.'),
   Q('Wozu dient der Schalldämpfer?', 'Er verringert den Lärm.', ['Er macht Gas.', 'Er kühlt die Kette.', 'Er speichert Benzin.'], 'Er bremst und streut die Schallwellen.'),
-  Q('Warum ist ein offener Auspuff auf der Straße verboten?', 'Zu laut und nicht zugelassen', ['Zu schwer', 'Zu rund', 'Zu blau'], 'Lärm belastet Menschen und Tiere. Nur geprüfte Teile sind erlaubt.')
+  Q('Warum ist ein offener Auspuff auf der Straße verboten?', 'Zu laut und nicht zugelassen', ['Zu schwer für den Rahmen und die Straße', 'Zu rund und zu bunt für den Verkehr', 'Zu blau und deshalb zu auffällig'], 'Lärm belastet Menschen und Tiere. Nur geprüfte Teile sind erlaubt.')
 ]},
 {id:'nawi-w4', subject:'nawi', theme:'simson', topic:'Umwelt', title:'Abgas, Lärm, Regeln', sub:'Was Tuning auf der Straße bedeutet', min:9,
  rlp:'Biologie/Chemie: Umwelt, Verbrennung; Gesellschaft: Regeln',
  steps:[
   W('Fahren nur mit Erlaubnis', 'Eine Simson mit 50 cm³ darf mit Prüfziffer 45 km/h oder (DDR-Typ) bis 60 km/h fahren, abhängig von Zulassung und Führerschein. **Jede Änderung an Zylinder, Auspuff oder Zündung** kann die **Betriebserlaubnis** erlöschen lassen.\n\nTuning ist okay auf dem Gelände, Prüfstand und mit Prüfung. Auf der Straße zählt, was in den Papieren steht.', 'Die Regeln schützen dich, andere Verkehrsteilnehmer und die Umwelt.'),
-  Q('Was ist die Betriebserlaubnis?', 'Die Erlaubnis, dass das Fahrzeug so im Verkehr fahren darf', ['Ein Werkzeugkasten', 'Eine Tankquittung', 'Ein Poster'], 'Sie steht in den Fahrzeugpapieren.'),
-  Q('Was passiert, wenn du ohne Eintragung tunst und fährst?', 'Die Erlaubnis kann erlöschen, das ist gefährlich und teuer.', ['Nichts', 'Man bekommt einen Preis', 'Das Moped wird größer'], 'Auch der Versicherungsschutz kann entfallen.'),
+  Q('Was ist die Betriebserlaubnis?', 'Die Erlaubnis, dass das Fahrzeug so im Verkehr fahren darf', ['Ein Werkzeugkasten, in dem man die Schrauben sammelt', 'Eine Tankquittung, die man an der Tankstelle bekommt', 'Ein Poster, das in der Werkstatt an der Wand hängt'], 'Sie steht in den Fahrzeugpapieren.'),
+  Q('Was passiert, wenn du ohne Eintragung tunst und fährst?', 'Die Erlaubnis kann erlöschen, das ist gefährlich und teuer.', ['Nichts passiert, solange man dabei vorsichtig und langsam fährt.', 'Man bekommt einen Preis für das schönste Moped der Stadt.', 'Das Moped wird dadurch größer, schwerer und besser.'], 'Auch der Versicherungsschutz kann entfallen.'),
   Q('Welches Abgas entsteht bei der Verbrennung unter anderem?', 'Kohlenstoffdioxid', ['Helium', 'Sauerstoff pur', 'Wasserstoff pur'], 'Benzin verbrennt mit Sauerstoff zu CO2 und Wasser.'),
   X('Argumentiere: Warum sind Regeln beim Tuning sinnvoll? Zwei Gründe.', 'Tipp: „Ich finde …, weil …“', 45)
 ]}
