@@ -1,0 +1,43 @@
+/* Motivation (Paket 8): Etappenziel, Vorschau, Wochenziel, Tagesserie, Meilenstein. B-Blau wie die vorhandenen Karten. */
+.mot{display:grid;gap:10px;margin:12px 0}
+.mot-b{display:flex;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:var(--fg);background:var(--k2);border:1px solid var(--bd);border-radius:16px;padding:12px 14px;cursor:pointer;box-shadow:0 0 14px rgba(var(--ar),.12);min-height:44px}
+.mot-b.done{cursor:default}
+.mot-b > div{flex:1;min-width:0}
+.mot-b b,.mot-row b{display:block;font-size:15px;line-height:1.25}
+.mot-b span:not(.mot-ic):not(.mot-go),.mot-row span:not(.mot-ic){display:block;font-size:12.5px;color:var(--tx);margin-top:2px;line-height:1.35}
+.mot-ic{font-size:24px;line-height:1;flex:0 0 auto;width:30px;text-align:center}
+.mot-go{font-size:26px;color:var(--a);flex:0 0 auto}
+.mot-b.near{border-color:var(--a);box-shadow:0 0 18px rgba(var(--ar),.38)}
+.mot-bar{height:9px;margin-top:8px;border-radius:6px;background:var(--k4);overflow:hidden}
+.mot-bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--c),var(--a));min-width:8px}
+.mot-bar.sm{height:6px;margin-top:6px}
+.mot-b.near .mot-bar i,.mot-bar.hi i,.mot-t.near .mot-bar i{box-shadow:0 0 10px rgba(var(--ar),.85);background:linear-gradient(90deg,var(--a),#eaf6ff)}
+.mot-r{display:grid;gap:12px;background:var(--k2);border:1px solid var(--bd);border-radius:16px;padding:12px 14px}
+.mot-row{display:flex;gap:12px;align-items:flex-start}
+.mot-row > div{flex:1;min-width:0}
+.mot-pv{margin:14px 0}
+.mot-pv h2{margin:0 0 8px}
+.mot-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mot-t{background:var(--k2);border:1px solid var(--bd);border-radius:14px;padding:8px;display:flex;flex-direction:column;min-width:0}
+.mot-t.near{border-color:var(--a);box-shadow:0 0 14px rgba(var(--ar),.3)}
+.mot-sil{position:relative;height:64px;border-radius:10px;overflow:hidden;background:#0b1422;display:flex;align-items:center;justify-content:center}
+.mot-sil img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.3) contrast(1.3) blur(1px)}
+.mot-sil .e{position:relative;font-size:26px;opacity:.5;filter:brightness(0) invert(1)}
+.mot-sil img + .e{display:none}
+.mot-sil .lk{position:absolute;right:4px;bottom:2px;font-size:12px}
+.mot-t b{font-size:12.5px;line-height:1.2;margin-top:6px;overflow-wrap:anywhere}
+.mot-t .v{font-size:11px;color:var(--tx);margin-top:2px;line-height:1.25}
+.mot-t .r{font-size:11px;color:var(--tx);margin-top:4px}
+.mot-t.near .r{color:var(--a);font-weight:700}
+.mot-note{font-size:11px;color:var(--tx2);margin:6px 0 0}
+/* Meilenstein-Einblendung */
+.mot-fest{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(5,9,16,.62);animation:motIn .28s ease-out}
+.mot-fest.out{opacity:0;transition:opacity .3s}
+.mot-fc{max-width:340px;width:100%;text-align:center;background:var(--k2);border:1px solid var(--a);border-radius:20px;padding:20px 18px;box-shadow:0 0 30px rgba(var(--ar),.45);color:var(--fg)}
+.mot-fc .big{font-size:56px;line-height:1.1}
+.mot-fc b{display:block;font-size:22px;margin:6px 0 4px}
+.mot-fc span{display:block;color:var(--tx);margin-bottom:14px;line-height:1.4}
+@keyframes motIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mot-fest{animation:none}.mot-fest.out{transition:none}}
+@media (min-width:700px){.mot-tiles{gap:12px}.mot-sil{height:90px}}
+@media (max-width:340px){.mot-tiles{grid-template-columns:1fr 1fr}.mot-tiles .mot-t:nth-child(3){display:none}}

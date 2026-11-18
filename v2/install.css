@@ -1,0 +1,39 @@
+/* Installationshinweis (install.js): Bottom-Sheet im dunklen Blau-Design */
+.inst-bk{position:fixed;inset:0;z-index:95;background:rgba(3,6,12,.6);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:flex;align-items:flex-end;justify-content:center;animation:inst-fade .25s both}
+.inst-sh{width:min(520px,100%);max-height:92vh;overflow-y:auto;background:linear-gradient(170deg,var(--k1,#14233a),var(--k2,#0c1626));border:1px solid var(--bd,#2f4767);border-bottom:0;border-radius:24px 24px 0 0;padding:8px 18px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -12px 50px rgba(0,0,0,.65),0 0 24px rgba(var(--ar,95,184,255),.18);color:var(--fg,#e8eef6);animation:inst-up .35s cubic-bezier(.2,.8,.2,1) both}
+.inst-hd{width:42px;height:5px;border-radius:3px;background:var(--bd,#2f4767);margin:4px auto 12px}
+.inst-sh h3{margin:0 0 2px;font-size:21px;font-weight:900;letter-spacing:-.01em}
+.inst-sh .inst-sub{margin:0 0 10px;color:var(--tx,#8aa0ba);font-size:14px}
+.inst-stage{display:block;width:100%;max-width:210px;height:auto;margin:2px auto 6px}
+.inst-stage .sc{opacity:0;transition:opacity .45s}
+.inst-stage.s1 .sc1,.inst-stage.s2 .sc2,.inst-stage.s3 .sc3{opacity:1}
+.inst-pulse{transform-box:fill-box;transform-origin:center;animation:inst-pulse 1.4s ease-out infinite}
+.inst-pop{transform-box:fill-box;transform-origin:center;animation:inst-pop 1.4s cubic-bezier(.3,1.5,.5,1) infinite alternate}
+.inst-rise{animation:inst-rise 2.4s cubic-bezier(.2,.8,.2,1) infinite}
+.inst-steps{list-style:none;margin:6px 0 10px;padding:0;display:flex;flex-direction:column;gap:8px}
+.inst-steps li{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:14px;border:1px solid var(--bd,#2f4767);background:var(--k3,#101c2f);font-size:15px;line-height:1.3;transition:border-color .3s,box-shadow .3s,opacity .3s}
+.inst-steps li svg{flex:none;width:38px;height:38px;padding:7px;border-radius:11px;background:var(--k4,#1a2a42);color:var(--a,#5fb8ff)}
+.inst-steps li b{color:var(--a,#5fb8ff)}
+.inst-steps li small{display:block;color:var(--tx,#8aa0ba);font-size:12px;margin-top:2px}
+.inst-anim .inst-steps li{opacity:.5}
+.inst-anim .inst-steps li.on{opacity:1;border-color:var(--a,#5fb8ff);box-shadow:0 0 14px rgba(var(--ar,95,184,255),.35)}
+.inst-b{display:block;width:100%;border:0;border-radius:13px;padding:14px;margin:8px 0 0;font:800 16px system-ui,sans-serif;cursor:pointer;color:#fff;background:linear-gradient(90deg,#9db4cf,var(--c,#1f6fe0));box-shadow:0 0 18px rgba(var(--cr,31,111,224),.45);text-transform:uppercase;letter-spacing:.02em}
+.inst-b:active{transform:scale(.98)}
+.inst-b.alt{background:var(--k4,#1a2a42);box-shadow:none;border:1px solid var(--bd,#2f4767);text-transform:none;font-weight:700;letter-spacing:0}
+.inst-row{display:flex;gap:10px}.inst-row .inst-b{flex:1}
+.inst-nm{display:block;margin:10px auto 0;background:none;border:0;color:var(--tx,#8aa0ba);font:600 13px system-ui,sans-serif;text-decoration:underline;cursor:pointer}
+/* Desktop-Pille */
+.inst-pill{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:95;display:flex;gap:10px;align-items:center;max-width:min(92vw,560px);padding:8px 8px 8px 16px;border-radius:99px;background:#0c1626;border:1px solid var(--bd,#2f4767);box-shadow:0 8px 30px rgba(0,0,0,.55),0 0 16px rgba(var(--ar,95,184,255),.2);color:var(--fg,#e8eef6);font-size:14px;animation:inst-rise-in .35s both}
+.inst-pill svg{flex:none;width:22px;height:22px;color:var(--a,#5fb8ff)}
+.inst-pill button{border:1px solid var(--bd,#2f4767);background:var(--k4,#1a2a42);color:var(--fg,#e8eef6);border-radius:99px;padding:7px 13px;font:700 13px system-ui,sans-serif;cursor:pointer;white-space:nowrap}
+.inst-pill button.go{background:linear-gradient(90deg,#9db4cf,var(--c,#1f6fe0));border:0;color:#fff}
+.inst-pill button.x{padding:7px 10px;color:var(--tx,#8aa0ba)}
+@keyframes inst-fade{from{opacity:0}}
+@keyframes inst-up{from{transform:translateY(100%)}}
+@keyframes inst-rise-in{from{opacity:0;transform:translate(-50%,16px)}}
+@keyframes inst-pulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+@keyframes inst-pop{from{transform:scale(.4);opacity:.2}to{transform:scale(1);opacity:1}}
+@keyframes inst-rise{0%{transform:translateY(40px)}35%,100%{transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.inst-bk,.inst-sh,.inst-pill{animation:none}.inst-pulse,.inst-pop,.inst-rise{animation:none}.inst-pulse{opacity:.5;transform:scale(1.2)}.inst-stage .sc{transition:none}}
+/* M1: Pille war durch left:50% nur halb so breit (runder Klecks über den Karten) */
+.inst-pill{width:max-content;border-radius:22px;bottom:calc(76px + env(safe-area-inset-bottom))}

@@ -1,0 +1,58 @@
+/* Lackieren: Farbwahl, Kabine (Paket 8 B1) */
+.lk-ov{position:fixed;inset:0;z-index:9500;background:var(--bg,#070b12);color:var(--fg,#eef3f8);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.lk-in{max-width:480px;margin:0 auto;padding:10px 14px 40px}
+@media(min-width:760px){.lk-in{max-width:760px}}
+.lk-top{display:flex;align-items:center;gap:10px;min-height:44px;margin-bottom:6px}
+.lk-top b{font-size:20px;flex:1}
+.lk-x{min-width:44px;min-height:44px;border-radius:12px;border:1px solid var(--bd,#2f4767);background:var(--k1,#14233a);color:inherit;font-size:20px}
+.lk-chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px}
+.lk-chips button{flex:0 0 auto;min-height:40px;padding:0 12px;border-radius:20px;border:1px solid var(--bd,#2f4767);background:var(--k1,#14233a);color:inherit;font-size:14px}
+.lk-chips button.on{border-color:var(--a,#5fb8ff);box-shadow:0 0 10px rgba(var(--ar,95,184,255),.45);color:var(--a,#5fb8ff)}
+.lk-pv{border:1px solid var(--bd,#2f4767);border-radius:16px;background:radial-gradient(120% 90% at 50% 20%,#26354b,#0b121c);padding:6px 6px 0;position:relative}
+.lk-pv svg{width:100%;height:auto;display:block;max-height:34vh}
+.lk-pv .nm{text-align:center;padding:4px 0 8px;font-size:15px}
+.lk-sw{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.lk-sw button{display:flex;gap:10px;align-items:center;text-align:left;min-height:56px;padding:8px 10px;border-radius:14px;border:1px solid var(--bd,#2f4767);background:linear-gradient(160deg,var(--k1,#14233a),var(--k2,#0c1626));color:inherit;font-size:14px}
+.lk-sw button.on{border-color:var(--a,#5fb8ff);box-shadow:0 0 12px rgba(var(--ar,95,184,255),.45)}
+.lk-sw i{flex:0 0 30px;height:30px;border-radius:50%;border:2px solid #fff6;box-shadow:inset 0 -6px 8px #0005,inset 0 5px 6px #fff4}
+.lk-sw span{display:block;font-size:12px;color:var(--tx,#8aa0ba);line-height:1.3}
+.lk-sw em{font-style:normal;font-size:11px;padding:1px 6px;border-radius:8px;margin-left:4px;white-space:nowrap}
+.lk-b1{background:#1d6b3a;color:#d9ffe6}.lk-b2{background:#7a5a10;color:#ffeab0}.lk-b3{background:#5a2a2a;color:#ffd0d0}
+.lk-card{border:1px solid var(--bd,#2f4767);border-radius:14px;background:linear-gradient(160deg,var(--k1,#14233a),var(--k2,#0c1626));padding:12px;margin:10px 0}
+.lk-card h3{margin:0 0 6px;font-size:16px}
+.lk-m{font-size:13px;color:var(--tx,#8aa0ba);line-height:1.45;margin:4px 0}
+.lk-go{width:100%;min-height:52px;border-radius:14px;border:0;background:linear-gradient(180deg,#ffb23a,#e0701a);color:#1b1000;font-weight:700;font-size:17px;margin-top:8px}
+.lk-go[disabled]{opacity:.5}
+.lk-ghost{min-height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--bd,#2f4767);background:transparent;color:inherit;font-size:14px}
+.lk-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.lk-row input[type=color]{width:56px;height:44px;border:1px solid var(--bd,#2f4767);border-radius:10px;background:none;padding:2px}
+.lk-mx{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.lk-mx button{min-height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--bd,#2f4767);background:var(--k1,#14233a);color:inherit;font-size:14px;display:flex;align-items:center;gap:6px}
+.lk-mx button.on{border-color:var(--a,#5fb8ff);box-shadow:0 0 8px rgba(var(--ar,95,184,255),.5)}
+.lk-mx i{width:18px;height:18px;border-radius:50%;border:1px solid #fff6}
+.lk-res{display:flex;align-items:center;gap:10px;margin-top:6px}
+.lk-res i{width:52px;height:52px;border-radius:12px;border:2px solid #fff6}
+.lk-btn{margin:8px 0}
+.lk-chip{font-size:13px;margin-left:8px;color:var(--tx,#8aa0ba)}
+/* Kabine */
+.lk-kb{position:fixed;inset:0;z-index:9600;background:#05080c;display:flex;flex-direction:column}
+.lk-kb .hd{padding:12px 14px 4px;text-align:center}
+.lk-kb .hd b{font-size:20px;display:block}
+.lk-kb .hd span{font-size:14px;color:#a9b8cc}
+.lk-kb .st{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.lk-kb svg{width:100%;height:auto;max-height:100%}
+.lk-kb .ft{padding:8px 14px 18px;text-align:center}
+.lk-dots{display:flex;gap:8px;justify-content:center;margin-bottom:8px}
+.lk-dots i{width:34px;height:6px;border-radius:3px;background:#2a3648}
+.lk-dots i.on{background:#ffb23a}
+.lk-dots i.dn{background:#5fb87a}
+.lk-kb .ft button{min-height:44px;padding:0 18px;border-radius:12px;border:1px solid #3a4a62;background:#101a28;color:#eef3f8;font-size:15px;margin:0 4px}
+.lk-kb .ft button.pri{background:linear-gradient(180deg,#ffb23a,#e0701a);color:#1b1000;border:0;font-weight:700}
+@media (prefers-reduced-motion:reduce){.lk-sw button,.lk-chips button{transition:none}}
+.lk-sw>button{min-width:0;overflow:hidden}.lk-sw div{min-width:0}.lk-sw em{display:inline-block;margin:2px 0 2px 0!important}
+.lk-sw{grid-template-columns:minmax(0,1fr)}
+@media(min-width:560px){.lk-sw{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lk-kb{background:linear-gradient(#2a3442,#10151c 60%,#05080c)!important}
+.lk-kb{background:#10151c!important}.lk-kb svg{overflow:visible}.lk-kb .st{overflow:hidden}
+.jobtools{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
+.lk-pv canvas.lk-ph{width:100%;height:auto;display:block;max-height:34vh;object-fit:contain;border-radius:12px}

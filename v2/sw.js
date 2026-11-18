@@ -1,0 +1,32 @@
+'use strict';
+// Service Worker Schrauberschule. Cache-Name hängt an version.js: neue Version = neuer Cache, alter wird erst beim Aktivieren entfernt.
+// Kein skipWaiting von allein: die Seite fragt "Jetzt aktualisieren?" und schickt dann SKIP_WAITING (kein Zwang, kein Datenverlust).
+importScripts('version.js');
+const V = self.APP.version, CORE = 'ss-core-' + V, IMG = 'ss-img-v9';
+const R = '../'; // App-Wurzel (index.html hat <base href="../">)
+const CORE_FILES = ['v2/index.html', 'v2/version.js', 'v2/migrate.js', 'v2/pwa.js', 'v2/spielstand.js', 'v2/lib/qrcode.js', 'v2/manifest.webmanifest', 'v2/theme.css', 'v2/anim.css', 'v2/pruefstand.css', 'v2/install.css', 'v2/p9.css', 'v2/p8d.css', 'v2/lack.css', 'v2/lack.js', 'v2/lack-foto.js', 'v2/wasch.css', 'v2/wasch.js', 'v2/motivation.css',
+  'v2/img/manifest.js', 'content.js', 'c-grafik.js', 'c-mathe.js', 'c-deutsch.js', 'c-englisch.js', 'c-nawi.js', 'c-technik.js', 'c-sprechen.js', 'c-extra.js', 'v2/c-v2.js', 'app.js', 'garage.js', 'tuning.js', 'werkstatt.js', 'ws3d.js',
+  'v2/fx.js', 'v2/art.js', 'v2/werkstatt2.js', 'v2/studio.js', 'v2/garage2.js', 'v2/klapprad.js', 'v2/freischalten.js', 'v2/p8d.js', 'v2/missionen2.js', 'v2/missionen2-daten.js', 'v2/missionen2-daten2.js', 'v2/missionen2-fahrzeuge.js', 'v2/p8d-daten.js', 'v2/missionen2-shot.js',
+  'v2/anim.js', 'v2/pruefstand-art.js', 'v2/pruefstand.js', 'v2/pruefstand-ton.js', 'v2/pruefstand-video.js', 'v2/pruefstand-clips.js', 'v2/install.js', 'v2/statistik.js', 'v2/motivation.js', 'v2/icons/icon-192.png', 'v2/icons/icon-512.png', 'v2/icons/maskable-512.png', 'v2/icons/apple-touch-180.png', 'icon.svg'];
+self.addEventListener('install', e => e.waitUntil(caches.open(CORE).then(c => Promise.all(CORE_FILES.map(f => c.add(new Request(new URL(R + f, self.location).href, {cache: 'reload'})).catch(() => {}))))));
+self.addEventListener('activate', e => e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x => (x.indexOf('ss-core-') === 0 && x !== CORE) || (x.indexOf('ss-img-') === 0 && x !== IMG)).map(x => caches.delete(x)))).then(() => self.clients.claim())));
+self.addEventListener('message', e => {
+  const d = e.data || {};
+  if (d.type === 'SKIP_WAITING') self.skipWaiting();
+  else if (d.type === 'VERSION' && e.source) e.source.postMessage({type: 'VERSION', version: V});
+  else if (d.type === 'WARM' && Array.isArray(d.urls)) e.waitUntil(caches.open(IMG).then(async c => { let n = 0; for (const u of d.urls) { try { if (!(await c.match(u))) await c.add(u); n++; if (e.source && n % 5 === 0) e.source.postMessage({type: 'WARM', n, of: d.urls.length}) } catch (x) {} } if (e.source) e.source.postMessage({type: 'WARM', n, of: d.urls.length, done: true}) }));
+});
+self.addEventListener('fetch', e => {
+  const r = e.request; if (r.method !== 'GET') return;
+  const u = new URL(r.url); if (u.origin !== self.location.origin) return;
+  const isImg = /\.(jpg|jpeg|png|webp|gif|svg|mp3|ogg|wav)$/i.test(u.pathname) && !/\/v2\/icons\//.test(u.pathname);
+  e.respondWith((async () => {
+    const hit = await caches.match(r, {ignoreSearch: true});
+    if (hit) return hit;
+    try {
+      const res = await fetch(r);
+      if (res && res.ok && isImg && !/\/v2\/(shots|alt|entwurf|referenz)\//.test(u.pathname)) { const c = await caches.open(IMG); c.put(r, res.clone()) }
+      return res;
+    } catch (err) { if (r.mode === 'navigate') { const f = await caches.match(new URL(R + 'v2/index.html', self.location).href); if (f) return f } throw err }
+  })());
+});

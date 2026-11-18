@@ -1,0 +1,12 @@
+/* Paket 8 D: MTX-Stil (Showbau), Eloxal-Schrauben, Sitzbank */
+.p8prog,.p8prev,.p8elox{margin-top:12px}
+.p8prog .bar{height:10px}
+.p8req{list-style:none;margin:8px 0 10px;padding:0;display:grid;gap:4px;font-size:13px}
+.p8req li{display:flex;justify-content:space-between;gap:10px;opacity:.82}
+.p8req li.ok{opacity:1;color:var(--g,#30d158)}
+.p8lern{margin:6px 0 4px}
+.p8warn{margin:10px 0 0;padding:9px 11px;border-radius:12px;border:1px solid #ff9f0a;background:rgba(255,159,10,.12);color:#ffcf8a;font-size:13px;line-height:1.35;font-weight:600}
+.p8warn.p8top{margin:0 0 10px}
+.p8prev svg{display:block;margin:8px 0 4px;background:rgba(0,0,0,.18);border-radius:12px}
+.p8elox summary{cursor:pointer}
+.tag.tt{background:#2f7bd8!important}

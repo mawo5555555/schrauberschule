@@ -1,0 +1,48 @@
+'use strict';
+// Paket 8 D: Lernmissionen zum MTX-Stil-Aufbau (Showbau) und zu den Eloxal-Schrauben. Alle Zahlen sind Spielwerte (ca.).
+// Rechnung: V = (5,7 : 2)² · π · 5,1 = ca. 130,1 cm³; 30 PS : 1,36 = ca. 22 kW. Rechtsteil nach MTX120-RECHERCHE.md, Quelle sekundär: "ca., laut Recherche, bitte Eltern prüfen".
+MISSIONS.push(
+{id:'p8-mtx-1', subject:'mathe', theme:'tuning', topic:'Rauminhalt', title:'MTX-Aufbau: Hubraum nachrechnen', sub:'Radius, Zylinder-Volumen, Faktor', min:12,
+ rlp:'Größen: Rauminhalt (Zylinder), Kreis; Zahlen: Runden, Verhältnisse',
+ steps:[
+  W('Der Hubraum des MTX-Stil-Aufbaus', 'Der Hubraum ist das Volumen im Zylinder: **V = (d : 2)² · π · h**. Im Spiel hat der MTX-Stil-Großhubraum-Aufbau (Showbau) **Bohrung d = 57 mm = 5,7 cm** und **Hub h = 51 mm = 5,1 cm**.\n\n„MTX-Stil“ meint die Szene der Zylinder-Umbauten auf Honda-MT/MTX-Basis, es ist hier kein Markenprodukt. Die Werte sind Spielwerte (ca.).', 'Rechne immer in cm: 10 mm sind 1 cm. Dann kommt das Ergebnis in cm³ heraus.'),
+  N('Wie groß ist der Radius r in cm bei 57 mm Bohrung? (r = d : 2)', 2.85, '5,7 : 2 = 2,85 cm.', {unit:'cm', tol:.01, hint:'Erst mm in cm umrechnen, dann halbieren.'}),
+  N('Rechne V = π · r² · h mit r = 2,85 cm und h = 5,1 cm. Wie viele cm³ (auf ganze Zahl gerundet)?', 130, '2,85² = 8,1225. Mal π ist ca. 25,52. Mal 5,1 ist ca. 130,1 cm³.', {unit:'cm³', tol:1, hint:'Erst r mal r, dann mal 3,14, dann mal 5,1.'}),
+  N('Die Serie hat ca. 49,8 cm³. Wievielmal so viel Hubraum hat der Aufbau? (eine Nachkommastelle)', 2.6, '130 : 49,8 ist ca. 2,6.', {tol:.05, hint:'Teile 130 durch 49,8.'}),
+  Q('Die Bohrung wird doppelt so groß, der Hub bleibt gleich. Was passiert mit dem Hubraum?', 'Er wird 4-mal so groß', ['Er wird doppelt so groß', 'Er bleibt gleich', 'Er wird 8-mal so groß'], 'Der Radius steht im Quadrat: 2 · 2 = 4.'),
+  N('Probe mit der Serie: Bohrung 38 mm, Hub 44 mm. Wie viele cm³ (ganze Zahl)?', 50, 'r = 1,9 cm; 1,9² = 3,61; mal π ca. 11,34; mal 4,4 ca. 49,9, gerundet 50.', {unit:'cm³', tol:1}),
+  TF('Zum Aufbau (Spielwerte)', [['Der Aufbau hat ca. 130 cm³.', true, 'Das hast du nachgerechnet.'], ['Der Aufbau ist ein Markenprodukt der App.', false, 'MTX-Stil ist nur der Name des Umbau-Stils, kein Produkt aus der App.'], ['Die Rechnung gilt nur im Spiel, echte Umbauten prüft eine Fachwerkstatt.', true, 'Nicht straßenzugelassen – Rennstrecke/Showbau, nur im Spiel.']])
+ ]},
+{id:'p8-mtx-2', subject:'mathe', theme:'tuning', topic:'Verhältnisse und Prozent', title:'MTX-Aufbau: PS, kW und Prozent', sub:'Umrechnen, Faktor, PS pro Liter', min:12,
+ rlp:'Größen: Umrechnen; Zahlen: Prozent, Verhältnisse; Sachaufgaben',
+ steps:[
+  W('PS und kW', 'Leistung wird heute in **kW** (Kilowatt) angegeben, früher in **PS**. Es gilt: **1 kW = ca. 1,36 PS**. Also: kW = PS : 1,36 und PS = kW · 1,36.\n\nDer MTX-Stil-Aufbau hat im Spiel **ca. 30 PS**. Die Serie-Simson hat nur ca. 3 PS.', 'Bei Führerscheinklassen und Papieren zählen kW, in der Werbung stehen oft PS.'),
+  N('Rechne 30 PS in kW um (auf ganze Zahl gerundet).', 22, '30 : 1,36 ist ca. 22,06, gerundet 22 kW.', {unit:'kW', tol:.5, hint:'PS durch 1,36 teilen.'}),
+  N('Rückwärts: 11 kW sind wie viele PS (auf ganze Zahl gerundet)?', 15, '11 · 1,36 = 14,96, gerundet 15 PS.', {unit:'PS', tol:.5, hint:'kW mal 1,36.'}),
+  N('Der Aufbau hat 30 PS, die Serie 3 PS. Wievielmal so viel Leistung?', 10, '30 : 3 = 10.', {tol:.01}),
+  N('Wie viel Prozent mehr Leistung als die Serie? (Serie 3 PS, Aufbau 30 PS)', 900, '(30 − 3) : 3 = 9. Das sind 900 %.', {unit:'%', tol:1, hint:'Unterschied durch die Serie teilen, mal 100.'}),
+  N('Der Aufbau holt 30 PS aus 0,13 Litern Hubraum (130 cm³). Wie viele PS pro Liter (ganze Zahl)?', 231, '30 : 0,13 ist ca. 231 PS pro Liter. Die Serie schafft nur ca. 3 : 0,05 = 60 PS pro Liter.', {unit:'PS/l', tol:1, hint:'cm³ in Liter umrechnen: 130 cm³ = 0,13 Liter.'}),
+  Q('Spielwert: ca. 120 km/h statt ca. 60 km/h bei 10-facher Leistung. Warum nicht 600 km/h?', 'Der Luftwiderstand wächst sehr stark mit dem Tempo (Leistung ~ Tempo hoch 3)', ['Der Motor will nicht schneller', 'Die Straße ist zu kurz', 'Das ist reiner Zufall'], 'Zehnfache Leistung bringt nur die dritte Wurzel aus 10, also ca. 2,2-faches Tempo.')
+ ]},
+{id:'p8-mtx-3', subject:'deutsch', theme:'tuning', topic:'Sachtexte lesen', title:'Lesen: Showbau, Betriebserlaubnis und Führerschein', sub:'Sachtext verstehen und erklären', min:12,
+ rlp:'Lesen: Sachtexte verstehen, Informationen entnehmen; Schreiben/Sprechen: erklären, begründen',
+ steps:[
+  W('Showbau oder Straße?', 'Ein Fahrzeug darf nur dann im Straßenverkehr fahren, wenn es eine **Betriebserlaubnis** hat. Sie gehört zu den Fahrzeugpapieren. Wird der Motor so verändert, dass Hubraum, Leistung oder Tempo nicht mehr zu den Papieren passen, **erlischt** sie meist. Dann braucht man eine **Abnahme** durch einen Prüfer (zum Beispiel TÜV oder DEKRA) und eine neue Eintragung. Teile ohne **E-Zeichen** oder ABE (Allgemeine Betriebserlaubnis) sind oft nur mit Einzelabnahme erlaubt.\n\nGrob (ca., laut Recherche, **bitte Eltern prüfen**): Klasse **AM** gilt für Mopeds bis 50 cm³, ab etwa 15 Jahren. **A1** gilt für Leichtkrafträder bis 125 cm³ und 11 kW, ab etwa 16 Jahren. **A2** reicht bis 35 kW, ab etwa 18 Jahren.\n\nDer MTX-Stil-Aufbau im Spiel hat ca. 130 cm³ und ca. 22 kW. Das liegt über der A1-Grenze. Außerdem wurde für Umbauten mit 120 bis 130 cm³ und 20 bis 35 PS keine Eintragung gefunden. Darum gilt: **Nicht straßenzugelassen – Rennstrecke/Showbau, nur im Spiel.** Echte Umbauten brauchen Fachwerkstatt und Abnahme.', 'Fahren ohne passende Betriebserlaubnis und Fahrerlaubnis kann den Versicherungsschutz kosten. Frag immer einen Erwachsenen und die Werkstatt.'),
+  Q('Was passiert meist, wenn der Motor stark verändert wird und die Papiere nicht mehr passen?', 'Die Betriebserlaubnis erlischt', ['Das Fahrzeug wird schneller zugelassen', 'Nichts, das ist egal', 'Die Papiere werden automatisch geändert'], 'Dann sind Abnahme und neue Eintragung nötig.'),
+  Q('Wofür steht die Klasse AM laut Text ungefähr?', 'Mopeds bis 50 cm³', ['Motorräder ohne Grenze', 'Autos bis 3,5 Tonnen', 'Fahrräder'], 'Klasse AM: Moped, ca. bis 50 cm³ (laut Recherche, bitte Eltern prüfen).'),
+  Q('Der Aufbau hat ca. 22 kW. Was sagt der Text über die Klasse A1 (bis 11 kW)?', '22 kW liegt über der A1-Grenze', ['22 kW ist weniger als 11 kW', 'A1 ist für alle Leistungen', 'A1 gilt nur für Fahrräder'], '22 ist größer als 11.'),
+  TF('Stimmt das laut Text?', [['Für den MTX-Aufbau mit 120 bis 130 cm³ wurde keine Eintragung gefunden.', true, 'So steht es im Text.'], ['Ein Showbau darf einfach auf die Straße.', false, 'Nicht straßenzugelassen – Rennstrecke/Showbau.'], ['Eine Abnahme macht zum Beispiel ein Prüfer von TÜV oder DEKRA.', true, 'Er prüft, ob der Umbau zu den Papieren passt.']]),
+  GAP('Satz ergänzen', 'Der Umbau muss von einem {Prüfer} abgenommen und {eingetragen} werden, sonst erlischt die {Betriebserlaubnis}.', ['Bäcker', 'verschenkt']),
+  X('Erkläre in drei Sätzen, warum du den MTX-Aufbau nur im Spiel oder auf der Rennstrecke fährst und nicht auf der Straße.', 'Tipp: „Der Aufbau ist nicht straßenzugelassen, weil …“ und „Echte Umbauten brauchen …“', 60)
+ ]},
+{id:'p8-elox', subject:'nawi', theme:'tuning', topic:'Stoffe und Chemie', title:'Eloxieren: Alu bekommt Farbe', sub:'Oxidschicht, Poren, Farbstoff', min:9,
+ rlp:'Stoffe: Metalle, Oxidation, Korrosionsschutz; Technik: Werkstoffe vergleichen',
+ steps:[
+  W('Was ist Eloxal?', '**Eloxieren** bedeutet: Aluminium wird in einem Säurebad unter Strom oxidiert. Dabei wächst an der Oberfläche aus dem Alu selbst eine harte **Oxidschicht** (Aluminiumoxid) mit winzigen Poren. In die Poren kommt **Farbstoff**, danach werden die Poren verschlossen.\n\nDie Farbe sitzt also **in** der Schicht, sie ist kein Lack. Eloxal schützt vor Korrosion. Schrauben und Deckel in Schwarz, Blau, Hellblau, Rot, Violett oder Pink sind reine Optik, sie bringen keine Leistung.', 'Vorsicht (Schätzung): Alu ist weicher und weniger fest als Stahl. An tragenden Teilen sind Stahlschrauben besser. Im Zweifel die Werkstatt fragen.'),
+  O('Eloxieren in der richtigen Reihenfolge', ['Teil reinigen und entfetten', 'Im Säurebad unter Strom: Oxidschicht wächst', 'Im Farbbad färben', 'Poren verdichten und verschließen'], 'Bringe die Schritte in die richtige Reihenfolge.'),
+  Q('Woraus besteht die Eloxal-Schicht?', 'Aus Aluminiumoxid, gewachsen aus dem Alu selbst', ['Aus Lack', 'Aus Gummi', 'Aus Kupferfarbe'], 'Das Alu oxidiert an der Oberfläche kontrolliert.'),
+  Q('Wo sitzt die Farbe beim Eloxal?', 'In den Poren der Oxidschicht', ['Als Lack obenauf', 'Im Inneren des ganzen Teils', 'Nirgends, es ist nur Schmutz'], 'Deshalb kann sie nicht so einfach abblättern wie Lack.'),
+  Q('Was ändern bunte Alu-Schrauben an der Leistung des Motors?', 'Nichts, es ist reine Optik', ['Sie machen den Motor stärker', 'Sie sparen Benzin', 'Sie machen ihn leiser'], 'Nur das Aussehen ändert sich.'),
+  TF('Stimmt das?', [['Eloxal ist ein Lack, der aufgesprüht wird.', false, 'Die Schicht wächst aus dem Alu selbst und wird eingefärbt.'], ['Beim Eloxieren fließt Strom durch ein Säurebad.', true, 'Darum heißt es elektrolytisches Oxidieren.'], ['An tragenden Teilen sind Stahlschrauben meist besser als Alu-Schrauben (Schätzung).', true, 'Alu ist weicher und weniger fest.']])
+ ]}
+);

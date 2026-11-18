@@ -1,0 +1,26 @@
+/* Prüfstand-Animation: Szene, Messrechner. Kein Spielzeug-Rad mehr: die alte Walze (.roller) ist ausgeblendet. */
+.roller,.dynor .roller,.car .roller{display:none!important}
+.pst{display:flex;flex-direction:column;gap:8px;margin:6px 0}
+.pst-sw{border-radius:14px;overflow:hidden;border:1px solid rgba(120,160,210,.25);box-shadow:0 8px 24px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.04);background:#0d131c}
+.pst-sc-w{position:relative;line-height:0;aspect-ratio:720/400}
+.pst-sc{width:100%;height:100%;display:block}
+.pst-cn{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.pst-mon{border-radius:12px;padding:8px 10px 9px;background:linear-gradient(#1b2028,#0f1319);border:1px solid #2c3542;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 6px 16px rgba(0,0,0,.4)}
+.pst-mh{display:flex;justify-content:space-between;align-items:center;font:700 10.5px/1 ui-monospace,Menlo,monospace;letter-spacing:1.4px;color:#8ea1b5;margin-bottom:6px}
+.pst-ph{color:#7dffb0;letter-spacing:.5px}
+.pst-cv{display:block;width:100%;height:auto;aspect-ratio:320/190;border-radius:6px;box-shadow:inset 0 0 18px rgba(0,0,0,.8),0 0 0 2px #05080a;background:#06100c}
+.pst-ro{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin-top:7px}
+.pst-ro div{background:#071009;border-radius:6px;padding:4px 5px;text-align:center;box-shadow:inset 0 0 0 1px #17261c}
+.pst-ro small{display:block;font:600 8.5px/1.1 ui-monospace,Menlo,monospace;color:#7d9a88;letter-spacing:.3px}
+.pst-ro b{display:block;font:700 17px/1.15 ui-monospace,Menlo,monospace;color:#7dffb0;text-shadow:0 0 6px rgba(125,255,176,.45)}
+.pst-ro i{display:block;font:normal 8px/1 ui-monospace,Menlo,monospace;color:#5f8070;min-height:8px}
+.pst-st{display:flex;gap:3px;margin-top:6px;flex-wrap:wrap}
+.pst-st span{flex:1;min-width:0;text-align:center;font:600 8.5px/1 ui-monospace,Menlo,monospace;padding:4px 2px;border-radius:4px;background:#10151b;color:#5d6b79;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pst-st span.on{background:#12351f;color:#7dffb0}
+.pst-on .crv{display:block}
+.pst-m .crv>svg{display:none}
+.pst-m .crv{margin-top:0}
+@media (orientation:landscape) and (max-height:520px){body.land .pst{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:8px;align-items:start}body.land .pst-ro b{font-size:13px}body.land .pst-ro small{font-size:7.5px}body.land .la.pst-on .crv,body.land .la.pst-on>.spec,body.land .la.pst-on>.card{display:none}}
+@media(prefers-reduced-motion:reduce){.pst-cn{display:none}}
+
+.pst-ro b{white-space:nowrap}
