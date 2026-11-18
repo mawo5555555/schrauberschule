@@ -9,26 +9,27 @@ const V2V = {
   star: {id:'star', name:'Simson Star (SR4-2)', sub:'Moped 1964–1975', key:'star', ps:3.4, vmax:60, ccm:'49,6', bh:'40 × 39,5', text:'Das Moped mit Rohrrahmen und Teleskopgabel: Zweitakter ca. 50 cm³, 3 Gänge. Leistung und Tempo hier als Spielwerte (ca.; der Star war zeitweise auf 50 km/h gedrosselt).'},
   duo:  {id:'duo',  name:'Simson Duo', sub:'Krankenfahrstuhl, drei Räder (ca.)', key:'duo', ps:3.6, vmax:60, ccm:'49,6', bh:'40 × 39,5', text:'Das Dreirad (Krankenfahrstuhl) für Menschen mit Gehbehinderung: Zweitakter ca. 50 cm³, ca. 4 Gänge. Leistung und Tempo hier als Spielwerte (ca.).'},
   habicht: {id:'habicht', name:'Simson Habicht', sub:'Moped 1971–1975', key:'habicht', ps:3.4, vmax:60, ccm:'49,6', bh:'40 × 39,5', text:'Das Moped aus der Zeit vor der S50: einfache Technik, ideal zum Lernen.'},
+  rasen: {id:'rasen', name:'Rasentraktor (grau)', sub:'Aufsitzmäher, Viertakt-Einzylinder (ca.)', key:'garage-rasentraktor', ps:13, vmax:8, ccm:'ca. 500', bh:'ca. 87 × 85', fixed:{ps:13, peak:3300, width:1100, lim:3600, r0:1800, rs:[800, 1600], kmh:8}, text:'Der graue Rasentraktor aus der Garage: luftgekühlter Viertakt-Einzylinder mit ca. 500 cm³, ca. 13 PS (9,6 kW) bei ca. 3300/min, Drehzahlregler begrenzt auf ca. 3600/min. Fährt nur ca. 8 km/h. Spielwerte (ca.), kein Tuning: Rasentraktoren sind keine Rennfahrzeuge.'},
   klapp: {id:'klapp', name:'Mifa Klapprad', sub:'DDR-Klappfahrrad, 20 Zoll, ohne Motor', key:'klapprad', ps:0.1, vmax:20, klapp:1, text:'Das DDR-Klappfahrrad aus Sangerhausen (gebaut ab 1967): 20-Zoll-Räder, zusammenklappbar, ohne Motor. Hier treibt dich dein eigener Muskel an, gemessen in Watt. Alle Werte sind gerundete Spielwerte.'}
 };
 const CAT = {
   zyl: {n:'Zylinder', en:'cylinder', opts:[
-    {id:'z50', n:'Original-Zylinder 50 cm³', tag:'Original', bore:38, kind:'o', price:0,     info:'Grauguss, 38 × 44 mm, ca. 49,9 cm³, ca. 3,4 PS (2,5 kW), andere Datenblätter bis 4 PS, bei ca. 5500/min (Katalogwerte schwanken). Eintragung: serienmäßig.'},
-    {id:'z60', n:'60er Alu-Zylinder (ca. 58–61 cm³)', tag:'Tuning', bore:41, kind:'a', price:119.9, info:'Alu-Tuningzylinder (Händler-Sets), 41 × 44 mm = ca. 58 cm³ (verkauft als „60 ccm“, je nach Hersteller 41 bis 42 mm). Hauptdüse größer (Händler: ca. 75–85 bei 16 mm, ca. 95–110 bei 19/20 mm). Mit 19er Vergaser und Sport-/Resonanzauspuff grob 5 bis 7 PS (Spanne, Schätzung). Eintragungspflichtig.'},
-    {id:'z70', n:'70er Tuning-Zylinder (ca. 70 cm³)', tag:'Tuning', bore:45, kind:'a', price:169.9, info:'45 × 44 mm = ca. 70 cm³. Am S51 ein Umbau mit Motorarbeit (Forum). Grob 6 bis 9 PS (Spanne, Schätzung). Größerer Vergaser und Düse nötig. Eintragungspflichtig.'},
+    {id:'z50', n:'Original-Zylinder 50 cm³', tag:'Original', bore:38, kind:'o', price:0,     info:'Grauguss. Motor M531/M541 (S51, Schwalbe KR51/2, SR50): 38 × 44 mm = 49,9 cm³. Motor M53 (S50, Star, Habicht, Duo): 40 × 39,5 mm = 49,6 cm³. Serie ca. 3,4 bis 3,7 PS bei ca. 5500/min (je Modell). Eintragung: serienmäßig.'},
+    {id:'z60', n:'60er Alu-Zylinder (ca. 58–61 cm³)', tag:'Tuning', bore:41, kind:'a', price:119.9, info:'Alu-Tuningzylinder (Händler-Sets), 41 × 44 mm = ca. 58 cm³ (verkauft als „60 ccm“, je nach Hersteller 41 bis 42 mm). Hauptdüse größer (Händler: ca. 75–85 bei 16 mm, ca. 95–110 bei 19/20 mm). Mit 19er Vergaser und Sport-/Resonanzauspuff grob 5 bis 7 PS (Spanne, Schätzung). Eintragungspflichtig. Am M53-Motor (S50, Star, Habicht, Duo, Hub 39,5 mm) passt nur ein eigener M53-Zylinder (ca. 44 mm Bohrung).'},
+    {id:'z70', n:'70er Tuning-Zylinder (ca. 70 cm³)', tag:'Tuning', bore:45, kind:'a', price:169.9, info:'45 × 44 mm = ca. 70 cm³. Am S51 ein Umbau mit Motorarbeit (Forum). Grob 6 bis 9 PS (Spanne, Schätzung). Passender Vergaser: 19 bis 22 mm, größere Düse. Am M53-Motor ein eigener Zylinder mit ca. 47,5 mm Bohrung. Eintragungspflichtig.'},
     {id:'z85', n:'85er Renn-Zylinder (ca. 83–86 cm³)', tag:'Rennsport', bore:49, kind:'r', price:229.9, info:'49 × 44 mm = ca. 83 cm³ (Händlerangabe „85 ccm“ mit 49 mm Bohrung, andere Hersteller bis 50 mm), Rennsport. Mit 24er Vergaser, Resonanzauspuff und Vape grob 9 bis 12 PS (Spanne, Schätzung); eingetragen als Leichtkraftrad ca. 15 PS (Einzelbericht). Nur mit großem Vergaser, großer Düse und Resonanzauspuff. Nur Privatgelände.'}]},
   verg: {n:'Vergaser', en:'carburettor', opts:[
     {id:'v16', n:'BVF 16N3-4 (16 mm)', tag:'Original', size:16, price:0,    info:'Serienvergaser, Hauptdüse ab Werk ca. 67–72 (BVF-Herstellerdokument).'},
-    {id:'v19', n:'BVF 19N1-11 Race (19 mm)', tag:'Tuning', size:19, price:119.9,  info:'Mehr Luft für 60 bis 70 cm³, Hauptdüse ca. 95–105 bei 19/20 mm (Händlerangabe). Eintragungspflichtig.'},
-    {id:'v24', n:'Rennvergaser 24 mm', tag:'Rennsport', size:24, price:129.9, info:'Für 70 bis 85 cm³, Hauptdüse ab ca. 110 (Schätzung), braucht Abstimmung.'}]},
+    {id:'v19', n:'BVF 19N1-11 Race (19 mm)', tag:'Tuning', size:19, price:119.9,  info:'Mehr Luft für 60 bis 70 cm³, braucht passenden Ansaugstutzen, Hauptdüse ca. 95–105 bei 19/20 mm (Händlerangabe). Eintragungspflichtig.'},
+    {id:'v24', n:'Rennvergaser 24 mm', tag:'Rennsport', size:24, price:129.9, info:'Für ca. 80 bis 100 cm³ (85er Renn-Zylinder), eigener Ansaugstutzen und Luftfilter nötig. Hauptdüse ab ca. 110 (Schätzung), braucht Abstimmung. Nur Privatgelände.'}]},
   aus: {n:'Auspuff', en:'exhaust', opts:[
     {id:'ao', n:'Original-Auspuff', tag:'Original', kind:'o', price:0, info:'Leise, breites Drehzahlband. Serie.'},
     {id:'as', n:'Sport-Auspuff', tag:'Tuning', kind:'s', price:89.9, info:'Weniger Gegendruck, etwas mehr Leistung. Eintragung nötig, wenn ohne Gutachten.'},
-    {id:'ar', n:'Resonanz-Auspuff 32 mm', tag:'Rennsport', kind:'r', price:179.9, info:'Verschiebt das Drehzahlband nach oben, schmal, laut. Schätzung der Werte. Nur Privatgelände.'}]},
+    {id:'ar', n:'Resonanz-Auspuff 32 mm', tag:'Rennsport', kind:'r', price:179.9, info:'Verschiebt das Drehzahlband nach oben (Leistungsspitze ca. 1500/min höher), schmal, laut. Erst ab 60er Zylinder sinnvoll. Schätzung der Werte. Nur Privatgelände.'}]},
   zuend: {n:'Zündung', en:'ignition', opts:[
     {id:'zo', n:'Unterbrecher-Zündung 6 V', tag:'Original', kind:'o', price:0, info:'Serie, mechanischer Kontakt, muss gewartet werden.'},
     {id:'ze', n:'Elektronische Zündung 6 V', tag:'Tuning', kind:'e', price:109.9, info:'Kontaktlos (CDI-Typ), wartungsarm, springt besser an.'},
-    {id:'zv', n:'Vape-Zündung 12 V', tag:'Tuning', kind:'e', price:179.9, info:'12-V-Umrüstung mit Batterie und Regler, hell, zuverlässig. 6-V-Lampen und Hupe vorher tauschen!'}]},
+    {id:'zv', n:'Vape-Zündung 12 V', tag:'Tuning', kind:'e', price:239.9, info:'12-V-Umrüstung (Preis Ersatzteilhandel ca. 220 bis 280 €) mit Batterie und Regler, hell, zuverlässig. 6-V-Lampen und Hupe vorher tauschen!'}]},
   rit: {n:'Ritzel', en:'sprocket', opts:[
     {id:'r14', n:'Ritzel 14 Zähne', tag:'Tuning', z:14, price:12.5, info:'Übersetzung ca. 34 : 14 = 2,43. Mehr Durchzug, weniger Endgeschwindigkeit.'},
     {id:'r15', n:'Ritzel 15 Zähne', tag:'Original', z:15, price:0, info:'Serie meist 15 Zähne, Kettenrad meist 34 Zähne: 34 : 15 = 2,27 (ca., bitte am Fahrzeug nachzählen).'},
@@ -41,23 +42,29 @@ let BUDGET = 450;   // wird in freischalten.js aus dem Lernfortschritt berechnet
 const PHOTO_CREDITS = ['S51: „Simson S51 B2-4 from 1980 original condition II“, Max schwalbe, CC BY-SA 4.0, Wikimedia Commons', 'SR50: „Simson SR50 1 CE“, Marcin Księżyk, CC BY-SA 3.0, Wikimedia Commons', 'Schwalbe KR51/2: „Simson Schwalbe KR51.2 N 1983 original II“, Max schwalbe, CC BY-SA 4.0, Wikimedia Commons', 'S50: „Simson S 50 B von 1978“, Max schwalbe, CC BY-SA 4.0, Wikimedia Commons', 'Habicht: „Habicht SR4-4“, Martin Jorgel, gemeinfrei, Wikimedia Commons'];
 const opt = (slot, id) => CAT[slot].opts.find(o => o.id === id) || CAT[slot].opts.find(o => o.id === ORIGP[slot]) || CAT[slot].opts[0];   // Rückfall: alte Spielstände ohne Optik-Teile
 const eu = n => (+n).toFixed(2).replace('.', ',') + ' €';
+// Motorfamilie: M53 (S50, Star, Habicht, Duo) hat 40 × 39,5 mm; Tuningzylinder dort mit eigener Bohrung (gleicher Hubraum-Schritt)
+const M53B = {z50: 40, z60: 44, z70: 47.5, z85: 52};
+const geo = (veh, z) => (veh && veh.bh && veh.bh.indexOf('40') === 0 && M53B[z.id]) ? {bore: M53B[z.id], hub: 39.5} : {bore: z.bore, hub: z.hub || 44};
 const ccmOf = (bore, hub) => Math.PI / 4 * Math.pow(bore / 10, 2) * (hub || 44) / 10;   // Standard-Hub 44 mm; MTX-Stil: 57 x 51 mm = ca. 130 cm³
 
 // Leistungsmodell (Spiel): Hubraum, Vergaser-Passung, Auspuff, Zündung. Leistung ~ v³ (Luftwiderstand) für die Endgeschwindigkeit.
 function w2perf(veh, pick, jet) {
+  if (veh.fixed) { const f = veh.fixed; return {temp: 120, tune: [], ps: f.ps, ccm: 500, vmax: f.kmh, peak: f.peak, width: f.width, lim: f.lim, r0: f.r0, rs: f.rs, gov: 1, kerze: 'rehbraun', ideal: jet, notes: [], legal: true, gear: 1, acc: 1} }   // Rasentraktor: feste Werte, kein Tuning
   const z = opt('zyl', pick.zyl), v = opt('verg', pick.verg), a = opt('aus', pick.aus), r = opt('rit', pick.rit), zn = opt('zuend', pick.zuend);
-  const ccm = ccmOf(z.bore, z.hub), idealCarb = ccm < 52 ? 16 : ccm < 65 ? 19 : ccm < 100 ? 24 : 28;
-  let ps = z.psBase ? z.psBase * veh.ps / 3.4 : veh.ps * Math.pow(ccm / 49.9, 1.7);   // z.psBase: MTX-Stil (Spielwert, Schätzung)
+  const g0 = geo(veh, opt('zyl', 'z50')), gz = geo(veh, z), ccm = ccmOf(gz.bore, gz.hub), ccm0 = ccmOf(g0.bore, g0.hub), idealCarb = ccm < 52 ? 16 : ccm < 75 ? 19 : ccm < 100 ? 24 : 28;
+  let ps = z.psBase ? z.psBase * veh.ps / 3.4 : veh.ps * Math.pow(ccm / ccm0, 1.7);   // z.psBase: MTX-Stil (Spielwert, Schätzung)
   const notes = [];
   const ci = [16, 19, 24, 28], dc = ci.indexOf(v.size) - ci.indexOf(idealCarb);
   if (dc < 0) { ps *= 1 + dc * .08; notes.push('Der Vergaser ist zu klein: Der Motor bekommt zu wenig Gemisch.') }
   else if (dc > 0) { ps *= .96; notes.push('Der Vergaser ist größer als nötig: Das Ansprechen wird schlechter.') }
   if (z.psBase && a.kind !== 'r') { ps *= .8; notes.push('Der Großhubraum-Zylinder braucht den Resonanzauspuff: Ohne ihn fehlt viel Leistung.') }
-  ps *= {o:1, s:1.07, r:1.16}[a.kind]; if (zn.kind === 'e') ps *= 1.03;
+  if (!z.psBase && ccm > 65 && a.kind === 'o') { ps *= .9; notes.push('Der Original-Auspuff bremst den großen Zylinder: Mindestens ein Sport-Auspuff gehört dazu.') }
+  if (ccm < 52 && a.kind === 'r') notes.push('Der Resonanz-Auspuff bringt am Serienzylinder wenig, das Drehzahlband wird nur schmaler.');
+  ps *= ccm < 52 ? {o:1, s:1.05, r:1.06}[a.kind] : {o:1, s:1.07, r:1.16}[a.kind]; if (zn.kind === 'e') ps *= 1.03;
   const JT = {z50:{16:70,19:80,24:92,28:100}, z60:{16:80,19:98,24:110,28:118}, z70:{16:88,19:104,24:116,28:122}, z85:{16:94,19:110,24:126,28:130}, z130:{16:100,19:112,24:124,28:130}};
   const ideal = 2 * Math.round((JT[pick.zyl][v.size] + {o:0, s:2, r:5}[a.kind]) / 2), d = jet - ideal;
   let kerze = 'rehbraun'; if (d < -4) { kerze = 'weiß'; notes.push('Kerze weiß: zu mager, der Motor wird zu heiß. Kolbenklemmer-Gefahr!') } else if (d > 4) { kerze = 'schwarz'; ps *= Math.max(.75, 1 - (d - 4) * .02); notes.push('Kerze schwarz: zu fett, der Motor verliert Leistung.') }
-  const peak = z.peak ? z.peak + {o:-1500, s:-700, r:0}[a.kind] : 5500 + (ccm - 50) * 20 + {o:0, s:400, r:900}[a.kind], width = (z.wd || {o:2400, s:2100, r:1500})[a.kind];   // z.peak/z.wd: MTX-Stil, Leistungsmaximum bei ca. 8700/min
+  const peak = z.peak ? z.peak + {o:-1500, s:-700, r:0}[a.kind] : 5500 + (ccm - 50) * 30 + (ccm < 52 ? {o:0, s:200, r:300} : {o:0, s:500, r:1500})[a.kind], width = (z.wd || {o:2400, s:2100, r:1500})[a.kind];   // z.peak/z.wd: MTX-Stil, Leistungsmaximum bei ca. 8700/min
   const gear = r.z / 15, vmax = Math.round(veh.vmax * gear * Math.pow(ps / veh.ps, 1 / 3) * (z.vk || 1));
   const legal = pick.zyl === 'z50' && pick.verg === 'v16' && pick.aus === 'ao' && pick.zuend === 'zo' && pick.rit === 'r15';
   const temp = Math.round(150 + (Math.min(ccm, 90) - 50) * 1.8 + {o:0, s:6, r:18}[a.kind] + (d < 0 ? -d * 7 : -d * 1.5)), tune = ['zyl', 'verg', 'aus', 'rit'].filter(k => pick[k] !== ORIGP[k]).concat(pick.zuend !== 'zo' ? ['zuend'] : []);
@@ -76,7 +83,7 @@ const curveSvg = (p, base, anim = true) => {
 };
 
 // ---- Zustand
-const V2ORDER = ['s51', 'kr51', 'sr50', 's50', 'habicht', 'star', 'duo', 'klapp'];
+const V2ORDER = ['s51', 'kr51', 'sr50', 's50', 'habicht', 'star', 'duo', 'klapp', 'rasen'];
 const KORIG = {licht:'ld', hupe:'hk', gepaeck:'gt', reifen:'rm', kette:'k44', ritzel:'q16', zub:'zn', motor:'m0'};   // Klapprad: Serienzustand (siehe klapprad.js)
 const W2 = S.w2 = Object.assign({veh: null, orders: 0, cars: {}, garage: [], album: [], players: [], player: '', sel: 's51'}, S.w2 || {});
 // Alte Spielstände (z. B. mit „s70“ oder anderen entfernten Modellen) bereinigen, ohne Fehler
@@ -204,7 +211,7 @@ function w2Shop(c, v) {
   const sp = SLOTS.reduce((a, s) => a + opt(s, c.pick[s]).price, 0), p = w2perf(v, c.pick, 70), over = sp > BUDGET + 1e-9;
   return w2Head('Teile wählen', c) + `<div class="lay"><div class="la">${carPic(v)}${statBar('Leistung', ps1(p.ps) + ' PS', p.ps / 12 * 100)}${statBar('Kosten', eu(sp) + ' / ' + BUDGET + ' €', sp / BUDGET * 100, over ? '#ff453a' : 'var(--g)')}</div><div class="lb2">
   <div class="card live"><div class="spec"><div><span>Hubraum</span><b>${ps1(p.ccm.toFixed(1))} cm³</b></div><div><span>Leistung (ca.)</span><b>${ps1(p.ps)} PS</b></div><div><span>Höchstgeschw. (ca.)</span><b>${p.vmax} km/h</b></div></div>
-  ${p.notes.length ? `<p class="warn">${esc(p.notes[0])}</p>` : '<p class="m">Die Teile passen zusammen.</p>'}${!p.legal ? `<p class="m">⚠ Eintragungspflichtig: ${p.tune.map(k => CAT[k].n).join(', ')}. Ohne Prüfung und Eintragung erlischt die Betriebserlaubnis (Bußgeld, Versicherung). Ohne Eintragung nur auf Privatgelände oder Rennstrecke.</p>` : ''}<div class="m">${over ? 'Über dem Budget: Wähle günstigere Teile.' : 'Noch ' + eu(BUDGET - sp) + ' frei.'}</div></div>
+  ${p.notes.length ? `<p class="warn">${esc(p.notes[0])}</p>` : '<p class="m">Die Teile passen zusammen.</p>'}${!p.legal ? `<p class="m">⚠ Eintragungspflichtig: ${p.tune.map(k => CAT[k].n).join(', ')}. Ohne Prüfung und Eintragung erlischt die Betriebserlaubnis (Bußgeld, Versicherung). Simson-Mokicks dürfen als DDR-Altfahrzeug 60 km/h mit Moped-Führerschein (AM) fahren; mehr Hubraum oder Tempo heißt Leichtkraftrad mit Eintragung und Führerschein A1. Ohne Eintragung nur auf Privatgelände oder Rennstrecke.</p>` : ''}<div class="m">${over ? 'Über dem Budget: Wähle günstigere Teile.' : 'Noch ' + eu(BUDGET - sp) + ' frei.'}</div></div>
   ${SLOTS.map(s => `<h2>${CAT[s].n} · ${CAT[s].en}</h2><div class="hscroll">${CAT[s].opts.map(o => `<button class="opt2 ${c.pick[s] === o.id ? 'sel' : ''}" onclick="w2Choose('${s}','${o.id}')"><span class="tag ${o.tag === 'Original' ? 'to' : o.tag === 'Tuning' || o.tag === 'Optik' ? 'tt' : 'tr'}">${o.tag}</span>${partImg(s, o)}<b>${o.n}</b><span class="pr">${o.price ? eu(o.price) : 'ist verbaut'}</span><span class="m">${o.info}</span></button>`).join('')}</div>`).join('')}
   <p class="m">Preise und Werte sind gerundete Beispiele zum Rechnen, keine Angebote.</p>
   <button class="btn" ${over ? 'disabled' : ''} onclick="w2Mission(3)">${over ? 'Budget überschritten' : 'Teile bestellen (Aufgaben)'}</button></div></div>`;

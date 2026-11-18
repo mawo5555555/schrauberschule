@@ -150,7 +150,7 @@ MISSIONS.push(
   Q('Welcher Satz ist richtig?', 'Lena ruft: „Der Motor läuft!“', ['Lena ruft, „Der Motor läuft!“', 'Lena ruft „Der Motor läuft“!', 'Lena ruft: Der Motor läuft!'], 'Vor der Rede steht ein Doppelpunkt, das Ausrufezeichen steht in der Rede.'),
   Q('Wie nennt man den Teil „sagt Opa“ in „Komm her“, sagt Opa?', 'Redebegleitsatz', ['Nebensatz', 'Adverbiale', 'Prädikat'], 'Er begleitet die wörtliche Rede.'),
   Q('Welche Anführungszeichen sind richtig gesetzt?', '„Hallo“, sagt Tom.', ['“Hallo„, sagt Tom.', '„Hallo„, sagt Tom.', '“Hallo“, sagt Tom.'], 'Unten am Anfang, oben am Ende: „ … “'),
-  Q('Macht man aus „Ich komme gleich“, sagte Tom eine indirekte Rede, wie geht das richtig?', 'Tom sagte, er komme gleich.', ['Tom sagte: Ich komme gleich.', 'Tom sagte „er komme gleich“.', 'Tom sagte, ich komme gleich.'], 'Bei der indirekten Rede fallen Anführungszeichen weg, und die Person ändert sich: er statt ich.')
+  Q('Macht man aus „Ich komme gleich“, sagte Tom eine indirekte Rede, wie geht das richtig?', 'Tom sagte, dass er gleich kommt.', ['Tom sagte: Ich komme gleich.', 'Tom sagte „er kommt gleich“.', 'Tom sagte, dass ich gleich komme.'], 'Bei der indirekten Rede fallen Anführungszeichen weg, und die Person ändert sich: er statt ich. (Die besondere Form „er komme“ lernst du erst später.)')
 ]},
 
 {id:'deutsch-12', subject:'deutsch', theme:'tuning', topic:'Sprechen und Zuhören', title:'Mein Lieblingsfahrzeug', sub:'Eine Kurzpräsentation vorbereiten', min:14,

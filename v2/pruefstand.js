@@ -24,6 +24,7 @@
     kr51:    {type: 'roller', wb: 1.175, R: 62, col: '#56a08e', style: 'sw',   gears: G4, ex: [50, 38]},
     sr50:    {type: 'roller', wb: 1.19,  R: 62, col: '#c14a3f', style: 'sr',   gears: G4, ex: [50, 38]},
     duo:     {type: 'duo',    wb: 1.55,  R: 56, col: '#d8d2c2', gears: G4, ex: [58, 34]},
+    rasen:   {type: 'rasen',  wb: 1.2,   R: 50, col: '#8a9099', gears: [2.2, 1.5, 1.0], ex: [-60, -20], gov: 1, smoke: .25},   // Rasentraktor grau: Viertakt, Drehzahlregler, wenig Abgasfahne
     klapp:   {type: 'klapp',  wb: 1.0,   R: 55, col: '#7a8590', gears: [1], ex: [0, 0]}
   };
 
@@ -164,7 +165,15 @@
     </g>`;
   }
 
+  // Rasentraktor: echtes Foto (grauer Aufsitzmäher aus der Garage) statt Zeichnung, Rand weich ausgeblendet
+  function drawRasen(o) {
+    const W = 640, H = 357, x = -472, y = -232;
+    return `<g class="vh"><defs><radialGradient id="pst-rm-g" cx=".5" cy=".55" r=".5"><stop offset=".62" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient><mask id="pst-rm" maskUnits="userSpaceOnUse" x="${x}" y="${y}" width="${W}" height="${H}"><rect x="${x}" y="${y}" width="${W}" height="${H}" fill="url(#pst-rm-g)"/></mask></defs>
+      <image href="img/foto/rasen-front.jpg" x="${x}" y="${y}" width="${W}" height="${H}" preserveAspectRatio="none" mask="url(#pst-rm)" style="filter:saturate(.15)"/></g>`;
+  }
+
   function vehicleSvg(id, ccm) {
+    if (VEH[id] && VEH[id].type === 'rasen') return drawRasen(Object.assign({}, VEH[id]));
     const o = Object.assign({ccm, pick: window.PSTART && PSTART.cur}, VEH[id]);
     // Neue Zeichnungen (pruefstand-art.js) haben Vorrang; austauschbar, z. B. durch ein Foto (siehe dort). Alte Zeichner bleiben als Rückfall.
     const A = window.PSTART; if (A && A.draw && A.draw[id]) { o.wb = o.wb * SC; return A.draw[id](o) }
@@ -237,6 +246,7 @@
   }
 
   function strapsSvg(o, id) {
+    if (VEH[id] && VEH[id].type === 'rasen') return '';   // Rasentraktor steht frei auf der Rolle (Foto), keine Gurte
     // zwei Spanngurte: vorn vom Lenker/Gabel zur Plattform, hinten vom Heck zur Plattform; je mit Ratsche
     const wb = o.wb * SC, g = o.R + 10;
     let fr = id === 'klapp' ? [-192, -150] : o.type === 'duo' ? [-wb + 4, -92] : [-190, -132], ba = o.type === 'duo' ? [40, -42] : [48, -58];
@@ -288,9 +298,10 @@
   const PS_NM = 735.5 * 60 / (2 * Math.PI);   // = 7023,6: PS = Nm * U/min / PS_NM
   function modelOf(p) {
     const pk = p.peak, wd = p.width, ps = p.ps;
-    const P = r => ps * (.18 + .82 * Math.exp(-Math.pow((r - pk) / wd, 2))) * (r < 3000 ? clamp((r - 1500) / 1500, 0, 1) : 1);
+    const rs = p.rs || [1500, 3000];   // Anstieg unten (Rasentraktor früher)
+    const P = r => ps * (.18 + .82 * Math.exp(-Math.pow((r - pk) / wd, 2))) * (r < rs[1] ? clamp((r - rs[0]) / (rs[1] - rs[0]), 0, 1) : 1);
     const M = r => r > 500 ? P(r) * PS_NM / r : 0;
-    const lim = Math.min(pk + 1900, 10200), r0 = 3200;       // lim = Abregeldrehzahl
+    const lim = p.lim || Math.min(pk + 1900, 10200), r0 = p.r0 || 3200;       // lim = Abregeldrehzahl
     const sweep = () => { const a = []; let did = false; for (let r = r0; r <= lim; r += 50) { if (!did && r >= pk) { a.push([pk, P(pk), M(pk)]); did = true } if (r !== pk) a.push([r, P(r), M(r)]) } return a };
     return {pk, ps, P, M, lim, r0, sweep};
   }
@@ -317,18 +328,18 @@
       s.pop = 0;
       if (kl) return stepK(dt);
       const last = G.length;
-      const accel = (r, g) => 900 * Math.sqrt(Math.max(.5, ps / 3.4)) * (.28 + Pof(r) / ps) * [2.4, 1.8, 1.35, 1][g - 1 + (4 - last) * 0] * (last === 3 ? [1, 1.1, 1.0][0] : 1);
+      const accel = (r, g) => (o.gov ? 700 : 900) * Math.sqrt(Math.max(.5, ps / 3.4)) * (.28 + Pof(r) / ps) * [2.4, 1.8, 1.35, 1][g - 1 + (4 - last) * 0] * (last === 3 ? [1, 1.1, 1.0][0] : 1);
       switch (s.ph) {
         case 0: // Leerlauf
-          s.rpm = 1300 + Math.sin(s.t * 7) * 40 + (Math.random() - .5) * 60; s.load = .08; s.v = 0;
+          s.rpm = (o.gov ? 1700 : 1300) + Math.sin(s.t * 7) * 40 + (Math.random() - .5) * 60; s.load = .08; s.v = 0;
           if (s.tp > 1.3) { s.ph = 1; s.tp = 0; s.gear = 1 }
           s.live = false;
           break;
         case 1: { // Warmfahren: Gang 1 und 2, Teillast
-          s.load = .4; s.live = false; const tgt = s.gear === 1 ? 3600 : 3500;
+          s.load = .4; s.live = false; const tgt = o.gov ? pk * .8 : s.gear === 1 ? 3600 : 3500;
           s.rpm += (tgt - s.rpm) * Math.min(1, dt * 1.4) + 120 * dt;
           s.v = gv(s.rpm, s.gear);
-          if (s.gear === 1 && s.rpm > 3300) { shift(2, .3) }
+          if (s.gear === 1 && s.rpm > (o.gov ? pk * .7 : 3300)) { shift(2, .3) }
           if (s.gear === 2 && s.tp > 2.6) { s.ph = 2; s.tp = 0; s.curve = []; s.nm = []; s.rmax = 0; shift(Math.min(2, last), .25) }
           break; }
         case 2: case 3: { // Vollgas durch die Gänge; im letzten Gang Messlauf
@@ -414,7 +425,7 @@
     const CW = 320, CH = 190, L = 34, B = 22, TT = 14;
     let xs, ys, ys2, xmin, xmax, ymax, y2max;
     if (kl) { xmin = 0; xmax = 50; ymax = Math.max(300, Math.ceil(Math.max(p.need(50 / 3.6), p.avail(p.vmax / 3.6 || 1), base.pm(8) + 100) / 100) * 100); y2max = ymax }
-    else { xmin = 2000; xmax = Math.max(9000, Math.ceil((p.peak + 2200) / 1000) * 1000); ymax = 2 * Math.ceil(Math.max(p.ps, base.ps) * 1.2 / 2); y2max = Math.max(6, Math.ceil(Math.max(...modelOf(p).sweep().map(a => a[2])) * 1.25)) }
+    else { xmin = o.gov ? 1000 : 2000; xmax = o.gov ? 4000 : Math.max(9000, Math.ceil((p.peak + 2200) / 1000) * 1000); ymax = 2 * Math.ceil(Math.max(p.ps, base.ps) * 1.2 / 2); y2max = Math.max(6, Math.ceil(Math.max(...modelOf(p).sweep().map(a => a[2])) * 1.25)) }
     xs = x => L + (x - xmin) / (xmax - xmin) * (CW - L - 8); ys = y => CH - B - clamp(y, 0, ymax) / ymax * (CH - B - TT); ys2 = y => CH - B - clamp(y, 0, y2max) / y2max * (CH - B - TT);
     let gg = ''; for (let i = 0; i <= 4; i++) { const yy = CH - B - i / 4 * (CH - B - TT); gg += `<line x1="${L}" x2="${CW - 8}" y1="${yy}" y2="${yy}" stroke="#2f5a46" stroke-width=".7"/><text x="${L - 4}" y="${yy + 3}" fill="#ffb03a" font-size="9" text-anchor="end">${kl ? Math.round(i * ymax / 4) : de(i * ymax / 4, 1)}</text>${kl ? '' : `<text x="${CW - 2}" y="${yy + 3}" fill="#4fd1ff" font-size="8" text-anchor="end" opacity=".8">${de(i * y2max / 4, 0)}</text>`}` }
     const stp = kl ? 10 : 1000; for (let x = Math.ceil(xmin / stp) * stp; x <= xmax; x += stp) gg += `<line x1="${xs(x)}" x2="${xs(x)}" y1="${TT}" y2="${CH - B}" stroke="#2f5a46" stroke-width=".5"/><text x="${xs(x)}" y="${CH - 8}" fill="#9fb8aa" font-size="9" text-anchor="middle">${kl ? x : x / 1000 + 'k'}</text>`;
@@ -427,7 +438,7 @@
     const spr = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(255,255,255,.9)'); gr.addColorStop(.35, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return c })();
     const parts = [], wind = [];
     const sim = makeSim(cx);
-    const fat = kl ? 0 : (p.kerze === 'schwarz' ? clamp(1.2 + (cx.jet - p.ideal - 4) * .1, 1.2, 2.2) : p.kerze === 'weiß' ? .35 : 1);
+    const fat = kl ? 0 : (o.smoke || 1) * (p.kerze === 'schwarz' ? clamp(1.2 + (cx.jet - p.ideal - 4) * .1, 1.2, 2.2) : p.kerze === 'weiß' ? .35 : 1);
     const ST = {sim, host, cx, raf: 0, last: 0, frame: 0, stop: false, sound: null};
     const bsz = () => { const r = cv.getBoundingClientRect(), d = Math.min(2, devicePixelRatio || 1); const w = Math.max(2, Math.round(r.width * d)), h = Math.max(2, Math.round(r.height * d)); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h } return w / SW };
     function emit(dt) {
@@ -509,6 +520,14 @@
   }
 
   // ---------- Lauf starten / stoppen ----------
+  // Rasentraktor: echte Aufnahme (Briggs & Stratton Einzylinder-Viertakter, Wikimedia Commons "WWS Lawnmower.ogg", CC BY 4.0, Work With Sounds / Tekniska museet), Tonhöhe folgt der Drehzahl
+  function rasenSnd(st) {
+    const c = FX.A(); if (!c) return null; const g = c.createGain(); g.gain.value = 0; g.connect(FX.out()); let src = null, tm = null, dead = false;
+    fetch('v2/img/rasentraktor-motor.m4a').then(r => r.arrayBuffer()).then(b => c.decodeAudioData(b)).then(buf => { if (dead) return;
+      src = c.createBufferSource(); src.buffer = buf; src.loop = true; src.connect(g); src.start(); g.gain.setTargetAtTime(.9, c.currentTime, .15);
+      tm = setInterval(() => { const r = (st.sim && st.sim.rpm) || 1700; src.playbackRate.setTargetAtTime(Math.max(.5, Math.min(1.4, r / 3200)), c.currentTime, .08) }, 60) }).catch(() => {});
+    return {stop() { dead = true; clearInterval(tm); try { g.gain.setTargetAtTime(0, c.currentTime, .3); setTimeout(() => { try { src && src.stop(); g.disconnect() } catch (e) {} }, 1200) } catch (e) {} }};
+  }
   function stop() { const s = P.st; if (!s) return; s.stop = true; cancelAnimationFrame(s.raf); if (s.sound) { try { s.sound.stop() } catch (e) {} s.sound = null } P.st = null }
   function run(opts) {
     opts = opts || {};
@@ -519,7 +538,7 @@
     const st = P.idle && P.idle.host === host ? P.idle : null; if (!st) return;
     stop(); P.st = st; st.stop = false;
     if (RM() && !opts.force) { st.final(); return }
-    if (window.PSTSND && FX.on() && !(window.PSTCLIPS && PSTCLIPS.has && PSTCLIPS.has(cx.id))) { try { st.sound = PSTSND.start(st, cx) } catch (e) { st.sound = null } }
+    if (cx.id === 'rasen' && window.FX && FX.on()) { try { st.sound = rasenSnd(st) } catch (e) { st.sound = null } } else if (window.PSTSND && FX.on() && !(window.PSTCLIPS && PSTCLIPS.has && PSTCLIPS.has(cx.id))) { try { st.sound = PSTSND.start(st, cx) } catch (e) { st.sound = null } }
     let last = performance.now(), acc = 0;
     const loop = now => {
       if (st.stop) return; if (!st.host.isConnected) { stop(); return }
@@ -595,7 +614,7 @@
   // ---------- Screenshot-Hooks: #shot=pst-s51 | pst-schwalbe | pst-klapprad ----------
   const mm = /shot=pst-(\w+)/.exec(location.hash); if (!mm) return;
   if (mm[1] === 'test') { setTimeout(() => { let r; try { r = selftest() } catch (e) { r = {n: 0, bad: ['Ausnahme: ' + e.message], out: []} } const pre = document.createElement('pre'); pre.id = 'pst-test'; pre.textContent = 'PSTTEST ' + (r.bad.length ? 'FEHLER' : 'OK') + ' Pruefungen=' + r.n + '\n' + r.bad.join('\n') + '\n' + r.out.join('\n'); document.body.appendChild(pre) }, 300); return }
-  const kmap = {s51: 's51', schwalbe: 'kr51', klapprad: 'klapp', sr50: 'sr50', duo: 'duo', star: 'star', s50: 's50', habicht: 'habicht'}, id = kmap[mm[1]] || 's51';
+  const kmap = {rasen: 'rasen', s51: 's51', schwalbe: 'kr51', klapprad: 'klapp', sr50: 'sr50', duo: 'duo', star: 'star', s50: 's50', habicht: 'habicht'}, id = kmap[mm[1]] || 's51';
   setTimeout(() => {
     try { S.points = Math.max(S.points, 300); ROTX = true } catch (e) {}
     if (id === 'klapp') { W2.cars.klapp = {ph: 5, took: [], put: [], pick: {reifen: 'rb', kette: 'k50', ritzel: 'q16', licht: 'la', hupe: 'hg', zub: 'zt', gepaeck: 'gr', motor: 'm0'}, jet: 30, drove: false}; }

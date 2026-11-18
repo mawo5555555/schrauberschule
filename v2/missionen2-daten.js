@@ -84,7 +84,7 @@ M2('sim-ziehen-2', 'englisch', 'ziehen', 'Werkzeugwand: Tools auf Englisch', 'We
   Q('„Pass me the pliers, please.“ heißt:', 'Reich mir bitte die Zange.', ['Gib mir bitte den Hammer.', 'Hol mir bitte das Öl.', 'Schließ bitte die Tür.'], 'pass = reichen, pliers = Zange.')
 ]),
 // ------------------------------------------------------------------ Regler 1: Hauptdüse
-M2('sim-regler-1', 'mathe', 'regler', 'Die Hauptdüse im Schaufenster', 'Düsenfläche rechnen und live einstellen', 14, [
+M2('sim-regler-1', 'mathe', 'regler', 'Die Hauptdüse im Schaufenster', 'Profi-Aufgabe (Klasse 7): Kreisfläche und Prozent', 14, [
   W('Düse, Querschnitt, Kreisfläche', 'Die **Hauptdüse** ist eine kleine Bohrung im Vergaser. Sie bestimmt, wie viel Benzin zur Luft kommt. Die Nummer gibt oft den Durchmesser in Hundertstel Millimetern an (**80** ist ca. 0,80 mm, je nach Hersteller). Wie viel Benzin durchfließt, hängt von der **Fläche** ab: A = π · (d : 2)².\n\nBeispiel: d = 0,80 mm gibt A = π · 0,4² ≈ 0,50 mm².', 'Eine Düse mit 10 % größerem Durchmesser lässt etwa 21 % mehr durch, weil die Fläche mit dem Quadrat wächst.'),
   stp('r1', {type: 'regler', title: 'Hauptdüse abstimmen', text: 'Aufbau (Spielwert): 60er Zylinder, Sportauspuff, 19er Vergaser. Die passende Düse liegt bei etwa 85. Echte Tuner entscheiden nach dem Kerzenbild.', goal: 'Stelle die Hauptdüse so ein, dass die Kerze **rehbraun** aussieht und die Leistung hoch ist.', tip: 'Weiße Kerze: zu mager, größere Düse. Schwarze Kerze: zu fett, kleinere Düse.',
     sliders: [{id: 'j', l: 'Hauptdüse', min: 60, max: 110, step: 1, val: 68, u: ''}],
@@ -113,7 +113,7 @@ M2('sim-regler-2', 'nawi', 'regler', 'Zündzeitpunkt einstellen', 'Warum der Fun
         <div class="rrow"><span>Leistung</span><b>${pw} %</b></div><div class="rbar ${pw >= 90 ? 'good' : ''}"><i style="width:${pw}%"></i></div>
         <div class="rrow"><span>${d > 0 ? 'Motor heiß, klingelt' : 'Auspuff heiß'}</span><b>${Math.abs(d) <= .2 ? 'normal' : Math.abs(d) < 1 ? 'erhöht' : '⚠ zu hoch'}</b></div>` } },
     why: 'Der Funke muss vor OT springen, damit der Druck dann entsteht, wenn der Kolben schon wieder nach unten läuft. Genau einstellen heißt: mehr Leistung ohne Klingeln.'}),
-  N('Der Hub beträgt ca. 40 mm. Wie groß ist der Radius der Kurbel (halber Hub) in mm?', 20, 'Der Kolben legt pro Hub den doppelten Kurbelradius zurück: 40 : 2 = 20 mm.', {unit: 'mm'}),
+  N('Der Hub beträgt ca. 44 mm. Wie groß ist der Radius der Kurbel (halber Hub) in mm?', 22, 'Der Kolben legt pro Hub den doppelten Kurbelradius zurück: 44 : 2 = 22 mm.', {unit: 'mm'}),
   N('Ein Zweitakter zündet bei jeder Umdrehung. Bei 6000 U/min: Wie viele Zündungen pro Sekunde?', 100, '6000 : 60 = 100.', {unit: 'pro Sekunde'}),
   Q('Was passiert, wenn der Zündzeitpunkt viel zu früh liegt?', 'Der Motor klingelt und wird heiß.', ['Der Motor wird leiser und kühler.', 'Nichts, es ist egal.', 'Der Tank wird leer.'], 'Das Gemisch zündet zu früh und drückt gegen den aufwärts laufenden Kolben.')
 ], {tool: 'zuend'})

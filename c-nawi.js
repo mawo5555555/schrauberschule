@@ -16,8 +16,8 @@ MISSIONS.push(
   Q('Welches Werkzeug ist ein Hebel?', 'Eine Brechstange', ['Ein Zollstock', 'Ein Thermometer', 'Eine Wasserwaage'], 'Mit einer Brechstange hebelst du Dinge mit wenig Kraft. Der Drehpunkt ist die Stelle, wo sie aufliegt.'),
   Q('Du willst die Radmutter am Traktor lösen. Was klappt leichter?', 'Mit einem längeren Schlüssel', ['Mit einem kürzeren Schlüssel', 'Möglichst schnell ziehen', 'Den Schlüssel wärmen'], 'Längerer Schlüssel = längerer Kraftarm = weniger Kraft nötig.'),
   Q('Je flacher eine Rampe zum Verladen, desto …', 'kleiner die nötige Kraft, aber länger der Weg', ['größer die nötige Kraft und kürzer der Weg', 'kürzer der Weg und trotzdem weniger Kraft', 'kleiner die Last und kürzer der Weg'], 'Die schiefe Ebene spart Kraft, kostet aber Weg.'),
-  N('Hebel: Last 100 N, Lastarm 0,2 m, Kraftarm 1 m. Wie groß ist die Kraft?', 20, '100 N · 0,2 m = 20 Nm. 20 Nm ÷ 1 m = 20 N.', {unit:'N', hint:'Kraft · Kraftarm = Last · Lastarm.'}),
-  N('Hydraulik am Traktor: In Flüssigkeiten wirkt Druck überall gleich. Kleiner Kolben 2 cm², großer Kolben 40 cm². Wie oft größer ist die Kraft am großen Kolben?', 20, '40 cm² ÷ 2 cm² = 20. Die Kraft ist 20-mal so groß.', {unit:'mal', hint:'Wie oft passt die kleine Fläche in die große?'}),
+  N('Profi-Aufgabe (Klasse 7): Hebel: Last 100 N, Lastarm 0,2 m, Kraftarm 1 m. Wie groß ist die Kraft?', 20, '100 N · 0,2 m = 20 Nm. 20 Nm ÷ 1 m = 20 N.', {unit:'N', hint:'Kraft · Kraftarm = Last · Lastarm.'}),
+  N('Profi-Aufgabe (Klasse 8): Hydraulik am Traktor: In Flüssigkeiten wirkt Druck überall gleich. Kleiner Kolben 2 cm², großer Kolben 40 cm². Wie oft größer ist die Kraft am großen Kolben?', 20, '40 cm² ÷ 2 cm² = 20. Die Kraft ist 20-mal so groß.', {unit:'mal', hint:'Wie oft passt die kleine Fläche in die große?'}),
   X('Erkläre in eigenen Worten: Warum hilft ein langer Schraubenschlüssel beim Lösen einer festen Schraube?', 'Tipp: Denke an Kraftarm und Kraft. Erkläre in drei Sätzen.', 60)
 ]},
 

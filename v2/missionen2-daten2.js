@@ -13,7 +13,7 @@ M2('sim-kunde-1', 'deutsch', 'kunde', 'Kundenauftrag: Der Mopedfahrer mit Eile',
   GAP('Höflich formulieren', 'Könnten {Sie} mir bitte sagen, {wann} das Problem auftritt?', ['wer', 'du']),
   Q('Wie schreibt man den Satz richtig?', 'Ich rufe Sie an, sobald die Reparatur fertig ist.', ['Ich rufe sie an, sobald die Reparatur fertig ist.', 'Ich rufe Sie an sobald, die Reparatur fertig ist.', 'ich rufe Sie an, sobald die Reparatur fertig ist.'], 'Die höfliche Anrede „Sie“ schreibt man groß. Vor „sobald“ steht ein Komma.')
 ], {timed: 1}),
-M2('sim-kunde-2', 'mathe', 'kunde', 'Kundenauftrag: Rechnung und Rabatt', 'Preise, Prozent und Umsatzsteuer', 14, [
+M2('sim-kunde-2', 'mathe', 'kunde', 'Kundenauftrag: Rechnung und Rabatt', 'Profi-Aufgabe (Klasse 7): Prozent und Umsatzsteuer', 14, [
   W('Rechnung schreiben', 'Eine Werkstattrechnung hat drei Teile: **Material** (Teile), **Arbeitszeit** (Stunden · Stundensatz) und die **Umsatzsteuer** (in Deutschland ca. 19 %, Stand: Spielwert). Brutto = Netto + Umsatzsteuer, also Brutto = Netto · 1,19.\n\nBeispiel: 50 € netto · 1,19 = 59,50 € brutto.', 'Rabatt von 10 % heißt: Du zahlst 90 %, also Preis · 0,9.'),
   stp('k2', {type: 'kunde', title: 'Frau Berger will wissen, was es kostet', av: '👩', story: '**Frau Berger** holt ihre S51 ab. Du hast eine neue Zündkerze (5 €), einen Satz Kerzenstecker (3 €) und 1 Stunde Arbeit (30 € pro Stunde) berechnet, alles netto.',
     end: 'Preise offen erklärt und nachgerechnet. So werden Rechnungen verständlich.',

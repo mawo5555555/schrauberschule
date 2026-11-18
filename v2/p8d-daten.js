@@ -2,7 +2,7 @@
 // Paket 8 D: Lernmissionen zum MTX-Stil-Aufbau (Showbau) und zu den Eloxal-Schrauben. Alle Zahlen sind Spielwerte (ca.).
 // Rechnung: V = (5,7 : 2)² · π · 5,1 = ca. 130,1 cm³; 30 PS : 1,36 = ca. 22 kW. Rechtsteil nach MTX120-RECHERCHE.md, Quelle sekundär: "ca., laut Recherche, bitte Eltern prüfen".
 MISSIONS.push(
-{id:'p8-mtx-1', subject:'mathe', theme:'tuning', topic:'Rauminhalt', title:'MTX-Aufbau: Hubraum nachrechnen', sub:'Radius, Zylinder-Volumen, Faktor', min:12,
+{id:'p8-mtx-1', subject:'mathe', theme:'tuning', topic:'Rauminhalt', title:'MTX-Aufbau: Hubraum nachrechnen', sub:'Profi-Aufgabe (Klasse 7): Kreis und Zylinder', min:12,
  rlp:'Größen: Rauminhalt (Zylinder), Kreis; Zahlen: Runden, Verhältnisse',
  steps:[
   W('Der Hubraum des MTX-Stil-Aufbaus', 'Der Hubraum ist das Volumen im Zylinder: **V = (d : 2)² · π · h**. Im Spiel hat der MTX-Stil-Großhubraum-Aufbau (Showbau) **Bohrung d = 57 mm = 5,7 cm** und **Hub h = 51 mm = 5,1 cm**.\n\n„MTX-Stil“ meint die Szene der Zylinder-Umbauten auf Honda-MT/MTX-Basis, es ist hier kein Markenprodukt. Die Werte sind Spielwerte (ca.).', 'Rechne immer in cm: 10 mm sind 1 cm. Dann kommt das Ergebnis in cm³ heraus.'),
@@ -20,9 +20,9 @@ MISSIONS.push(
   N('Rechne 30 PS in kW um (auf ganze Zahl gerundet).', 22, '30 : 1,36 ist ca. 22,06, gerundet 22 kW.', {unit:'kW', tol:.5, hint:'PS durch 1,36 teilen.'}),
   N('Rückwärts: 11 kW sind wie viele PS (auf ganze Zahl gerundet)?', 15, '11 · 1,36 = 14,96, gerundet 15 PS.', {unit:'PS', tol:.5, hint:'kW mal 1,36.'}),
   N('Der Aufbau hat 30 PS, die Serie 3,4 PS. Wievielmal so viel Leistung? (eine Nachkommastelle)', 8.8, '30 : 3,4 ist ca. 8,8.', {tol:.06}),
-  N('Wie viel Prozent mehr Leistung als die Serie? (Serie 3,4 PS, Aufbau 30 PS, ganze Zahl)', 782, '(30 − 3,4) : 3,4 ist ca. 7,82. Das sind ca. 782 %.', {unit:'%', tol:1, hint:'Unterschied durch die Serie teilen, mal 100.'}),
+  N('Wie viele PS mehr hat der Aufbau als die Serie? (Serie 3,4 PS, Aufbau 30 PS)', 26.6, '30 − 3,4 = 26,6 PS mehr.', {unit:'PS', tol:.05, hint:'Zieh die kleinere Zahl von der größeren ab.'}),
   N('Der Aufbau holt 30 PS aus 0,13 Litern Hubraum (130 cm³). Wie viele PS pro Liter (ganze Zahl)?', 231, '30 : 0,13 ist ca. 231 PS pro Liter. Die Serie schafft nur ca. 3,4 : 0,05 = 68 PS pro Liter.', {unit:'PS/l', tol:1, hint:'cm³ in Liter umrechnen: 130 cm³ = 0,13 Liter.'}),
-  Q('Spielwert: ca. 120 km/h statt ca. 60 km/h bei ca. 9-facher Leistung. Warum nicht 600 km/h?', 'Der Luftwiderstand wächst sehr stark mit dem Tempo (Leistung ~ Tempo hoch 3)', ['Der Motor will nicht schneller, weil er sonst zu laut wird und heiß läuft.', 'Die Straße ist dafür zu kurz, und deshalb kommt man nie auf Tempo.', 'Das ist reiner Zufall, denn Luftwiderstand spielt bei Mopeds keine Rolle.'], 'Neunfache Leistung bringt nur die dritte Wurzel aus 9, also ca. 2,1-faches Tempo.')
+  Q('Spielwert: ca. 120 km/h statt ca. 60 km/h bei ca. 9-facher Leistung. Warum nicht 600 km/h?', 'Der Luftwiderstand wächst mit dem Tempo immer stärker an', ['Der Motor will nicht schneller, weil er sonst zu laut wird und heiß läuft.', 'Die Straße ist dafür zu kurz, und deshalb kommt man nie auf Tempo.', 'Das ist reiner Zufall, denn Luftwiderstand spielt bei Mopeds keine Rolle.'], 'Neunfache Leistung bringt nur etwa doppeltes Tempo, denn der Luftwiderstand wächst viel schneller als das Tempo.')
  ]},
 {id:'p8-mtx-3', subject:'deutsch', theme:'tuning', topic:'Sachtexte lesen', title:'Lesen: Showbau, Betriebserlaubnis und Führerschein', sub:'Sachtext verstehen und erklären', min:12,
  rlp:'Lesen: Sachtexte verstehen, Informationen entnehmen; Schreiben/Sprechen: erklären, begründen',
