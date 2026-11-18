@@ -274,7 +274,7 @@ function kFree() {
   const v = kV(), cc = W2.cars.klapp, pick = cc ? cc.pick : KORIG, jet = cc ? cc.jet : 30, p = kperf(pick, jet, false), b = kBase();
   return `${rotHint()}<div class="hud"><span class="pill">Muskel-Prüfstand</span><span class="pill" style="margin-left:auto">Reifendruck ${kde(jet / 10)} bar</span></div>
   <div class="mods">${V2ORDER.map(k => `<button class="${k === v.id ? 's' : ''}" onclick="w2Sel('${k}')">${V2V[k].name.replace('Simson ', '').replace(' (SR4-2)', '').replace('Schwalbe KR51/2', 'Schwalbe').replace('Mifa ', '')}</button>`).join('')}</div>
-  <div class="lay dy"><div class="la">${kCard(p, b, 70)}</div><div class="lb2"><p class="m">${cc ? 'Mit den Teilen aus deinem laufenden Auftrag.' : 'Serienzustand.'} Beim Klapprad misst der Prüfstand deine Muskelkraft in Watt. Die Prüfung im Auftrag ist Schritt 5.</p>${cc ? `<button class="btn alt" onclick="w2Pick('klapp')">Zum Auftrag</button>` : ''}</div></div>`;
+  <div class="lay dy"><div class="la">${kCard(p, b, 70)}</div><div class="lb2"><p class="m">${cc ? 'Mit den Teilen aus deinem laufenden Auftrag.' : 'Serienzustand.'} Beim Klapprad misst der Prüfstand deine Muskelkraft in Watt. Die Prüfung im Auftrag ist Schritt 5.</p><button class="btn" onclick="kRun()">Prüfstand starten</button>${cc ? `<button class="btn alt" onclick="w2Pick('klapp')">Zum Auftrag</button>` : ''}</div></div>`;
 }
 function kLamp() { const c = car(); c.lamp = !c.lamp; c.drove = false; w2save(); const y = scrollY; $('#app').innerHTML = w2View(); scrollTo(0, y) }
 function kJet(d) { const c = car(); c.jet = Math.max(10, Math.min(70, c.jet + d)); c.drove = false; w2save(); FX.clink(); const y = scrollY; $('#app').innerHTML = w2View(); scrollTo(0, y) }
