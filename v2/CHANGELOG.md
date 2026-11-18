@@ -5,6 +5,9 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.5.5 (2026-11-18)
+- Tipp auf den Bildschirm beendet laufende Übergangs-Animation (0,35 s Ausblenden, Ton und Video stoppen, Tipp wird nicht weitergegeben).
+
 ## 3.5.4 (2026-11-18)
 - Start-Ton: echte Aufnahme Tomos Colibri 50 cm³ (Work With Sounds / Technisches Museum Slowenien, CC BY 4.0), Credit auf der Elternseite.
 

@@ -586,3 +586,25 @@
     try { c.decodeAudioData(raw.slice(0)).then(b => { buf = b; play(b) }).catch(() => { failed = true; fb() }) } catch (e) { failed = true; fb() }
   };
 })();
+
+// Antippen beendet eine laufende Übergangs-Animation sofort (schnelles Ausblenden). Der erste Tipp löst dabei nichts darunter aus.
+(function () {
+  function skip(e) {
+    const ov = [...document.querySelectorAll('.an:not(.skip),.rt:not(.skip)')];
+    if (!ov.length) return;
+    e.preventDefault(); e.stopPropagation();
+    ov.forEach(g => {
+      g.classList.add('skip', 'fade');
+      g.querySelectorAll('video').forEach(v => { try { v.pause() } catch (x) {} });
+      setTimeout(() => { g.querySelectorAll('video').forEach(v => { try { v.removeAttribute('src'); v.load() } catch (x) {} }); g.remove() }, 380);
+    });
+    try { const c = FX.ctx, m = FX.m; if (c && m) { m.gain.setTargetAtTime(0, c.currentTime, .06); FX.m = null; setTimeout(() => { try { m.disconnect() } catch (x) {} }, 400) } } catch (x) {}
+    window.__skipTap = Date.now();
+  }
+  document.addEventListener('pointerdown', skip, true);
+  // Klick, der zum selben Tipp gehört, nicht an die App weitergeben
+  document.addEventListener('click', e => { if (window.__skipTap && Date.now() - window.__skipTap < 500) { e.preventDefault(); e.stopPropagation() } }, true);
+  const st = document.createElement('style');
+  st.textContent = '.an.skip,.rt.skip{transition:opacity .35s ease-out!important}';
+  document.head.appendChild(st);
+})();
