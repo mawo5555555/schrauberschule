@@ -208,3 +208,9 @@ body{background:transparent!important}
 .ah .hk{inset:0;background:url(img/anim/home-hof.jpg) center/100% 100% no-repeat;will-change:transform}
 .ah .vd{background:#000 url(img/anim/home-hof.jpg) center/100% 100% no-repeat}
 .ah.vid .hk{display:none}
+
+/* Sanftes Einblenden nach dem Tipp (nur opacity/transform) */
+@keyframes anIn{from{opacity:0}to{opacity:1}}
+@keyframes anInS{from{transform:translateX(-50%) scale(1.04)}to{transform:translateX(-50%) scale(1)}}
+.an,.rt{animation:anIn .55s cubic-bezier(.2,.7,.3,1) backwards}
+.an .abx,.rt .rbx{animation:anInS .6s cubic-bezier(.2,.7,.3,1) backwards}

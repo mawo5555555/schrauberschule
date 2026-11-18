@@ -12,7 +12,7 @@
     // Rolltor: Rohrmotor (Brummen mit Anlauf), Lamellen-Klacken im Takt des Aufwickelns, Kettenrasseln, Endanschlag mit Nachwippen. Alles auf der Audio-Zeitachse geplant, im Takt der Bildkurve (window.__TOR).
     gateSnd() {
       if (!this.on()) return; const c = this.A(); if (!c) return; const TOR = window.__TOR; if (!TOR) return;
-      const t0 = c.currentTime + .18, out = this.out(), T = TOR.T;
+      const t0 = c.currentTime + .42, out = this.out(), T = TOR.T;
       const vel = t => Math.max(0, (TOR.pos(t + .01) - TOR.pos(t - .01)) / .02);     // Geschwindigkeit relativ
       const vmax = 1 / (TOR.tv + (TOR.ta + TOR.tb) / 2);
       // Motor: zwei leicht verstimmte Sägezahn (Netzbrummen 50 Hz Obertöne) + Getriebe-Heulen, Tonhöhe und Pegel folgen der Geschwindigkeit
@@ -94,7 +94,7 @@
       rc.style.setProperty('--sh', (p * 60).toFixed(1));
     };
     if (frozenT != null) { frame(frozenT); return g }
-    const t0 = performance.now() + 180; let done = false;
+    const t0 = performance.now() + 420; let done = false;
     const step = now => {
       const t = (now - t0) / 1000;
       if (t >= 0) frame(Math.min(t, TOR.T + TOR.tw));
@@ -308,7 +308,7 @@
   try { const i = new Image(); i.src = 'v2/img/anim/tor-blatt.jpg'; const j = new Image(); j.src = 'v2/img/anim/tor-rahmen.png' } catch (e) {}
   FX.gateSndHolz = function () {
     if (!this.on()) return; const c = this.A(); if (!c) return;
-    const t0 = c.currentTime + .18, out = this.out(), D = T.T;
+    const t0 = c.currentTime + .42, out = this.out(), D = T.T;
     const vel = t => Math.max(0, (T.pos(t + .01) - T.pos(t - .01)) / .02), vmax = 1 / (T.tv + (T.ta + T.tb) / 2);
     const nb = c.createBuffer(1, c.sampleRate * .6, c.sampleRate), nd = nb.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
     const hit = (tt, f, g, d, type) => { const s = c.createBufferSource(); s.buffer = nb; const fl = c.createBiquadFilter(); fl.type = type || 'bandpass'; fl.frequency.value = f; fl.Q.value = 2; const gg = c.createGain(); gg.gain.setValueAtTime(g, tt); gg.gain.exponentialRampToValueAtTime(.0005, tt + d); s.connect(fl); fl.connect(gg); gg.connect(out); s.start(tt, Math.random() * .4, d + .02) };
@@ -353,7 +353,7 @@
   function stage(cls, inner, box) { const g = mk('div', 'an ' + cls, box === false ? inner : '<div class="abx">' + inner + '</div>'); document.body.appendChild(g); return g }
   // Zeitablauf: frame(t) mit t in Sekunden ab Start, danach Ausblenden (0,5 s) und Entfernen
   function run(g, dur, frame) {
-    const t0 = performance.now() + 120; let done = false;
+    const t0 = performance.now() + 300; let done = false;
     const step = now => {
       if (!g.isConnected) return;
       const t = (now - t0) / 1000;
@@ -365,7 +365,7 @@
 
   // ---------- Sound-Werkzeug (Web Audio über FX, wie gateSnd) ----------
   function sk() {
-    const c = FX.A(); if (!c) return null; const out = FX.out(), t0 = c.currentTime + .15;
+    const c = FX.A(); if (!c) return null; const out = FX.out(), t0 = c.currentTime + .3;
     const nb = c.createBuffer(1, c.sampleRate * .6, c.sampleRate), nd = nb.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
     const hit = (tt, f, g, d, type, q) => { const s = c.createBufferSource(); s.buffer = nb; const fl = c.createBiquadFilter(); fl.type = type || 'bandpass'; fl.frequency.value = f; fl.Q.value = q || 1.6; const gg = c.createGain(); gg.gain.setValueAtTime(g, tt); gg.gain.exponentialRampToValueAtTime(.0005, tt + d); s.connect(fl); fl.connect(gg); gg.connect(out); s.start(tt, Math.random() * .3, d + .02) };
     const tone = (tt, f0, f1, g, d, type) => { const o = c.createOscillator(), gg = c.createGain(); o.type = type || 'sine'; o.frequency.setValueAtTime(f0, tt); o.frequency.exponentialRampToValueAtTime(Math.max(1, f1), tt + d); gg.gain.setValueAtTime(g, tt); gg.gain.exponentialRampToValueAtTime(.0005, tt + d); o.connect(gg); gg.connect(out); o.start(tt); o.stop(tt + d + .02) };
@@ -564,7 +564,23 @@
   FX.gateSnd = function () {
     if (!this.on()) return; const c = this.A(); if (!c) return;
     const fb = () => { try { syn.call(this) } catch (e) {} };
-    const play = b => { try { const s = c.createBufferSource(); s.buffer = b; const g = c.createGain(); g.gain.value = .9; s.connect(g); g.connect(this.out()); s.start(c.currentTime + .18) } catch (e) { fb() } };
+    const play = b => { try { const s = c.createBufferSource(); s.buffer = b; const g = c.createGain(); g.gain.value = .75; s.connect(g); g.connect(this.out()); s.start(c.currentTime + .42) } catch (e) { fb() } };
+    if (buf) return play(buf);
+    if (failed || !raw) return fb();
+    try { c.decodeAudioData(raw.slice(0)).then(b => { buf = b; play(b) }).catch(() => { failed = true; fb() }) } catch (e) { failed = true; fb() }
+  };
+})();
+
+// Hofeinfahrt-Ton: echte Motoraufnahme (Prüfstand-Clip der S51, Leerlauf, Gas, Anfahren), auf 4,5 s zugeschnitten mit weichem Ein-/Ausblenden. Nur bei FX.on(), nur für die Start-Animation (mit K). Sonst/bei Fehler der bisherige Synth.
+(function () {
+  if (true || !window.FX || !FX.s51Snd) return;   // vorerst aus: echter Simson-Leerlauf-Ton wird gesucht
+  const syn = FX.s51Snd, URL = 'v2/img/anim/s51-start.m4a'; let raw = null, buf = null, failed = false;
+  try { fetch(URL).then(r => r.ok ? r.arrayBuffer() : Promise.reject()).then(b => { raw = b }).catch(() => { failed = true }) } catch (e) { failed = true }
+  FX.s51Snd = function (K) {
+    if (!K) return syn.apply(this, arguments);
+    if (!this.on()) return; const c = this.A(); if (!c) return;
+    const fb = () => { try { syn.call(this, K) } catch (e) {} };
+    const play = b => { try { const s = c.createBufferSource(); s.buffer = b; const g = c.createGain(); g.gain.value = .85; s.connect(g); g.connect(this.out()); s.start(c.currentTime + .3) } catch (e) { fb() } };
     if (buf) return play(buf);
     if (failed || !raw) return fb();
     try { c.decodeAudioData(raw.slice(0)).then(b => { buf = b; play(b) }).catch(() => { failed = true; fb() }) } catch (e) { failed = true; fb() }
