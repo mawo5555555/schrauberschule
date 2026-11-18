@@ -263,7 +263,7 @@ function kShop(c, v) {
 function kDyno(c, v) {
   const p = kperf(c.pick, c.jet, !!c.lamp), b = kBase(), good = p.state === 'richtig', L = kopt('licht', c.pick.licht), r = kopt('reifen', c.pick.reifen);
   const lampB = L.drag ? `<button class="btn alt" onclick="kLamp()">${c.lamp ? 'Licht ausschalten' : 'Dynamo-Licht einschalten'}<small style="display:block;font-weight:500;text-transform:none">Der Dynamo bremst: ca. ${L.drag} W Verlust</small></button>` : '';
-  return w2Head('Muskel-Prüfstand', c) + `${rotHint()}<div class="lay dy"><div class="la">${kCard(p, b, 70)}</div><div class="lb2"><div class="card"><b>Reifendruck einstellen</b><p class="m">Zu weich: Der Reifen walkt, das Rad rollt schwer. Im grünen Bereich (75 % bis 100 % des Maximums) rollt es am besten. Über dem Maximum: Platzgefahr.</p>
+  return w2Head('Muskel-Prüfstand', c) + `${rotHint()}<button class="btn pst-top" onclick="kRun()">Prüfstand starten</button><div class="lay dy"><div class="la">${kCard(p, b, 70)}</div><div class="lb2"><div class="card"><b>Reifendruck einstellen</b><p class="m">Zu weich: Der Reifen walkt, das Rad rollt schwer. Im grünen Bereich (75 % bis 100 % des Maximums) rollt es am besten. Über dem Maximum: Platzgefahr.</p>
   <div class="jet"><button onclick="kJet(-2)">−</button><div class="kz" style="width:64px;height:64px">${kIcon('reifen', r)}</div><div><span class="m" style="display:block">Reifendruck</span><b style="font-size:30px">${kde(c.jet / 10)} bar</b><div class="m">${p.state} · max. ${kde(r.pmax / 10)} bar</div></div><button onclick="kJet(2)">+</button></div>
   <p class="${good ? 'okm' : 'warn'}">${good ? 'Passt. Das Rad rollt gut.' : esc(p.notes[0] || '')}</p>${lampB}
   <button class="btn" onclick="kRun()">Prüfstand starten</button></div>
@@ -274,7 +274,8 @@ function kFree() {
   const v = kV(), cc = W2.cars.klapp, pick = cc ? cc.pick : KORIG, jet = cc ? cc.jet : 30, p = kperf(pick, jet, false), b = kBase();
   return `${rotHint()}<div class="hud"><span class="pill">Muskel-Prüfstand</span><span class="pill" style="margin-left:auto">Reifendruck ${kde(jet / 10)} bar</span></div>
   <div class="mods">${V2ORDER.map(k => `<button class="${k === v.id ? 's' : ''}" onclick="w2Sel('${k}')">${V2V[k].name.replace('Simson ', '').replace(' (SR4-2)', '').replace('Schwalbe KR51/2', 'Schwalbe').replace('Mifa ', '')}</button>`).join('')}</div>
-  <div class="lay dy"><div class="la">${kCard(p, b, 70)}</div><div class="lb2"><p class="m">${cc ? 'Mit den Teilen aus deinem laufenden Auftrag.' : 'Serienzustand.'} Beim Klapprad misst der Prüfstand deine Muskelkraft in Watt. Die Prüfung im Auftrag ist Schritt 5.</p><button class="btn" onclick="kRun()">Prüfstand starten</button>${cc ? `<button class="btn alt" onclick="w2Pick('klapp')">Zum Auftrag</button>` : ''}</div></div>`;
+  <button class="btn pst-top" onclick="kRun()">Prüfstand starten</button>
+  <div class="lay dy"><div class="la">${kCard(p, b, 70)}</div><div class="lb2"><p class="m">${cc ? 'Mit den Teilen aus deinem laufenden Auftrag.' : 'Serienzustand.'} Beim Klapprad misst der Prüfstand deine Muskelkraft in Watt. Die Prüfung im Auftrag ist Schritt 5.</p>${cc ? `<button class="btn alt" onclick="w2Pick('klapp')">Zum Auftrag</button>` : ''}</div></div>`;
 }
 function kLamp() { const c = car(); c.lamp = !c.lamp; c.drove = false; w2save(); const y = scrollY; $('#app').innerHTML = w2View(); scrollTo(0, y) }
 function kJet(d) { const c = car(); c.jet = Math.max(10, Math.min(70, c.jet + d)); c.drove = false; w2save(); FX.clink(); const y = scrollY; $('#app').innerHTML = w2View(); scrollTo(0, y) }

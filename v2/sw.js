@@ -26,6 +26,11 @@ self.addEventListener('fetch', e => {
   e.respondWith((async () => {
     const hit = await caches.match(r, {ignoreSearch: true});
     if (hit) { const rg = r.headers.get('range'); if (rg && /\.mp4$/i.test(u.pathname)) return part(hit, rg); return hit }
+    // Video noch nicht im Speicher: ganze Datei ohne Range laden, speichern und das angefragte Stück liefern
+    if (/\.mp4$/i.test(u.pathname)) {
+      try { const full = await fetch(u.href, {cache: 'no-store'}); if (full && full.ok) { const c = await caches.open(IMG); await c.put(u.href, full.clone()); const rg = r.headers.get('range'); return rg ? part(full, rg) : full } } catch (err) {}
+      return fetch(u.href);
+    }
     try {
       const res = await fetch(r);
       if (res && res.ok && isImg && !/\/v2\/(shots|alt|entwurf|referenz)\//.test(u.pathname)) { const c = await caches.open(IMG); c.put(r, res.clone()) }

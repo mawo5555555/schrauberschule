@@ -155,3 +155,39 @@ svg.bsvg .imp{fill:#000;transform-box:fill-box;transform-origin:center;opacity:0
 @media(prefers-reduced-motion:reduce){.bgfx *{animation:none!important}}
 html{background:var(--bg) radial-gradient(circle at 50% -10%,var(--glow),var(--bg) 62%) fixed}
 body{background:transparent!important}
+/* Übergangs-Animationen: Prüfstand (.ap), Lernen (.al), Garage (.ag), Tagesstart S51 (.as). Box im 9:16-Format wie .rbx, keine aspect-ratio (ältere iPhones) */
+.an{position:fixed;inset:0;z-index:120;pointer-events:none;overflow:hidden;transition:opacity .5s ease}
+.an.fade{opacity:0}
+.an .abx{position:absolute;left:50%;bottom:0;width:max(100vw,55.82vh);height:max(179.17vw,100vh);transform:translateX(-50%);--bw:max(100vw,55.82vh);--bh:max(179.17vw,100vh);overflow:hidden}
+.an .abx>*{position:absolute;pointer-events:none}
+/* Prüfstand */
+.ap .pk{inset:0;background:url(img/anim/pr-kabine.jpg) center/100% 100% no-repeat}
+.ap .pro{left:22%;top:63%;width:54%;height:14%;overflow:hidden;border-radius:14px;transform:rotate(-14deg);opacity:.08;mix-blend-mode:screen;will-change:opacity}
+.ap .prs{left:0;right:0;top:0;height:200%;will-change:transform;background:repeating-linear-gradient(180deg,rgba(255,255,255,.55) 0 3px,rgba(255,255,255,0) 3px 9px,rgba(190,205,225,.3) 9px 12px,rgba(0,0,0,0) 12px 24px);filter:blur(.6px)}
+.ap .plp{left:46%;top:2%;width:60%;height:42%;opacity:0;will-change:opacity;background:radial-gradient(circle at 50% 51%,rgba(255,150,30,.95) 0,rgba(255,130,20,.55) 7%,rgba(255,110,10,.22) 22%,rgba(255,110,10,0) 52%);mix-blend-mode:screen}
+.ap .pgd{left:11%;top:21%;width:17%;height:17%;border-radius:50%;box-shadow:inset 0 0 12px rgba(0,0,0,.55)}
+.ap .pdl{left:19.5%;top:27%;width:0;height:0;will-change:transform}
+.ap .pnd{position:absolute;left:0;top:0;width:calc(var(--bw)*.065);height:2px;margin-top:-1px;margin-left:calc(var(--bw)*-.01);transform-origin:calc(var(--bw)*.01) 50%;background:linear-gradient(90deg,#fff,#e8e8e8);border-radius:2px;box-shadow:0 0 4px rgba(255,255,255,.4);transform:rotate(-130deg);will-change:transform}
+.ap .pdl:after{content:"";position:absolute;width:calc(var(--bw)*.02);height:calc(var(--bw)*.02);left:calc(var(--bw)*-.01);top:calc(var(--bw)*-.01);border-radius:50%;background:#2a2a2a;box-shadow:0 0 0 1px #666}
+/* Lernen */
+.al .lsh{inset:0;opacity:0;background:rgba(0,0,0,.55);will-change:opacity}
+.al .lb{inset:0;background:url(img/anim/lern-schublade.jpg) center/100% 100% no-repeat;transform:translate3d(0,100%,0);will-change:transform;box-shadow:0 -10px 30px rgba(0,0,0,.6)}
+.al .lw{left:59%;top:44%;width:0;height:0;opacity:0;will-change:transform,opacity}
+.al .lk{position:absolute;left:calc(var(--bh)*-.0916);top:calc(var(--bh)*-.15);width:calc(var(--bh)*.1832);height:calc(var(--bh)*.3);background:url(img/anim/lern-schluessel.png) center/100% 100% no-repeat;filter:drop-shadow(0 6px 8px rgba(0,0,0,.55))}
+/* Garage */
+.ag .gi{inset:0;background:url(img/anim/garage-innen.jpg) center/100% 100% no-repeat;transform:scale(1.1);will-change:transform}
+.ag .gb{inset:0;opacity:0;will-change:opacity;background:linear-gradient(165deg,rgba(255,236,190,0) 30%,rgba(255,232,170,.4) 52%,rgba(255,240,200,0) 72%),radial-gradient(60% 40% at 66% 46%,rgba(255,244,214,.55),rgba(255,244,214,0) 70%)}
+.ag .gd{inset:0}
+.ag .gd i{position:absolute;border-radius:50%;opacity:0;background:radial-gradient(circle,rgba(255,250,225,.95),rgba(255,240,190,0) 70%);will-change:transform,opacity}
+.ag .gl,.ag .gr{top:0;bottom:0;width:50%;background:url(img/anim/garage-tor.jpg) no-repeat;background-size:200% 100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform}
+.ag .abx{perspective:calc(var(--bw)*1.1);perspective-origin:50% 50%}
+.ag .gl{left:0;background-position:0 0;transform-origin:0 50%}
+.ag .gr{right:0;background-position:100% 0;transform-origin:100% 50%}
+.ag .gl u,.ag .gr u{position:absolute;inset:0;opacity:0;background:#0b0804;will-change:opacity}
+.ag .gf{inset:0;opacity:0;background:radial-gradient(90% 60% at 50% 50%,rgba(255,238,190,.5),rgba(255,238,190,0) 70%);mix-blend-mode:screen;will-change:opacity}
+/* Tagesstart S51: Vollbild, Fahrzeug blickt nach links, fährt von rechts nach links */
+.as .sq{position:absolute;left:0;top:auto;bottom:22%;width:min(64vw,520px);height:calc(min(64vw,520px)*.59);will-change:transform;transform:translate3d(110vw,0,0)}
+.as .sb{position:absolute;inset:0;background:url(img/anim/s51-quer.png) center/100% 100% no-repeat;filter:drop-shadow(0 10px 8px rgba(0,0,0,.35))}
+.as .ss{position:absolute;left:4%;right:4%;bottom:-3%;height:8%;border-radius:50%;background:radial-gradient(rgba(0,0,0,.45),rgba(0,0,0,0) 70%)}
+.as .sp{position:absolute;left:0;top:auto;bottom:calc(22% + 10px);width:0;height:0}
+.as .sp i{position:absolute;left:0;top:0;width:34px;height:34px;margin:-17px;border-radius:50%;opacity:0;background:radial-gradient(rgba(205,205,210,.6),rgba(205,205,210,0) 70%);will-change:transform,opacity}

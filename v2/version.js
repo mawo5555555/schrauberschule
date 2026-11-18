@@ -3,11 +3,14 @@
 // Beim Ändern: version, ggf. schema und news anpassen, CHANGELOG.md ergänzen.
 self.APP = {
   name: 'Schrauberschule',
-  version: '3.4.6',
+  version: '3.5.0',
   test: false,         // true = Testversion (alles frei)
   schema: 2,            // Schema-Version des Spielstands (nur erhöhen, wenn sich die Struktur ändert; dann Migration in migrate.js)
   date: '2026-11-18',
   news: [
+    '🎬 Neue Animationen: Prüfstand-Kabine, Lern-Schublade, Garagen-Scheunentor und eine S51 beim Tagesstart.',
+    '🔘 Prüfstand: Start-Knopf jetzt oben, kein Scrollen mehr.',
+    '🚲 Klapprad-Prüflauf startet wieder zuverlässig.',
     '🚪 Werkstatttor jetzt auch auf älteren iPhones sichtbar.',
     '🚲 Neues Klapprad-Prüfstandsvideo wird sicher geladen.',
     '🚪 Werkstatt: Das Rolltor fährt bei jedem Tipp auf Werkstatt.',

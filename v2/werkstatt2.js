@@ -228,7 +228,7 @@ const dynoCard = (p, base, anim = true) => `<div class="crv">${curveSvg(p, base,
 function w2Dyno(c, v) {
   const p = w2perf(v, c.pick, c.jet), base = w2perf(v, ORIGP, 70); c.kerzeTone = p.kerze;
   const good = p.kerze === 'rehbraun';
-  return w2Head('Prüfstand', c) + `${rotHint()}<div class="lay dy"><div class="la">${dynoCard(p, base)}</div><div class="lb2"><div class="card"><b>Hauptdüse abstimmen</b><p class="m">Schau auf die Kerze: <b>weiß = zu mager</b> (heiß, gefährlich), <b>schwarz = zu fett</b>, <b>rehbraun = richtig</b>.</p>
+  return w2Head('Prüfstand', c) + `${rotHint()}<button class="btn pst-top" onclick="w2Run()">Prüfstand starten</button><div class="lay dy"><div class="la">${dynoCard(p, base)}</div><div class="lb2"><div class="card"><b>Hauptdüse abstimmen</b><p class="m">Schau auf die Kerze: <b>weiß = zu mager</b> (heiß, gefährlich), <b>schwarz = zu fett</b>, <b>rehbraun = richtig</b>.</p>
   <div class="jet"><button onclick="w2Jet(-2)">−</button><div class="kz">${ART.svg(ART.kerze(p.kerze))}</div><div><span class="m" style="display:block">Hauptdüse</span><b style="font-size:30px">${c.jet}</b><div class="m">Kerze ${p.kerze} · ca. ${p.temp} °C</div></div><button onclick="w2Jet(2)">+</button></div>
   <p class="${good ? 'okm' : 'warn'}">${good ? 'Passt. Der Motor läuft sauber.' : esc(p.notes[p.notes.length - 1] || '')}</p>
   <button class="btn" onclick="w2Run()">Prüfstand starten</button></div>
@@ -240,8 +240,8 @@ function w2Free() {
   const v = V2V[W2.sel] || V2V.s51, cc = W2.cars[v.id], pick = cc ? cc.pick : ORIGP, jet = cc ? cc.jet : 70, p = w2perf(v, pick, jet), base = w2perf(v, ORIGP, 70);
   return `${rotHint()}<div class="hud"><span class="pill">Prüfstand</span><span class="pill" style="margin-left:auto">Hauptdüse ${jet}</span></div>
   <div class="mods">${V2ORDER.map(k => `<button class="${k === v.id ? 's' : ''}" onclick="w2Sel('${k}')">${V2V[k].name.replace('Simson ', '').replace(' (SR4-2)', '').replace('Schwalbe KR51/2', 'Schwalbe')}</button>`).join('')}</div>
-  <div class="lay dy"><div class="la">${dynoCard(p, base, false)}</div><div class="lb2"><p class="m">${cc ? 'Mit den Teilen aus deinem laufenden Auftrag.' : 'Serienzustand. Starte einen Auftrag in der Werkstatt, um Teile zu wechseln.'} Die Prüfung gehört im Auftrag zu Schritt 5.</p>
-  <button class="btn" onclick="w2Run()">Prüfstand starten</button>${W2.ranV ? videoBtn() : ''}${cc ? `<button class="btn alt" onclick="w2Pick('${v.id}')">Zum Auftrag</button>` : ''}</div></div>`;
+  <button class="btn pst-top" onclick="w2Run()">Prüfstand starten</button>
+  <div class="lay dy"><div class="la">${dynoCard(p, base, false)}</div><div class="lb2"><p class="m">${cc ? 'Mit den Teilen aus deinem laufenden Auftrag.' : 'Serienzustand. Starte einen Auftrag in der Werkstatt, um Teile zu wechseln.'} Die Prüfung gehört im Auftrag zu Schritt 5.</p>${W2.ranV ? videoBtn() : ''}${cc ? `<button class="btn alt" onclick="w2Pick('${v.id}')">Zum Auftrag</button>` : ''}</div></div>`;
 }
 function w2Run() {
   const c = car(), v = c ? veh() : (V2V[W2.sel] || V2V.s51), pick = c ? c.pick : (W2.cars[v.id] || {pick: ORIGP}).pick, jet = c ? c.jet : (W2.cars[v.id] || {jet: 70}).jet;

@@ -5,6 +5,9 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.5.0 (2026-11-18)
+- Übergangs-Animationen für Prüfstand, Lernen, Garage und Tagesstart (Flow-Bilder, WebAudio-Sound). Prüfstand-Start-Knopf oben. Service Worker lädt nicht gespeicherte Videos komplett (Klapprad-Start).
+
 ## 3.4.6 (2026-11-18)
 - Rolltor: feste Höhe statt aspect-ratio, JPG/PNG statt WebP, keine CSS-Sperre bei reduzierter Bewegung. Klapprad-Video neuer Dateiname (Cache).
 

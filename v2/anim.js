@@ -339,3 +339,182 @@
   b.innerHTML = '<div class="g1"></div><div class="g2"></div>' + gear(16, 'z1') + gear(10, 'z2') + gear(12, 'z3') + dust;
   document.body.insertBefore(b, document.body.firstChild);
 })();
+// ---------- Übergangs-Animationen im Stil des Rolltors: Prüfstand, Lernen, Garage, Tagesstart (S51) ----------
+// Fotorealistische Bildebenen (v2/img/anim/), rAF-Bewegung nur mit transform/opacity, Sound über FX (nur bei FX.on()). Läuft bei jedem Tipp, blendet nach ca. 2,5 s aus, blockiert keine Taps.
+(function () {
+  const mk = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html) e.innerHTML = html; return e };
+  const busy = () => !!document.querySelector('.rt,.an');
+  const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+  const ease3 = u => 1 - Math.pow(1 - clamp(u, 0, 1), 3), eio = u => { u = clamp(u, 0, 1); return u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2 };
+  const IMG = {pr: 'pr-kabine.jpg', lern: 'lern-schublade.jpg', key: 'lern-schluessel.png', tor: 'garage-tor.jpg', innen: 'garage-innen.jpg', s51: 's51-quer.png'};
+  try { Object.keys(IMG).forEach(k => { const i = new Image(); i.src = 'v2/img/anim/' + IMG[k] }) } catch (e) {}
+
+  // Bühne bauen: Box im 9:16-Format wie beim Rolltor (.rbx), fixed über allem, pointer-events:none
+  function stage(cls, inner, box) { const g = mk('div', 'an ' + cls, box === false ? inner : '<div class="abx">' + inner + '</div>'); document.body.appendChild(g); return g }
+  // Zeitablauf: frame(t) mit t in Sekunden ab Start, danach Ausblenden (0,5 s) und Entfernen
+  function run(g, dur, frame) {
+    const t0 = performance.now() + 120; let done = false;
+    const step = now => {
+      if (!g.isConnected) return;
+      const t = (now - t0) / 1000;
+      if (t < dur) { if (t >= 0) frame(t); requestAnimationFrame(step) }
+      else if (!done) { done = true; frame(dur); g.classList.add('fade'); setTimeout(() => g.remove(), 560) }
+    };
+    requestAnimationFrame(step); setTimeout(() => g.remove(), 6000);
+  }
+
+  // ---------- Sound-Werkzeug (Web Audio über FX, wie gateSnd) ----------
+  function sk() {
+    const c = FX.A(); if (!c) return null; const out = FX.out(), t0 = c.currentTime + .15;
+    const nb = c.createBuffer(1, c.sampleRate * .6, c.sampleRate), nd = nb.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    const hit = (tt, f, g, d, type, q) => { const s = c.createBufferSource(); s.buffer = nb; const fl = c.createBiquadFilter(); fl.type = type || 'bandpass'; fl.frequency.value = f; fl.Q.value = q || 1.6; const gg = c.createGain(); gg.gain.setValueAtTime(g, tt); gg.gain.exponentialRampToValueAtTime(.0005, tt + d); s.connect(fl); fl.connect(gg); gg.connect(out); s.start(tt, Math.random() * .3, d + .02) };
+    const tone = (tt, f0, f1, g, d, type) => { const o = c.createOscillator(), gg = c.createGain(); o.type = type || 'sine'; o.frequency.setValueAtTime(f0, tt); o.frequency.exponentialRampToValueAtTime(Math.max(1, f1), tt + d); gg.gain.setValueAtTime(g, tt); gg.gain.exponentialRampToValueAtTime(.0005, tt + d); o.connect(gg); gg.connect(out); o.start(tt); o.stop(tt + d + .02) };
+    const loop = (f0, f1, g, tt, d, type, q) => { const s = c.createBufferSource(); s.buffer = nb; s.loop = true; const fl = c.createBiquadFilter(); fl.type = type || 'bandpass'; fl.Q.value = q || 1; fl.frequency.setValueAtTime(f0, tt); fl.frequency.linearRampToValueAtTime(f1, tt + d); const gg = c.createGain(); gg.gain.setValueAtTime(0, tt); gg.gain.linearRampToValueAtTime(g, tt + d * .25); gg.gain.setValueAtTime(g, tt + d * .7); gg.gain.linearRampToValueAtTime(0, tt + d); s.connect(fl); fl.connect(gg); gg.connect(out); s.start(tt); s.stop(tt + d + .05) };
+    return {c, out, t0, hit, tone, loop};
+  }
+  Object.assign(FX, {
+    // Prüfstand: Schütz klackt, Relais tickt im Takt der Warnleuchte, Rolle dreht hoch (Motor + Lagerpfeifen + Abrollgeräusch)
+    prSnd() {
+      if (!this.on()) return; const s = sk(); if (!s) return; const {c, out, t0, hit, tone, loop} = s;
+      hit(t0, 1800, .22, .04); hit(t0, 190, .3, .09, 'lowpass');
+      [.12, .55, .98, 1.41].forEach(d => { hit(t0 + d, 2600, .07, .014); tone(t0 + d, 900, 700, .02, .05, 'square') });
+      const mix = c.createGain(), lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 1.2; mix.connect(lp); lp.connect(out); mix.gain.value = 0;
+      const o1 = c.createOscillator(), o2 = c.createOscillator(); o1.type = 'sawtooth'; o2.type = 'sawtooth';
+      o1.frequency.setValueAtTime(34, t0 + .15); o1.frequency.exponentialRampToValueAtTime(250, t0 + 1.55); o2.frequency.setValueAtTime(34.7, t0 + .15); o2.frequency.exponentialRampToValueAtTime(254, t0 + 1.55);
+      lp.frequency.setValueAtTime(160, t0 + .15); lp.frequency.exponentialRampToValueAtTime(1900, t0 + 1.55);
+      mix.gain.setValueAtTime(.005, t0 + .15); mix.gain.linearRampToValueAtTime(.075, t0 + 1.4); mix.gain.setValueAtTime(.075, t0 + 1.7); mix.gain.setTargetAtTime(0, t0 + 1.85, .12);
+      o1.connect(mix); o2.connect(mix); o1.start(t0); o2.start(t0); o1.stop(t0 + 2.4); o2.stop(t0 + 2.4);
+      const w = c.createOscillator(), wg = c.createGain(); w.type = 'sine'; w.frequency.setValueAtTime(260, t0 + .2); w.frequency.exponentialRampToValueAtTime(2300, t0 + 1.55); wg.gain.setValueAtTime(0, t0 + .2); wg.gain.linearRampToValueAtTime(.022, t0 + 1.5); wg.gain.setTargetAtTime(0, t0 + 1.75, .12); w.connect(wg); wg.connect(out); w.start(t0 + .2); w.stop(t0 + 2.4);
+      loop(500, 3200, .09, t0 + .2, 1.8, 'bandpass', .8);
+      hit(t0 + 1.9, 160, .12, .25, 'lowpass');
+    },
+    // Lernen: Schublade rollt auf (Rollen-Rumpeln, Holz-Anschlag), dann Kreide kratzt, Schraubenschlüssel klackt aufs Heft
+    lernSnd() {
+      if (!this.on()) return; const s = sk(); if (!s) return; const {c, out, t0, hit, tone, loop} = s;
+      loop(180, 520, .16, t0, 1.0, 'lowpass', .9);
+      for (let i = 0; i < 22; i++) { const t = t0 + .03 + i * .042 * (1 + i * .012); hit(t, 260 + Math.random() * 120, .05 * (1 - i / 30), .03, 'bandpass', 2) }
+      hit(t0 + 1.0, 150, .5, .22, 'lowpass'); hit(t0 + 1.0, 600, .2, .1); [.12, .22].forEach((d, k) => hit(t0 + 1.0 + d, 400, .12 / (k + 1), .06));
+      // Kreide: kurze, schnell wiederholte hohe Rausch-Striche
+      [[1.08, .22], [1.34, .2], [1.58, .24]].forEach(([a, len]) => { for (let k = 0; k < 9; k++) hit(t0 + a + k * len / 9, 3800 + Math.random() * 2600, .055 * Math.sin((k + .5) / 9 * Math.PI) + .015, .028, 'bandpass', 5) });
+      // Schlüssel: Metall-Klack auf Papier
+      const tk = t0 + 1.0; tone(tk + .02, 2300, 1900, .06, .18, 'triangle'); tone(tk + .02, 3700, 3400, .035, .12, 'sine'); hit(tk, 1800, .13, .05, 'highpass'); hit(tk + .02, 300, .1, .06, 'lowpass');
+    },
+    // Garage: Holz knarrt (Reibungston durch Resonanzfilter), zuerst Riegel klackt, am Ende Anschlag der Flügel
+    garSnd() {
+      if (!this.on()) return; const s = sk(); if (!s) return; const {c, out, t0, hit, tone} = s;
+      // Riegel zurückschieben: Eisen-Klack, Nachklappern
+      hit(t0 + .05, 2200, .2, .03); tone(t0 + .05, 1400, 900, .05, .05, 'square'); hit(t0 + .05, 180, .3, .09, 'lowpass');
+      hit(t0 + .3, 1700, .25, .04); hit(t0 + .3, 140, .4, .15, 'lowpass'); tone(t0 + .31, 2600, 2300, .04, .2, 'triangle');
+      const creak = (ts, len, base) => {
+        const o = c.createOscillator(), bp = c.createBiquadFilter(), bp2 = c.createBiquadFilter(), g = c.createGain();
+        o.type = 'sawtooth'; bp.type = 'bandpass'; bp.frequency.value = 600 + Math.random() * 400; bp.Q.value = 7; bp2.type = 'bandpass'; bp2.frequency.value = 1500 + Math.random() * 700; bp2.Q.value = 4;
+        o.connect(bp); o.connect(bp2); bp.connect(g); bp2.connect(g); g.connect(out);
+        for (let t = 0; t <= len; t += .015) { const k = t / len, j = Math.sin(t * 41) * .2 + (Math.random() - .5) * .35; o.frequency.setValueAtTime(Math.max(18, base * (1 + .55 * Math.sin(k * Math.PI)) * (1 + j)), ts + t); g.gain.setValueAtTime(.055 * Math.sin(k * Math.PI) * (.6 + Math.random() * .4), ts + t) }
+        g.gain.setValueAtTime(0, ts + len + .01); o.start(ts); o.stop(ts + len + .05);
+      };
+      creak(t0 + .4, .6, 36); creak(t0 + .55, .75, 27); creak(t0 + 1.05, .55, 42); creak(t0 + 1.3, .4, 24);
+      for (let t = .4; t < 1.5; t += .06) hit(t0 + t, 700 + Math.random() * 900, .02, .07);
+      const te = t0 + 1.5; hit(te, 120, .5, .3, 'lowpass'); hit(te, 520, .2, .14); [.14, .27].forEach((d, k) => hit(te + d, 300, .15 / (k + 1), .08));
+      for (let k = 0; k < 8; k++) hit(te + .05 + k * .06, 4000 + Math.random() * 3000, .018 * Math.exp(-k * .25), .02, 'highpass');
+    },
+    // Tagesstart: Zweitakter fährt vorbei (Knattern mit Doppler-Effekt), kurz
+    s51Snd() {
+      if (!this.on()) return; const s = sk(); if (!s) return; const {c, out, t0} = s;
+      const D = 1.9, o = c.createOscillator(), o2 = c.createOscillator(), mod = c.createGain(), bp = c.createBiquadFilter(), g = c.createGain(), lfo = c.createOscillator(), lg = c.createGain();
+      o.type = 'sawtooth'; o2.type = 'square'; bp.type = 'bandpass'; bp.Q.value = 1.3; bp.frequency.setValueAtTime(700, t0); bp.frequency.linearRampToValueAtTime(950, t0 + D * .5); bp.frequency.linearRampToValueAtTime(620, t0 + D);
+      // Zweitakt-Knattern: Amplitude pulst mit der Zündfrequenz (ca. 38 Hz), Tonhöhe fällt wie beim Vorbeifahren (Doppler)
+      for (let t = 0; t <= D; t += .02) { const u = t / D, f = 82 * (1.18 - .36 * eio(u)) * (1 + .03 * Math.sin(t * 9)); o.frequency.setValueAtTime(f, t0 + t); o2.frequency.setValueAtTime(f * 2.01, t0 + t); lfo.frequency.setValueAtTime(14 + 7 * (1.2 - eio(u)), t0 + t); g.gain.setValueAtTime(.001 + .11 * Math.exp(-Math.pow((u - .5) / .26, 2)), t0 + t) }
+      mod.gain.value = .5; lfo.type = 'square'; lg.gain.value = .5; lfo.connect(lg); lg.connect(mod.gain);
+      o.connect(mod); const g2 = c.createGain(); g2.gain.value = .35; o2.connect(g2); g2.connect(mod); mod.connect(bp); bp.connect(g); g.connect(out);
+      [o, o2, lfo].forEach(x => { x.start(t0); x.stop(t0 + D + .1) });
+    }
+  });
+
+  // ---------- 1. Prüfstand: dunkle Kabine, Warnleuchte blinkt, Rolle dreht hoch, Drehzahlzeiger schnellt hoch ----------
+  function prAnim() {
+    const g = stage('ap', '<div class="pk"></div><div class="pro"><div class="prs"></div></div><div class="plp"></div><div class="pgd"></div><div class="pdl"><div class="pnd"></div></div>');
+    const box = g.querySelector('.abx'), lamp = g.querySelector('.plp'), st = g.querySelector('.prs'), nd = g.querySelector('.pnd'), ro = g.querySelector('.pro');
+    let ph = 0, last = 0; const DUR = 1.95;
+    FX.prSnd();
+    run(g, DUR, t => {
+      const dt = Math.max(0, t - last); last = t;
+      const b = Math.pow(Math.max(0, Math.sin(t * Math.PI * 2.3 - .6)), 2);   // rotierende Warnleuchte: kurzes Aufblitzen im Takt
+      lamp.style.opacity = (.12 + .88 * b).toFixed(3);
+      const sp = Math.pow(clamp((t - .25) / 1.3, 0, 1), 2) * (1 - .08 * Math.sin(t * 40));   // Drehzahl 0..1, läuft hoch und bleibt oben
+      ph = (ph + sp * dt * 26 * 24) % 24; st.style.transform = `translate3d(0,${(-ph).toFixed(2)}px,0)`;
+      ro.style.opacity = (.08 + .92 * Math.min(1, sp * 1.4)).toFixed(3);
+      const u = clamp((t - .2) / 1.2, 0, 1), jit = t > 1.4 ? Math.sin(t * 61) * 1.6 : 0;   // Zeiger schnellt hoch und zittert am Anschlag
+      nd.style.transform = `rotate(${(-130 + 245 * (1 - Math.pow(1 - u, 3)) + jit).toFixed(2)}deg)`;
+      box.style.transform = `translate3d(calc(-50% + ${(Math.sin(t * 83) * sp * 1.2).toFixed(2)}px),${(Math.cos(t * 71) * sp * 1.2).toFixed(2)}px,0)`;
+    });
+  }
+
+  // ---------- 2. Lernen: Holzschublade mit Schulheften rollt auf, ein Schraubenschlüssel legt sich aufs Heft ----------
+  function lernAnim() {
+    const g = stage('al', '<div class="lsh"></div><div class="lb"></div><div class="lw"><div class="lk"></div></div>');
+    const box = g.querySelector('.abx'), dr = g.querySelector('.lb'), sh = g.querySelector('.lsh'), wr = g.querySelector('.lw'), key = g.querySelector('.lk');
+    const DUR = 2.0; FX.lernSnd();
+    run(g, DUR, t => {
+      const u = clamp(t / 1.0, 0, 1), y = (1 - ease3(u)) * 100 + (u >= 1 ? 0 : Math.sin(t * 70) * .12 * (1 - u));   // Schublade rollt hoch, bremst weich, leichtes Rütteln
+      const bump = t > 1.0 ? Math.exp(-(t - 1.0) * 9) * Math.sin((t - 1.0) * 34) * 3 : 0;   // Anschlag
+      dr.style.transform = `translate3d(0,${y.toFixed(2)}%,0)`; dr.style.transform = `translate3d(0,calc(${y.toFixed(2)}% + ${bump.toFixed(2)}px),0)`;
+      sh.style.opacity = (Math.min(1, u * 1.5) * .9).toFixed(3);
+      const k = clamp((t - .95) / .45, 0, 1), fall = 1 - ease3(k);   // Schlüssel fällt von oben auf das Heft, federt kurz nach
+      const kb = t > 1.4 ? Math.exp(-(t - 1.4) * 10) * Math.sin((t - 1.4) * 30) * 5 : 0;
+      wr.style.opacity = Math.min(1, k * 3).toFixed(3);
+      wr.style.transform = `translate3d(${(fall * 14).toFixed(2)}vw,${(-fall * 62 + kb).toFixed(2)}vh,0) rotate(${(-24 + fall * 52).toFixed(2)}deg) scale(${(1 + fall * .9).toFixed(3)})`;
+      key.style.opacity = (1 - fall * .15).toFixed(3);
+    });
+  }
+
+  // ---------- 3. Garage: altes Holz-Flügeltor schwingt auf, Licht fällt hinein, Staub tanzt im Lichtstrahl ----------
+  function garAnim() {
+    let dust = ''; const N = 16, P = []; for (let i = 0; i < N; i++) { const p = {x: 52 + Math.random() * 40, y: 30 + Math.random() * 45, s: .6 + Math.random() * 1.4, f: .6 + Math.random() * 1.2, a: Math.random() * 6.28}; P.push(p); dust += `<i style="left:${p.x.toFixed(1)}%;top:${p.y.toFixed(1)}%;width:${(3 * p.s).toFixed(1)}px;height:${(3 * p.s).toFixed(1)}px"></i>` }
+    const g = stage('ag', '<div class="gi"></div><div class="gb"></div><div class="gd">' + dust + '</div><div class="gl"><u></u></div><div class="gr"><u></u></div><div class="gf"></div>');
+    const gi = g.querySelector('.gi'), gb = g.querySelector('.gb'), L = g.querySelector('.gl'), R = g.querySelector('.gr'), gf = g.querySelector('.gf'), ds = [...g.querySelectorAll('.gd i')], Ls = L.firstChild, Rs = R.firstChild;
+    const DUR = 1.95; FX.garSnd();
+    run(g, DUR, t => {
+      const u = eio(clamp((t - .4) / 1.0, 0, 1)), a = 84 * u, wob = t < .4 ? Math.sin(t * 70) * (t > .3 ? 1.2 : 0) : 0;   // Riegel klackt, dann schwingen die Flügel auf
+      const stop = t > 1.4 ? Math.exp(-(t - 1.4) * 9) * Math.sin((t - 1.4) * 30) * 1.6 : 0;
+      L.style.transform = `rotateY(${(a + wob + stop).toFixed(2)}deg)`; R.style.transform = `rotateY(${(-a - wob - stop).toFixed(2)}deg)`;
+      Ls.style.opacity = Rs.style.opacity = (u * .85).toFixed(3);
+      gi.style.transform = `scale(${(1.1 - .1 * ease3(clamp((t - .3) / 1.4, 0, 1))).toFixed(4)})`;
+      gb.style.opacity = clamp(u * 1.25, 0, 1).toFixed(3); gf.style.opacity = (Math.min(1, u * 1.3) * .55).toFixed(3);
+      const dv = clamp((t - .7) / .6, 0, 1) * (t > 1.7 ? clamp(1 - (t - 1.7) / .25, 0, 1) : 1);
+      ds.forEach((e, i) => { const p = P[i]; e.style.opacity = (dv * (.45 + .55 * Math.sin(t * 3 * p.f + p.a) ** 2)).toFixed(3); e.style.transform = `translate3d(${(Math.sin(t * p.f * 1.3 + p.a) * 14).toFixed(1)}px,${(-t * 9 * p.f + Math.cos(t * p.f * 2 + p.a) * 8).toFixed(1)}px,0)` });
+    });
+  }
+
+  // ---------- 4. Tagesstart: S51 fährt einmal quer durchs Bild ----------
+  function s51Anim() {
+    const g = stage('as', '<div class="sq"><i class="ss"></i><div class="sb"></div></div><div class="sp"><i></i><i></i><i></i><i></i><i></i><i></i></div>', false);
+    const q = g.querySelector('.sq'), sp = [...g.querySelectorAll('.sp i')], DUR = 2.0; FX.s51Snd();
+    const W = () => innerWidth, bw = () => q.offsetWidth || W() * .6;
+    run(g, DUR, t => {
+      const u = t / DUR, x = W() * 1.04 - (W() + bw() * 2.1) * u;   // von rechts nach links (Fahrzeug blickt nach links)
+      const bob = Math.sin(t * 38) * 1.6 * (1 - .4 * u), lean = -1.2 + Math.sin(t * 19) * .5;
+      q.style.transform = `translate3d(${x.toFixed(1)}px,${bob.toFixed(2)}px,0) rotate(${lean.toFixed(2)}deg)`;
+      sp.forEach((e, i) => { const tt = t - i * .1, k = clamp(tt / .9, 0, 1), px = W() * 1.04 - (W() + bw() * 2.1) * clamp(i * .1 / DUR + .0, 0, 1) - (W() + bw() * 2.1) * 0; const ex = (W() * 1.04 - (W() + bw() * 2.1) * clamp((t - i * .12) / DUR, 0, 1)) + bw() * .96; e.style.opacity = (k > 0 && k < 1 ? (1 - k) * .5 : 0).toFixed(3); e.style.transform = `translate3d(${(ex + k * 70).toFixed(1)}px,${(-k * 26 - i * 2).toFixed(1)}px,0) scale(${(.5 + k * 2.2).toFixed(2)})` });
+    });
+  }
+
+  // ---------- Auslöser: bei jedem Tipp auf den Bereich (auch bei reduzierter Bewegung), nicht doppelt ----------
+  const MAP = {pr: prAnim, missions: lernAnim, garage: garAnim};
+  const _go2 = window.go;
+  window.go = function (v) {
+    try { const f = MAP[v]; if (f && !busy()) f() } catch (e) {}
+    return _go2.apply(null, arguments);
+  };
+  // Tagesstart: beim ersten App-Start des Tages
+  const TAGKEY = 'ss_tagesstart';
+  function tagHeute() { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() }
+  function tagesstart(n) {
+    let seen = null; try { seen = localStorage.getItem(TAGKEY) } catch (e) {}
+    const h = tagHeute(); if (seen === h) return;
+    if (busy()) { if (n < 4) setTimeout(() => tagesstart(n + 1), 2800); return }
+    try { localStorage.setItem(TAGKEY, h) } catch (e) {}
+    try { s51Anim() } catch (e) {}
+  }
+  setTimeout(() => tagesstart(0), 900);
+  window.__anim4 = {pr: prAnim, lern: lernAnim, gar: garAnim, s51: s51Anim};
+})();
