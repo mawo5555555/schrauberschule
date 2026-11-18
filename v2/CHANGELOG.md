@@ -5,6 +5,9 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.3.1 (2026-11-18)
+- Rolltor ersetzt durch Holz-Scheunentor (Foto, "Schrauber Scheune Sonnenberg"), langsamer, Knarz-Ton, bei jedem App-Start.
+
 ## 3.3.0 (2026-11-18)
 - Prüfstand-Ton repariert (window.FX).
 - Lackieren ohne Kabinen-Animation, direkter Farbwechsel.

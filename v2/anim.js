@@ -57,10 +57,10 @@
   const ORDER = {home: 0, w2: 1, pr: 2, missions: 3, garage: 4};
   const depth = v => v in ORDER ? 0 : 1;
   function dirOf(a, b) { const da = depth(a), db = depth(b); if (da !== db) return db > da ? 'fwd' : 'back'; return (ORDER[b] != null && ORDER[a] != null) ? (ORDER[b] >= ORDER[a] ? 'fwd' : 'back') : 'fwd' }
-  // ---------- Rolltor (nur beim ersten Betreten der Werkstatt) ----------
+  // ---------- Rolltor (bei jedem App-Start beim ersten Betreten der Werkstatt) ----------
   const TORKEY = 'ss_tor_gesehen';
-  const torGesehen = () => { try { return localStorage.getItem(TORKEY) === '1' } catch (e) { return false } };
-  const torMerken = () => { try { localStorage.setItem(TORKEY, '1') } catch (e) {} };
+  const torGesehen = () => { try { return sessionStorage.getItem(TORKEY) === '1' } catch (e) { return false } };
+  const torMerken = () => { try { sessionStorage.setItem(TORKEY, '1') } catch (e) {} };
   // Physikalisches Profil: Anfahren (Rampe), Fahrt, Ausrollen am Endanschlag, Nachwippen. t in Sekunden ab Motorstart, Rückgabe 0..1 (offen) und Geschwindigkeit
   const TOR = {ta: .55, tv: 1.0, tb: .5, tw: .75};   // Anlauf, Fahrt, Bremsen, Wippen
   TOR.T = TOR.ta + TOR.tv + TOR.tb;
@@ -101,7 +101,7 @@
       if (t < TOR.T + TOR.tw) requestAnimationFrame(step);
       else if (!done) { done = true; frame(TOR.T + TOR.tw); g.classList.add('fade'); setTimeout(() => g.remove(), 700) }
     };
-    requestAnimationFrame(step); setTimeout(() => g.remove(), 4800);
+    requestAnimationFrame(step); setTimeout(() => g.remove(), 9000);
     return g;
   }
   function gate() {
@@ -301,4 +301,33 @@
       const sp = mk('i', 'spk'); sp.style.left = (pr.left + 24) + 'px'; sp.style.top = ty + 'px'; sp.style.animation = 'none'; sp.style.opacity = 1; sp.style.transform = 'translate(-50%,-50%) scale(1.1)'; document.body.appendChild(sp);
     }
   }, 150);
+})();
+// Scheunentor: langsamer, Holz-Knarzen statt Rohrmotor
+(function () {
+  const T = window.__TOR; if (!T) return;
+  T.ta = 1.1; T.tv = 2.6; T.tb = 1.0; T.tw = .8; T.T = T.ta + T.tv + T.tb;
+  try { const i = new Image(); i.src = 'img/anim/scheunentor.webp' } catch (e) {}
+  FX.gateSnd = function () {
+    if (!this.on()) return; const c = this.A(); if (!c) return;
+    const t0 = c.currentTime + .18, out = this.out(), D = T.T;
+    const vel = t => Math.max(0, (T.pos(t + .01) - T.pos(t - .01)) / .02), vmax = 1 / (T.tv + (T.ta + T.tb) / 2);
+    const nb = c.createBuffer(1, c.sampleRate * .6, c.sampleRate), nd = nb.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    const hit = (tt, f, g, d, type) => { const s = c.createBufferSource(); s.buffer = nb; const fl = c.createBiquadFilter(); fl.type = type || 'bandpass'; fl.frequency.value = f; fl.Q.value = 2; const gg = c.createGain(); gg.gain.setValueAtTime(g, tt); gg.gain.exponentialRampToValueAtTime(.0005, tt + d); s.connect(fl); fl.connect(gg); gg.connect(out); s.start(tt, Math.random() * .4, d + .02) };
+    // Knarzen: Reibungston (Sägezahn mit unruhiger Tonhöhe) durch Resonanzfilter, mehrere Knarz-Phrasen
+    const creak = (ts, len, base) => {
+      const o = c.createOscillator(), bp = c.createBiquadFilter(), bp2 = c.createBiquadFilter(), g = c.createGain();
+      o.type = 'sawtooth'; bp.type = 'bandpass'; bp.frequency.value = 650 + Math.random() * 400; bp.Q.value = 6; bp2.type = 'bandpass'; bp2.frequency.value = 1700 + Math.random() * 600; bp2.Q.value = 4;
+      o.connect(bp); o.connect(bp2); bp.connect(g); bp2.connect(g); g.connect(out);
+      for (let t = 0; t <= len; t += .015) { const k = t / len, j = Math.sin(t * 37) * .2 + (Math.random() - .5) * .35; o.frequency.setValueAtTime(Math.max(18, base * (1 + .5 * Math.sin(k * Math.PI)) * (1 + j)), ts + t); g.gain.setValueAtTime(.05 * Math.sin(k * Math.PI) * (.6 + Math.random() * .4), ts + t) }
+      g.gain.setValueAtTime(0, ts + len + .01); o.start(ts); o.stop(ts + len + .05);
+    };
+    creak(t0 + .05, .55, 34); creak(t0 + T.ta + .1, .8, 26); creak(t0 + T.ta + T.tv * .6, .7, 40); creak(t0 + D - .55, .5, 22);
+    // Holzlatten: dumpfes "tock" je Latte beim Aufrollen
+    const N = 18; for (let i = 1; i <= N; i++) { const t = T.inv(i / N * .97), v = vel(t) / vmax; hit(t0 + t, 380 + Math.random() * 250, .08 + .1 * v, .06, 'bandpass'); hit(t0 + t, 140, .06 * v, .05, 'lowpass') }
+    // Rauschen von Holz auf Holz
+    for (let t = 0; t < D; t += .05) { const v = vel(t) / vmax; if (v > .05) hit(t0 + t, 900 + Math.random() * 900, .025 * v, .07) }
+    // Endanschlag: dumpfer Holzschlag, Staub-Rieseln
+    const te = t0 + D; hit(te, 120, .6, .3, 'lowpass'); hit(te, 520, .25, .15); [.16, .31].forEach((d, k) => hit(te + d, 300, .18 / (k + 1), .08));
+    for (let k = 0; k < 10; k++) hit(te + .05 + k * .06, 4000 + Math.random() * 3000, .02 * Math.exp(-k * .25), .02, 'highpass');
+  };
 })();

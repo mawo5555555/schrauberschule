@@ -130,3 +130,9 @@ svg.bsvg .imp{fill:#000;transform-box:fill-box;transform-origin:center;opacity:0
 .rt .rr2{position:absolute;left:0;right:0;top:56px;height:46px;opacity:0;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.2) 50%,rgba(0,0,0,0));will-change:opacity}
 .rt .rsh{position:absolute;left:0;right:0;top:0;height:120px;opacity:0;margin-top:0;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.22) 40%,rgba(0,0,0,.07) 75%,rgba(0,0,0,0));will-change:transform,opacity}
 @media(prefers-reduced-motion:reduce){.rt{display:none}}
+/* Scheunentor (Holz, Foto) – ersetzt das Blech-Rolltor */
+.rt .rc{background:#3a2f24 url(img/anim/scheunentor.webp) center bottom/cover no-repeat}
+.rt .rc:before{background:linear-gradient(110deg,transparent 30%,rgba(255,240,210,.08) 45%,transparent 60%)}
+.rt .rb,.rt .rw,.rt .rz{display:none}
+.rt .rwl{background:linear-gradient(180deg,#120c07 0,#3b2a1a 14%,#7a5c3c 32%,#a88560 46%,#6d5136 62%,#2e2014 84%,#0e0905 100%)}
+.rt .rr1{background:repeating-linear-gradient(180deg,rgba(255,230,190,.12) 0 1px,rgba(20,10,0,.35) 1px 5px)}
