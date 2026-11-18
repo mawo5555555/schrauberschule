@@ -78,17 +78,17 @@
   function torBauen(frozenT) {
     if (document.querySelector('.rt')) return null;
     const H = innerHeight, W = innerWidth, boxH = 58;
-        const g = mk('div', 'rt', `<div class="rl"></div><div class="rc"><div class="rs"></div><i class="rb">WERKSTATT</i><i class="rw"></i><i class="rz"></i></div><div class="rk"><i class="rwl"></i><i class="rr1"></i><i class="rr2"></i></div><div class="rsh"></div>`);
+        const g = mk('div', 'rt', `<div class="rl"></div><div class="rbx"><div class="rop"><div class="rc"><div class="rs"></div></div><div class="rsh"></div></div><div class="rfr"></div></div><div class="rk"><i class="rwl"></i><i class="rr1"></i><i class="rr2"></i></div>`);
     document.body.appendChild(g);
     const rc = g.querySelector('.rc'), rk = g.querySelector('.rk'), rl = g.querySelector('.rl'), rsh = g.querySelector('.rsh'), r1 = g.querySelector('.rr1'), r2 = g.querySelector('.rr2');
-    const travel = H + 8;
+    const travel = (rc.offsetHeight || H) + 8;
     const frame = t => {
-      const p = TOR.pos(t), bn = t > TOR.T ? TOR.bounce(t - TOR.T) : 0, y = -(travel - boxH + 4) * p + (t > TOR.T ? bn * .6 : 0);
+      const p = TOR.pos(t), bn = t > TOR.T ? TOR.bounce(t - TOR.T) : 0, y = -travel * p + (t > TOR.T ? bn * .6 : 0);
       rc.style.transform = `translate3d(0,${y.toFixed(2)}px,0)`;
       rk.style.transform = `translate3d(0,${(t > TOR.T ? -bn * .35 : 0).toFixed(2)}px,0)`;
       rl.style.opacity = Math.min(.95, Math.pow(p, .8) * 1.1).toFixed(3);
       rsh.style.opacity = (Math.min(1, p * 4) * (1 - p * .5)).toFixed(3);
-      rsh.style.transform = `translate3d(0,${(y + H - 4).toFixed(1)}px,0)`;
+      rsh.style.transform = `translate3d(0,${(y + travel - 8).toFixed(1)}px,0)`;
       const w = .35 + .65 * p; r1.style.transform = `scaleY(${w.toFixed(3)})`; r2.style.opacity = (p).toFixed(3);
       // Lichtstreifen wandern durch die Lamellen (Glanz), nur transform
       rc.style.setProperty('--sh', (p * 60).toFixed(1));
@@ -306,7 +306,7 @@
 (function () {
   const T = window.__TOR; if (!T) return;
   T.ta = 1.1; T.tv = 2.6; T.tb = 1.0; T.tw = .8; T.T = T.ta + T.tv + T.tb;
-  try { const i = new Image(); i.src = 'img/anim/scheunentor.webp' } catch (e) {}
+  try { const i = new Image(); i.src = 'img/anim/tor-blatt.webp'; const j = new Image(); j.src = 'img/anim/tor-rahmen.webp' } catch (e) {}
   FX.gateSnd = function () {
     if (!this.on()) return; const c = this.A(); if (!c) return;
     const t0 = c.currentTime + .18, out = this.out(), D = T.T;

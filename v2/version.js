@@ -3,7 +3,7 @@
 // Beim Ändern: version, ggf. schema und news anpassen, CHANGELOG.md ergänzen.
 self.APP = {
   name: 'Schrauberschule',
-  version: '3.3.1',
+  version: '3.3.2',
   schema: 2,            // Schema-Version des Spielstands (nur erhöhen, wenn sich die Struktur ändert; dann Migration in migrate.js)
   date: '2026-11-18',
   news: [
