@@ -129,13 +129,13 @@ svg.bsvg .imp{fill:#000;transform-box:fill-box;transform-origin:center;opacity:0
 .rt .rr1{position:absolute;left:0;right:0;top:0;height:60px;transform-origin:50% 0;transform:scaleY(.35);will-change:transform;background:repeating-linear-gradient(180deg,rgba(255,255,255,.14) 0 1px,rgba(0,0,0,.28) 1px 4px)}
 .rt .rr2{position:absolute;left:0;right:0;top:56px;height:46px;opacity:0;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.2) 50%,rgba(0,0,0,0));will-change:opacity}
 .rt .rsh{position:absolute;left:0;right:0;top:0;height:120px;opacity:0;margin-top:0;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.22) 40%,rgba(0,0,0,.07) 75%,rgba(0,0,0,0));will-change:transform,opacity}
-@media(prefers-reduced-motion:reduce){.rt{display:none}}
+
 /* Scheunentor (Holz, Foto): Rahmen + Schwelle + Boden stehen, nur das Torblatt fährt hoch */
-.rt .rbx{position:absolute;left:50%;bottom:0;width:max(100vw,55.82vh);aspect-ratio:1536/2752;transform:translateX(-50%)}
+.rt .rbx{position:absolute;left:50%;bottom:0;width:max(100vw,55.82vh);height:max(179.17vw,100vh);transform:translateX(-50%)}
 .rt .rop{position:absolute;left:8.984%;top:2.725%;width:82.03%;height:77.65%;overflow:hidden}
-.rt .rc{inset:0;height:100%;background:url(img/anim/tor-blatt.webp) center/100% 100% no-repeat}
+.rt .rc{inset:0;height:100%;background:url(img/anim/tor-blatt.jpg) center/100% 100% no-repeat}
 .rt .rc:before{background:linear-gradient(110deg,transparent 30%,rgba(255,240,210,.08) 45%,transparent 60%)}
-.rt .rfr{position:absolute;inset:0;background:url(img/anim/tor-rahmen.webp) center/100% 100% no-repeat;pointer-events:none}
+.rt .rfr{position:absolute;inset:0;background:url(img/anim/tor-rahmen.png) center/100% 100% no-repeat;pointer-events:none}
 .rt .rwl{background:linear-gradient(180deg,#05080d 0,#14202e 14%,#2c4562 32%,#5b7896 46%,#2a405a 62%,#101a26 84%,#04070b 100%)}
 .rt .rr1{background:repeating-linear-gradient(180deg,rgba(190,220,255,.14) 0 1px,rgba(0,0,0,.35) 1px 4px)}
 /* Animierter Hintergrund (dezent): Lichtschein, langsam drehende Zahnräder, Staub im Licht */

@@ -8,7 +8,7 @@
     clearOv(); const f = FILE[id]; if (!f) return;
     if (!document.querySelector('.pst')) return;
     const o = document.createElement('div'); o.className = 'pcl';
-    const v = document.createElement('video'); v.src = 'v2/img/clips/pruefstand-' + f + '-app.mp4'; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'auto';
+    const v = document.createElement('video'); v.src = url(id); v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'auto';
     let snd = false; try { snd = !!(window.FX && FX.on()) } catch (e) {}
     v.muted = !snd;
     const end = () => { o.classList.add('out'); setTimeout(() => o.remove(), 400) };
@@ -22,7 +22,9 @@
   }
   // ---------- Teilen / Speichern des KI-Clips ----------
   const NAME = {s51: 'S51', s50: 'S50', star: 'Star', habicht: 'Habicht', kr51: 'Schwalbe', sr50: 'SR50', duo: 'Duo', klapp: 'Klapprad', rasen: 'Rasentraktor'};
-  const url = id => 'v2/img/clips/pruefstand-' + FILE[id] + '-app.mp4';
+  // neuer Dateiname bei neuem Video, sonst liefert der Offline-Speicher das alte
+  const VID = {klapp: 'klapprad2'};
+  const url = id => 'v2/img/clips/pruefstand-' + (VID[id] || FILE[id]) + '-app.mp4';
   const fname = id => 'Schrauberschule-' + (NAME[id] || id) + '-Pruefstand.mp4';
   function msg(t) { try { if (typeof window.toast === 'function') return window.toast(t) } catch (e) {} const d = document.createElement('div'); d.className = 'pcm-t'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2600) }
   async function getFile(id) { const r = await fetch(url(id)); if (!r.ok) throw new Error('clip'); const b = await r.blob(); return new File([b], fname(id), {type: 'video/mp4'}) }
