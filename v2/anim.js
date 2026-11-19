@@ -109,10 +109,11 @@
     torMerken(); window.__torNeu = true; const g = torBauen(); FX.gateSnd(); return g;
   }
   window.__torBauen = torBauen; window.__TOR = TOR;
+  document.addEventListener('click', e => { if (e.target.closest && e.target.closest('#tab button')) window.__tabTap = Date.now() }, true);
   const _go = window.go;
   window.go = function (v) {
     const old = view, args = arguments;
-    if (v === 'w2') { gate(); return _go.apply(null, args) }   // Rolltor bei JEDEM Tipp auf Werkstatt, auch bei reduzierter Bewegung
+    if (v === 'w2') { if (window.__tabTap && Date.now() - window.__tabTap < 600) { window.__tabTap = 0; gate() } return _go.apply(null, args) }   // Rolltor nur beim Tipp auf den Werkstatt-Reiter unten, nicht bei internen Schritten
     if (RM() || old === v) return _go.apply(null, args);
     const d = dirOf(old, v), de = document.documentElement;
     // M1: Browser-Übergang (startViewTransition) abgeschaltet: er schluckt Taps ca. 0,3 s lang (Karten reagierten erst beim 2. Antippen). Es bleibt die Gleit-Animation unten.

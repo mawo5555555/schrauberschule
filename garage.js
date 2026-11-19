@@ -50,7 +50,7 @@ const VEH = {
       Q('Wie heißt der vordere Teil, der das Getreide abschneidet?', 'Schneidwerk', ['Lenkrad', 'Zapfwelle', 'Kotflügel'], ''),
       Q('Was bleibt beim Dreschen übrig und wird oft zu Ballen gepresst?', 'Stroh', ['Mehl', 'Mais', 'Sand'], '')]},
   g6: {kind: '2t', fuel: 'mix', tank: 7, start: ST2T, trap: TRAP2T, race: {g: 4, vmax: 60, idle: 1500, red: 7000, win: [5200, 6600]},
-    specs: [['Hersteller', 'Simson, Suhl'], ['Bauzeit', '1964 bis 1986'], ['Motor', 'Einzylinder-Zweitakt, 49,6 bis 49,9 cm³'], ['Leistung', 'ca. 3,6 bis 3,7 PS (ca. 2,7 kW)'], ['Höchstgeschwindigkeit', '60 km/h'], ['Kraftstoff', 'Gemisch 1:50']],
+    specs: [['Hersteller', 'Simson, Suhl'], ['Bauzeit', '1964 bis 1986'], ['Motor', 'Einzylinder-Zweitakt, 49,6 bis 49,9 cm³'], ['Leistung', 'ca. 3,6 PS (ca. 2,7 kW)'], ['Höchstgeschwindigkeit', '60 km/h'], ['Kraftstoff', 'Gemisch 1:50']],
     fact: 'Die Schwalbe gehört zur Vogelserie von Simson: Spatz, Star, Sperber, Habicht und Schwalbe.',
     quiz: [Q('Zu welcher Serie gehört die Schwalbe?', 'zur Vogelserie', ['zur Fischserie', 'zur Blumenserie', 'zur Planetenserie'], ''),
       Q('Welcher Name gehört NICHT zur Simson-Vogelserie?', 'Adler', ['Spatz', 'Star', 'Habicht'], ''),

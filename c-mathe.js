@@ -49,7 +49,7 @@ MISSIONS.push(
   N('Wie viel Öl (in ml) kommt bei 1:50 in 2 Liter Benzin?', 40, '2 · 20 ml = 40 ml.', {unit:'ml'}),
   N('Dein Kanister fasst 5 Liter Benzin. Wie viel Öl (in ml) brauchst du?', 100, '5 · 20 ml = 100 ml.', {unit:'ml'}),
   N('Du hast 60 ml Öl abgemessen. Für wie viele Liter Benzin reicht das (1:50)?', 3, '60 ml ÷ 20 ml je Liter = 3 Liter.', {unit:'Liter'}),
-  Q('Welche Zahl ist die kleinste?', '0,07', ['0,7', '0,17', '0,71'], 'Vergleiche stellenweise: 0,07 hat null Zehntel. Alle anderen haben mindestens 7 Zehntel oder mehr.'),
+  Q('Welche Zahl ist die kleinste?', '0,07', ['0,7', '0,17', '0,71'], 'Vergleiche stellenweise: 0,07 hat null Zehntel, 0,17 hat 1 Zehntel, 0,7 und 0,71 haben 7 Zehntel. Die kleinste Zahl ist 0,07.'),
   N('Die Simson braucht 2,5 Liter auf 100 km. Wie viele Liter verbraucht sie auf 300 km?', 7.5, '3 · 2,5 l = 7,5 l.', {unit:'Liter', hint:'300 km sind 3 mal 100 km.'}),
   N('Du tankst 4 Liter für 1,85 € pro Liter. Wie viel musst du bezahlen?', 7.4, '4 · 1,85 € = 7,40 €.', {unit:'€', hint:'4 · 1,85 = 4 · 1 + 4 · 0,85.'}),
   N('Der Reservekanister fasst 4 Liter, die Simson verbraucht 2 Liter auf 100 km. Wie weit kommst du mit einer Kanisterfüllung?', 200, '4 Liter reichen für zweimal 100 km, also 200 km.', {unit:'km'})
