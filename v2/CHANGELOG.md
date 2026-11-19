@@ -5,6 +5,11 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.5.11
+- Spielstand: mehrere Kopien (letzter, bester, 7 Tagesstände), schlechterer Stand überschreibt nichts, Wiederherstellung wird bei Verlust oder viel kleinerem Stand angeboten, Sicherungsliste zeigt alle Kopien.
+- Lackieren/Waschen/Kabine: Abstand für iPhone-Notch oben und unten.
+- Tests: v2/spielstandtest.py, v2/vorabtest.py.
+
 ## 3.5.10
 - Kaputter Spielstand stürzt die App nicht mehr ab (Kopie des kaputten Textes, falsche Typen auf Standard).
 - Warnung bei vollem Speicher.

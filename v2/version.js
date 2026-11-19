@@ -3,11 +3,12 @@
 // Beim Ändern: version, ggf. schema und news anpassen, CHANGELOG.md ergänzen.
 self.APP = {
   name: 'Schrauberschule',
-  version: '3.5.10',
+  version: '3.5.11',
   test: false,         // true = Testversion (alles frei)
   schema: 2,            // Schema-Version des Spielstands (nur erhöhen, wenn sich die Struktur ändert; dann Migration in migrate.js)
   date: '2026-11-18',
   news: [
+    { v: '3.5.11', t: 'Spielstand besser geschützt (mehrere Kopien, Wiederfinden). Zurück-Knopf beim Lackieren und Waschen nicht mehr unter der iPhone-Leiste.' },
     { v: '3.5.10', t: 'Spielstand besser abgesichert, größere Tippflächen im Motor-Zusammenbau.' },
     { v: '3.5.9', t: 'Fehlererkennung: Elternseite zeigt letzte Fehler, Neu-laden-Hilfe nach Updates.' },
     { v: '3.5.8', t: 'Größere Tippflächen, Meldungen unter der Kopfzeile, Lackieren ohne Zeichnungs-Blitz.' },

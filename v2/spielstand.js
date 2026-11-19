@@ -17,7 +17,18 @@
   const idbPut = (k, v) => idb().then(db => new Promise((ok, no) => { const t = db.transaction('kv', 'readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = ok; t.onerror = () => no(t.error) })).catch(() => {});
   const idbGet = k => idb().then(db => new Promise((ok, no) => { const r = db.transaction('kv').objectStore('kv').get(k); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error) })).catch(() => undefined);
   const idbKeys = () => idb().then(db => new Promise(ok => { const r = db.transaction('kv').objectStore('kv').getAllKeys(); r.onsuccess = () => ok(r.result); r.onerror = () => ok([]) })).catch(() => []);
-  let mt = null; const mirror = () => { clearTimeout(mt); mt = setTimeout(() => { const raw = localStorage.getItem(KEY); if (raw) idbPut('state', {raw, t: Date.now(), v: A.version}) }, 700) };
+  const idbDel = k => idb().then(db => new Promise(ok => { const t = db.transaction('kv', 'readwrite'); t.objectStore('kv').delete(k); t.oncomplete = ok; t.onerror = ok })).catch(() => {});
+  // Fortschrittswert eines Standes (für "besser/schlechter"-Vergleich)
+  const prog = s => { try { const x = sum(s); return x.pts + x.miss * 5 + x.fz * 20 + x.tage * 3 } catch (e) { return 0 } };
+  // Spiegel: 'state' = letzter Stand, 'best' = bester Stand, 'day-JJJJMMTT' = Tagesstand (letzte 7). Ein viel schlechterer Stand überschreibt nichts.
+  let mt = null; const mirror = () => { clearTimeout(mt); mt = setTimeout(async () => { try {
+    const raw = localStorage.getItem(KEY); if (!raw) return; let s; try { s = JSON.parse(raw) } catch (e) { return } if (!s || typeof s !== 'object' || Array.isArray(s)) return;
+    const p = prog(s), rec = {raw, t: Date.now(), v: A.version, p}, best = await idbGet('best'), bp = best && typeof best.p === 'number' ? best.p : 0;
+    if (p > bp) await idbPut('best', rec);
+    if (bp >= 20 && p < bp * .5) return;
+    await idbPut('state', rec); await idbPut('day-' + new Date().toISOString().slice(0, 10).replace(/-/g, ''), rec);
+    const days = (await idbKeys()).filter(k => /^day-\d{8}$/.test(k)).sort(); for (const k of days.slice(0, Math.max(0, days.length - 7))) await idbDel(k)
+  } catch (e) {} }, 700) };
   const _set = Storage.prototype.setItem;
   Storage.prototype.setItem = function (k, v) { const r = _set.apply(this, arguments); if (this === localStorage && k === KEY) mirror(); return r };
   if (window.__ssPendingBackup) idbPut('backup-' + window.__ssPendingBackup.key, window.__ssPendingBackup.raw);
@@ -166,11 +177,13 @@
     const f = pan.querySelector('[data-a=exp]'); if (f) f.focus(); if (tab === 'code') showCode(false);
   }
   async function bks() {
-    const out = $$('#ss-more-out', pan), ks = M.listBackups().reverse(), ik = (await idbKeys()).filter(k => /^backup-/.test(k));
-    out.innerHTML = ks.length ? '<ul class="ss-bl">' + ks.map(k => { const raw = localStorage.getItem(k); let s = null; try { s = JSON.parse(raw) } catch (e) {}
-      return `<li><span>${esc2(k.replace(M.BK, '').replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)\d*-/, '$3.$2.$1 $4:$5 · '))}${s ? '<small>' + esc2(sumTxt(s)) + '</small>' : ''}</span><button class="ss-b alt" data-k="${esc2(k)}">Laden</button></li>` }).join('') + '</ul>' : '<p class="ss-s">Noch keine Sicherungskopien. Sie entstehen automatisch vor einem Update oder Import.</p>';
-    out.onclick = e => { const k = e.target.dataset && e.target.dataset.k; if (!k) return; let s; try { s = JSON.parse(localStorage.getItem(k)) } catch (x) { return say('Kopie nicht lesbar.', 1) } confirmImport(check({app: 'Schrauberschule', format: FMT, schema: typeof s.schema === 'number' ? s.schema : 1, state: s})) };
-    if (ik.length && !ks.length) out.innerHTML += `<p class="ss-s">(${ik.length} Kopien in der Datenbank)</p>`;
+    const out = $$('#ss-more-out', pan), items = [];
+    M.listBackups().reverse().forEach(k => { let raw = null; try { raw = localStorage.getItem(k) } catch (e) {} items.push({id: 'l:' + k, label: k.replace(M.BK, '').replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)\d*-/, '$3.$2.$1 $4:$5 · '), raw}) });
+    try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.indexOf(KEY + '-defekt-') === 0) items.push({id: 'l:' + k, label: 'Kaputter Stand vom ' + new Date(+k.split('-defekt-')[1] || 0).toLocaleDateString('de-DE'), raw: localStorage.getItem(k)}) } } catch (e) {}
+    for (const k of (await idbKeys()).sort().reverse()) { if (!/^(best|state|day-\d{8})$/.test(k)) continue; const c = await idbGet(k); if (c && c.raw) items.push({id: 'd:' + k, label: k === 'best' ? 'Bester Stand (Datenbank)' : k === 'state' ? 'Letzter Stand (Datenbank)' : 'Tagesstand ' + k.slice(10, 12) + '.' + k.slice(8, 10) + '.' + k.slice(4, 8) + ' (Datenbank)', raw: c.raw}) }
+    items.forEach(x => { x.s = null; try { x.s = JSON.parse(x.raw) } catch (e) {} });
+    out.innerHTML = items.length ? '<ul class="ss-bl">' + items.map((x, n) => `<li><span>${esc2(x.label)}${x.s && typeof x.s === 'object' ? '<small>' + esc2(sumTxt(x.s)) + '</small>' : '<small>nicht lesbar</small>'}</span><button class="ss-b alt" data-n="${n}">Laden</button></li>`).join('') + '</ul>' : '<p class="ss-s">Noch keine Sicherungen.</p>';
+    out.onclick = e => { const n = e.target.dataset && e.target.dataset.n; if (n == null) return; const x = items[+n], s = x && x.s; if (!s || typeof s !== 'object') return say('Kopie nicht lesbar.', 1); confirmImport(check({app: 'Schrauberschule', format: FMT, schema: typeof s.schema === 'number' ? s.schema : 1, state: s})) };
   }
   function warm() {
     const I = window.IMGS || {}, urls = []; for (const d in I) (I[d] || []).forEach(n => urls.push(new URL(`v2/img/${d}/${n}.jpg`, document.baseURI).href));
@@ -181,15 +194,23 @@
   }
 
   // ---------- Wiederherstellung aus der zweiten Kopie ----------
+  // Beste Kopie aus der Datenbank suchen (letzter Stand, bester Stand, Tagesstände)
+  async function bestCopy() {
+    const ks = (await idbKeys()).filter(k => /^(state|best|day-\d{8})$/.test(k)); let top = null;
+    for (const k of ks) { const c = await idbGet(k); if (!c || !c.raw) continue; let o; try { o = JSON.parse(c.raw) } catch (e) { continue }
+      const r = check({app: 'Schrauberschule', format: FMT, schema: typeof o.schema === 'number' ? o.schema : 1, state: o}); if (!r.ok) continue; const p = prog(r.state); if (p > 0 && (!top || p > top.p)) top = {p, t: c.t, state: r.state, key: k} }
+    return top;
+  }
   async function rescue() {
     const raw = localStorage.getItem(KEY); let s = null; try { s = JSON.parse(raw) } catch (e) {}
-    const empty = !s || (sum(s).pts === 0 && !(s.days || []).length && !Object.keys(s.done || {}).length);
-    if (!empty) return; const c = await idbGet('state'); if (!c || !c.raw) return; let o; try { o = JSON.parse(c.raw) } catch (e) { return }
-    const r = check({app: 'Schrauberschule', format: FMT, schema: typeof o.schema === 'number' ? o.schema : 1, state: o}); if (!r.ok || sum(r.state).pts + (r.state.days || []).length === 0) return;
+    const curP = s && typeof s === 'object' ? prog(s) : 0, top = await bestCopy(); if (!top || curP >= top.p * .5) return;
+    try { if (localStorage.getItem('ss-rescue-no') === String(top.t)) return } catch (e) {}
+    const empty = curP === 0;
     const box = document.createElement('div'); box.className = 'ss-bk ss-conf'; box.setAttribute('role', 'alertdialog'); box.setAttribute('aria-modal', 'true');
-    box.innerHTML = `<div class="ss-sh"><h3>Dein Spielstand wurde gefunden</h3><p class="ss-s">Der Browser hat den normalen Speicher geleert, aber eine zweite Kopie war noch da:</p><p class="ss-c on">${esc2(sumTxt(r.state))}</p><div class="ss-row"><button class="ss-b alt" data-a="n">Neu anfangen</button><button class="ss-b" data-a="j">Wiederherstellen</button></div></div>`;
-    document.body.appendChild(box); box.onclick = e => { const a = e.target.dataset && e.target.dataset.a; if (a === 'j') { box.remove(); applyState(r.state) } else if (a === 'n') box.remove() };
+    box.innerHTML = `<div class="ss-sh"><h3>Dein Spielstand wurde gefunden</h3><p class="ss-s">${empty ? 'Der Speicher war leer oder kaputt, aber' : 'Dein jetziger Stand ist viel kleiner als'} eine Kopie ${empty ? 'war noch da' : 'vom'} ${esc2(new Date(top.t).toLocaleDateString('de-DE'))}:</p><p class="ss-c on">${esc2(sumTxt(top.state))}</p><div class="ss-row"><button class="ss-b alt" data-a="n">${empty ? 'Neu anfangen' : 'Jetzigen behalten'}</button><button class="ss-b" data-a="j">Wiederherstellen</button></div></div>`;
+    document.body.appendChild(box); box.onclick = e => { const a = e.target.dataset && e.target.dataset.a; if (a === 'j') { box.remove(); applyState(top.state) } else if (a === 'n') { try { localStorage.setItem('ss-rescue-no', String(top.t)) } catch (x) {} box.remove() } };
   }
+  window.SS_rescue = {bestCopy, prog, rescue};
 
   // ---------- Start ----------
   window.SS = {openPanel, makeCode, readCode, check, makeFile, applyState, exportFile, milestone, remindCheck, idbGet, idbPut, persist, hash};

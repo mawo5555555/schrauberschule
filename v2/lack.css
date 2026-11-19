@@ -57,3 +57,7 @@
 .jobtools{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}
 .lk-pv canvas.lk-ph{width:100%;height:auto;display:block;max-height:34vh;object-fit:contain;border-radius:12px}
 .lk-ph0{min-height:26vh}
+/* iPhone mit Notch/Dynamic Island: Kopf und Fuß nicht unter die Systemleiste (3.5.11) */
+.lk-in{padding-top:calc(14px + env(safe-area-inset-top));padding-bottom:calc(40px + env(safe-area-inset-bottom));padding-left:calc(14px + env(safe-area-inset-left));padding-right:calc(14px + env(safe-area-inset-right))}
+.lk-kb .hd{padding-top:calc(12px + env(safe-area-inset-top))}
+.lk-kb .ft{padding-bottom:calc(10px + env(safe-area-inset-bottom))}

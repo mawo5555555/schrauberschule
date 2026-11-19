@@ -64,3 +64,5 @@
 .wh-pct{text-align:center;font-weight:700;margin:8px 0 2px}
 .wh-ov .wz-ctl{justify-content:center;display:flex;gap:8px}
 .wh-ov .wz-quiz{max-width:520px;margin:10px auto}
+/* iPhone mit Notch/Dynamic Island (3.5.11) */
+.wz-in{padding-top:calc(12px + env(safe-area-inset-top));padding-bottom:calc(24px + env(safe-area-inset-bottom));padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px + env(safe-area-inset-right))}
