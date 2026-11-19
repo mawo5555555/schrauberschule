@@ -3,9 +3,14 @@ const $ = s => document.querySelector(s);
 const KEY = 'wt-state-v1';
 const VERSION = '2.5';
 let S;
-try { S = JSON.parse(localStorage.getItem(KEY)) } catch (e) {}
+let RAW0 = null; try { RAW0 = localStorage.getItem(KEY); S = JSON.parse(RAW0) } catch (e) { S = null }
+// Kaputter Spielstand: kaputten Text als Kopie sichern, falsche Typen auf Standard zurücksetzen (sonst stürzen Start- und Elternseite ab)
+if (RAW0 && (!S || typeof S !== 'object' || Array.isArray(S))) { try { localStorage.setItem(KEY + '-defekt-' + Date.now(), RAW0) } catch (e) {} S = null }
 S = Object.assign({points: 0, days: [], done: {}, stars: {}, miss: {}, log: [], ratings: [], theme: 'simson', subj: 'mathe', name: '', daily: {}, goalDate: '', sound: true, rev: {}}, S || {});
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)) } catch (e) {} };
+(function () { const D = {points: 0, days: [], done: {}, stars: {}, miss: {}, log: [], ratings: [], theme: 'simson', subj: 'mathe', name: '', daily: {}, goalDate: '', sound: true, rev: {}};
+  Object.keys(D).forEach(k => { const d = D[k], v = S[k], ok = Array.isArray(d) ? Array.isArray(v) : (d !== null && typeof d === 'object') ? (v && typeof v === 'object' && !Array.isArray(v)) : typeof v === typeof d && (typeof d !== 'number' || isFinite(v)); if (!ok) S[k] = Array.isArray(d) ? [] : (typeof d === 'object' ? {} : d) }) })();
+let saveWarned = false;
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)) } catch (e) { if (!saveWarned) { saveWarned = true; setTimeout(() => { try { toast('Speicher voll: Fortschritt kann nicht gesichert werden. Bitte Platz schaffen.') } catch (x) {} }, 300) } } };
 const pad = n => String(n).padStart(2, '0');
 const ymd = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
 const today = () => ymd(new Date());

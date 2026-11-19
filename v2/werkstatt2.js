@@ -86,6 +86,7 @@ const curveSvg = (p, base, anim = true) => {
 const V2ORDER = ['s51', 'kr51', 'sr50', 's50', 'habicht', 'star', 'duo', 'klapp', 'rasen'];
 const KORIG = {licht:'ld', hupe:'hk', gepaeck:'gt', reifen:'rm', kette:'k44', ritzel:'q16', zub:'zn', motor:'m0'};   // Klapprad: Serienzustand (siehe klapprad.js)
 const W2 = S.w2 = Object.assign({veh: null, orders: 0, cars: {}, garage: [], album: [], players: [], player: '', sel: 's51'}, S.w2 || {});
+if (typeof W2.orders !== 'number' || !isFinite(W2.orders)) W2.orders = 0; if (!W2.cars || typeof W2.cars !== 'object' || Array.isArray(W2.cars)) W2.cars = {}; ['garage', 'album', 'players'].forEach(k => { if (!Array.isArray(W2[k])) W2[k] = [] }); if (typeof W2.player !== 'string') W2.player = ''; if (typeof W2.sel !== 'string') W2.sel = 's51';
 // Alte Spielstände (z. B. mit „s70“ oder anderen entfernten Modellen) bereinigen, ohne Fehler
 (function () {
   try {
@@ -132,8 +133,8 @@ function board(c, mode) {
   s += `<image href="v2/img/motor/gehaeuse.webp" x="118" y="262" width="124" height="130" preserveAspectRatio="xMidYMax meet"/>`;
   BP.forEach(p => {
     const on = present(p.id), nd = mode === 'dis' ? canDis(p) : (need2[p.id] ? c.put.includes(need2[p.id]) : true);
-    if (on) s += `<g class="bp ${mode !== 'view' && nd ? 'go' : ''} ${mode === 'asm' && W2.last === p.id ? 'in' : ''}" data-id="${p.id}" onclick="w2Tap('${p.id}')">${MOTORFOTO[p.id] ? `<image href="v2/img/motor/${p.id}.webp" x="${MOTORFOTO[p.id][0]}" y="${MOTORFOTO[p.id][1]}" width="${MOTORFOTO[p.id][2]}" height="${MOTORFOTO[p.id][3]}" preserveAspectRatio="xMidYMid meet"/>` : `<svg x="${p.x}" y="${p.y}" width="${p.s}" height="${p.s}" viewBox="0 0 100 100" overflow="visible">${partOf(p.id, c)}</svg>`}</g>`;
-    else if (mode === 'asm') s += `<g class="ghost ${nd ? 'go' : ''}" onclick="w2Tap('${p.id}')"><rect x="${p.x}" y="${p.y + p.s * .1}" width="${p.s}" height="${p.s * .8}" rx="10" fill="rgba(255,138,31,.07)" stroke="var(--a)" stroke-dasharray="5 4" opacity="${nd ? .9 : .3}"/><text x="${p.x + p.s / 2}" y="${p.y + p.s / 2 + 4}" fill="#ffb066" font-size="10" text-anchor="middle" opacity="${nd ? 1 : .4}">${p.n.split(' ')[0]}</text></g>`;
+    if (on) s += `<g class="bp ${mode !== 'view' && nd ? 'go' : ''} ${mode === 'asm' && W2.last === p.id ? 'in' : ''}" data-id="${p.id}" onclick="w2Tap('${p.id}')">${MOTORFOTO[p.id] ? `<rect x="${MOTORFOTO[p.id][0] - 12}" y="${MOTORFOTO[p.id][1] - 12}" width="${MOTORFOTO[p.id][2] + 24}" height="${MOTORFOTO[p.id][3] + 24}" fill="transparent" stroke="none" pointer-events="all"/><image href="v2/img/motor/${p.id}.webp" x="${MOTORFOTO[p.id][0]}" y="${MOTORFOTO[p.id][1]}" width="${MOTORFOTO[p.id][2]}" height="${MOTORFOTO[p.id][3]}" preserveAspectRatio="xMidYMid meet"/>` : `<svg x="${p.x}" y="${p.y}" width="${p.s}" height="${p.s}" viewBox="0 0 100 100" overflow="visible">${partOf(p.id, c)}</svg>`}</g>`;
+    else if (mode === 'asm') s += `<g class="ghost ${nd ? 'go' : ''}" onclick="w2Tap('${p.id}')"><rect x="${p.x - 14}" y="${p.y + p.s * .1 - 14}" width="${p.s + 28}" height="${p.s * .8 + 28}" fill="transparent" stroke="none" pointer-events="all"/><rect x="${p.x}" y="${p.y + p.s * .1}" width="${p.s}" height="${p.s * .8}" rx="10" fill="rgba(255,138,31,.07)" stroke="var(--a)" stroke-dasharray="5 4" opacity="${nd ? .9 : .3}"/><text x="${p.x + p.s / 2}" y="${p.y + p.s / 2 + 4}" fill="#ffb066" font-size="10" text-anchor="middle" opacity="${nd ? 1 : .4}">${p.n.split(' ')[0]}</text></g>`;
   });
   return s + '</svg>';
 }
