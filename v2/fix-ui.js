@@ -4,7 +4,7 @@
   // --- 2: reine Deko darf nie Taps schlucken (Toast lag oben mittig ueber Zurueck-Knopf/HUD, 3,2 s lang)
   const st = document.createElement('style');
   st.textContent = '.toast,.coinpill,.bgfx,.amb,.lf,.gate,.rt,.rt *,.confetti,.fx,.spk,.wr,.coin,.ride,.pcm-t{pointer-events:none!important}' +
-    '.toast{top:max(8px,env(safe-area-inset-top))!important;max-width:min(90vw,520px)}';
+    '.toast{top:max(calc(var(--top,56px) + 8px),54px)!important;max-width:min(90vw,520px)}';
   document.head.appendChild(st);
   // Clip-Overlay (Vollbild) das nie startet (iOS Stromsparmodus, blockierte Wiedergabe): nach 4 s entfernen
   const app = document.body;

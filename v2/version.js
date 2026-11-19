@@ -3,11 +3,12 @@
 // Beim Ändern: version, ggf. schema und news anpassen, CHANGELOG.md ergänzen.
 self.APP = {
   name: 'Schrauberschule',
-  version: '3.5.7',
+  version: '3.5.8',
   test: false,         // true = Testversion (alles frei)
   schema: 2,            // Schema-Version des Spielstands (nur erhöhen, wenn sich die Struktur ändert; dann Migration in migrate.js)
   date: '2026-11-18',
   news: [
+    { v: '3.5.8', t: 'Größere Tippflächen, Meldungen unter der Kopfzeile, Lackieren ohne Zeichnungs-Blitz.' },
     { v: '3.5.7', t: 'Schnelleres Laden: Videos nur im WLAN vorab. Die S51 fährt beim Start vorwärts.' },
     { v: '3.5.6', t: 'Werkstatt-Tor nur noch beim Tipp auf den Reiter. Viele Fachtexte und Quizfragen verbessert.' },
     '👆 Animationen lassen sich jetzt per Tipp sofort beenden.',

@@ -5,6 +5,12 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.5.8
+- Tippflächen mindestens 44 px (Lack-Chips, Schalter, Quelle-Links).
+- Meldungen (Toast) liegen unter der Kopfzeile.
+- Ersatzfarben für Geräte ohne color-mix (vor iOS 16.2).
+- Lackieren: kein Aufblitzen der Zeichnung beim Modellwechsel.
+
 ## 3.5.7
 - Videos werden nur im WLAN vorab geladen, bei Datensparmodus/Mobilfunk nur Standbild.
 - Service Worker prüft geänderte Bilder/Videos selbst, liefert bei Netzfehler sauberen Fehler.

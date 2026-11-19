@@ -246,3 +246,20 @@ body .gr,body .tab{max-width:480px;left:50%!important;right:auto!important;width
 /* M1: ganze Karte antippbar - Kinder-Elemente fangen keine Taps ab, der Button bekommt immer den Klick */
 button.item>*,button.gk>*,button.fc>*,button.vcard>*,button.th>*{pointer-events:none}
 .pimg img{inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important}
+
+/* P5 Bedienung (3.5.8): Tippflächen mindestens 44 px, Toast unter der Kopfzeile */
+.lk-chips button{min-height:44px!important}
+.card label[style*="align-items"]{min-height:44px;padding-right:6px}
+.card label[style*="align-items"] input[type=checkbox]{width:24px;height:24px}
+details.card a,.card p.m a{position:relative}
+details.card a::after,.card p.m a::after{content:"";position:absolute;inset:-14px -8px}
+/* Ältere iPhones (vor iOS 16.2) kennen color-mix() nicht: feste Ersatzfarben */
+@supports not (background:color-mix(in srgb,red 50%,blue)){
+  .hero{background:linear-gradient(145deg,#ff8a1f,#8a4a10)}
+  .ring{background:radial-gradient(circle at 35% 30%,#ff8a1f,#5a3010)}
+  .opt.ok,.mb.ok,.fb.good,.tfc.good,.ck.okc,.kok{background:#1d3a2a!important}
+  .opt.bad,.fb.bad,.tfc.bad{background:#3d2022!important}
+  .fact,.fb.fact,.mb.sel{background:#2f2a24!important}
+  .hintb,.fb.hint,.ck.warn{background:#3a3220!important}
+  .cb.me{background:#26324a!important}
+}

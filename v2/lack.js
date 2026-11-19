@@ -72,7 +72,7 @@
     const pb = (k, n, c) => `<button class="${mix.a === k || mix.b === k ? 'on' : ''}" onclick="LACK.mixP('${k}')"><i style="background:${c}"></i>${n}</button>`;
     return `<div class="lk-in"><div class="lk-top"><button class="lk-x" onclick="LACK.close()" aria-label="Zurück">‹</button><b>🎨 Lackieren</b></div>
     <div class="lk-chips">${ORDER.map(k => `<button class="${k === cur ? 'on' : ''}" onclick="LACK.veh('${k}')">${SHORT[k]}</button>`).join('')}</div>
-    <div class="lk-pv">${previewSvg(cur, hx)}<div class="nm"><b>${esc(D.name)}</b> in <b>${esc(nm)}</b></div></div>
+    <div class="lk-pv">${(window.LackFoto && LackFoto.ids.indexOf(cur) >= 0) ? '<div class="lk-ph0"></div>' : previewSvg(cur, hx)}<div class="nm"><b>${esc(D.name)}</b> in <b>${esc(nm)}</b></div></div>
     <p class="lk-m">${esc(D.name)}: gebaut ${esc(D.years)}. Die Farben unten gab es laut Wikipedia, Sammlern und Museen. Die Farbtöne sind <b>ca.-Näherungen</b> (alter Lack verblasst, es sind keine genauen RAL-Töne).</p>
     <p class="lk-m"><em class="lk-b1" style="font-style:normal;padding:1px 6px;border-radius:8px">✓ belegt</em> in einer Quelle mit Modell genannt · <em class="lk-b2" style="font-style:normal;padding:1px 6px;border-radius:8px">~ Hinweis</em> nur Händler/Sammler, nicht ganz sicher · <em class="lk-b3" style="font-style:normal;padding:1px 6px;border-radius:8px">? unsicher</em> nur Bildfarbe der App</p>
     <div class="lk-sw">${sw}</div>
@@ -88,7 +88,7 @@
     <button class="lk-ghost" style="width:100%;margin-top:8px" onclick="LACK.share()">📤 Foto teilen</button>
     ${now ? '<div style="height:8px"></div><button class="lk-ghost" onclick="LACK.reset()">Zurück zur Grundfarbe</button>' : ''}</div>`;
   }
-  function wr() { if (ov) { const sc = ov.scrollTop; ov.innerHTML = wahlHtml(); ov.scrollTop = sc; photoPv() } }
+  function wr() { if (ov) { const sc = ov.scrollTop, old = ov.querySelector('canvas.lk-ph'); ov.innerHTML = wahlHtml(); ov.scrollTop = sc; const ph = ov.querySelector('.lk-ph0'); if (old && ph) ph.replaceWith(old); photoPv() } }   // altes Foto bleibt stehen, bis das neue fertig ist (kein Zeichnungs-Aufblitzen)
   // Foto-Vorschau: echtes Fahrzeugfoto, Lack per Maske umgefärbt (lack-foto.js); ohne Foto bleibt die Zeichnung
   let pvTok = 0;
   async function photoPv(hex) {
@@ -98,8 +98,8 @@
       const tmp = document.createElement('canvas'); await LackFoto.draw(tmp, id, hx, (!hex && !pick && !selNow(id)) ? 0 : undefined); if (tok !== pvTok || !ov || id !== cur) return;
       cv.width = tmp.width; cv.height = Math.round(tmp.height * .62); cv.getContext('2d').drawImage(tmp, 0, Math.round(tmp.height * .08), tmp.width, cv.height, 0, 0, tmp.width, cv.height);
       cv.setAttribute('role', 'img'); cv.setAttribute('aria-label', DATA[id].name + ' in der gewählten Farbe');
-      if (fresh) { const sv = pv.querySelector('svg'); if (sv) sv.replaceWith(cv); else pv.prepend(cv) }
-    } catch (e) { if (window.console) console.warn('lack-foto', e) }
+      if (fresh) { const sv = pv.querySelector('svg,.lk-ph0'); if (sv) sv.replaceWith(cv); else pv.prepend(cv) }
+    } catch (e) { if (window.console) console.warn('lack-foto', e); const z = ov && ov.querySelector('.lk-ph0'); if (z) z.outerHTML = previewSvg(cur, hexNow()) }
   }
   // Teilen: Foto mit Beschriftung als Bild
   async function shareImg(id, hex, name) {
