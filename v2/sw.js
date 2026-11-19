@@ -19,22 +19,33 @@ self.addEventListener('message', e => {
 // Videos aus dem Offline-Paket: Safari fragt Teilstücke (Range) an, daher 206 aus dem Cache bauen
 async function part(res, rg) { const b = await res.blob(), m = /bytes=(\d*)-(\d*)/.exec(rg) || [], s = +m[1] || 0, e = m[2] ? Math.min(+m[2], b.size - 1) : b.size - 1;
   return new Response(b.slice(s, e + 1), {status: 206, headers: {'Content-Type': 'video/mp4', 'Content-Range': `bytes ${s}-${e}/${b.size}`, 'Content-Length': String(e - s + 1), 'Accept-Ranges': 'bytes'}}) }
+// Geänderte Dateien mit gleichem Namen: einmal pro Start im Hintergrund prüfen (ETag/Länge) und bei Abweichung neu laden
+const CHK = new Set();
+function reval(u, hit) {
+  if (CHK.has(u.href) || /\/v2\/(shots|alt|entwurf|referenz)\//.test(u.pathname) || !/\.(jpg|jpeg|png|webp|gif|svg|mp3|ogg|wav|m4a|mp4)$/i.test(u.pathname)) return; CHK.add(u.href);
+  setTimeout(async () => { try {
+    const h = await fetch(u.href, {method: 'HEAD', cache: 'no-cache'}); if (!h.ok) return;
+    const e1 = h.headers.get('etag'), e0 = hit.headers.get('etag'), l1 = h.headers.get('content-length'), l0 = hit.headers.get('content-length');
+    if ((e1 && e0 && e1 === e0) || (!e1 && l1 && l0 && l1 === l0)) return;
+    const full = await fetch(u.href, {cache: 'reload'}); if (full && full.ok) { const c = await caches.open(IMG); await c.put(u.href, full) }
+  } catch (x) {} }, 3000);
+}
 self.addEventListener('fetch', e => {
   const r = e.request; if (r.method !== 'GET') return;
   const u = new URL(r.url); if (u.origin !== self.location.origin) return;
   const isImg = /\.(jpg|jpeg|png|webp|gif|svg|mp3|ogg|wav)$/i.test(u.pathname) && !/\/v2\/icons\//.test(u.pathname);
   e.respondWith((async () => {
     const hit = await caches.match(r, {ignoreSearch: true});
-    if (hit) { const rg = r.headers.get('range'); if (rg && /\.mp4$/i.test(u.pathname)) return part(hit, rg); return hit }
+    if (hit) { reval(u, hit); const rg = r.headers.get('range'); if (rg && /\.mp4$/i.test(u.pathname)) return part(hit, rg); return hit }
     // Video noch nicht im Speicher: ganze Datei ohne Range laden, speichern und das angefragte Stück liefern
     if (/\.mp4$/i.test(u.pathname)) {
       try { const full = await fetch(u.href, {cache: 'no-store'}); if (full && full.ok) { const c = await caches.open(IMG); await c.put(u.href, full.clone()); const rg = r.headers.get('range'); return rg ? part(full, rg) : full } } catch (err) {}
-      return fetch(u.href);
+      return fetch(u.href).catch(() => new Response('', {status: 504}));
     }
     try {
       const res = await fetch(r);
       if (res && res.ok && isImg && !/\/v2\/(shots|alt|entwurf|referenz)\//.test(u.pathname)) { const c = await caches.open(IMG); c.put(r, res.clone()) }
       return res;
-    } catch (err) { if (r.mode === 'navigate') { const f = await caches.match(new URL(R + 'v2/index.html', self.location).href); if (f) return f } throw err }
+    } catch (err) { if (r.mode === 'navigate') { const f = await caches.match(new URL(R + 'v2/index.html', self.location).href); if (f) return f } return new Response('', {status: 504}) }
   })());
 });

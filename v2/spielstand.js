@@ -176,7 +176,7 @@
     const I = window.IMGS || {}, urls = []; for (const d in I) (I[d] || []).forEach(n => urls.push(new URL(`v2/img/${d}/${n}.jpg`, document.baseURI).href));
     (window.IMGS_ROOT || []).concat(window.IMGS_EXTRA || []).forEach(p => urls.push(new URL(p, document.baseURI).href));
     const sw = navigator.serviceWorker && navigator.serviceWorker.controller; if (!sw) return say('Offline-Paket gibt es nur, wenn die App über das Internet (https) geöffnet wurde.', 1);
-    say(`Lade ${urls.length} Bilder und Videos (ca. 40 MB, WLAN empfohlen) …`); sw.postMessage({type: 'WARM', urls});
+    say(`Lade ${urls.length} Bilder und Videos (ca. 80 MB, nur im WLAN, Platz auf dem Gerät nötig) …`); sw.postMessage({type: 'WARM', urls});
     navigator.serviceWorker.addEventListener('message', function f(e) { const d = e.data; if (d && d.type === 'WARM') { say(d.done ? 'Fertig: Bilder und Prüfstand-Videos gehen jetzt auch ohne Internet.' : `Geladen: ${d.n} von ${d.of}`); if (d.done) navigator.serviceWorker.removeEventListener('message', f) } });
   }
 

@@ -193,7 +193,7 @@ body{background:transparent!important}
 .ag .gtl u,.ag .gtr u{position:absolute;inset:0;opacity:0;background:#0b0804;will-change:opacity}
 .ag .gf{inset:0;opacity:0;background:radial-gradient(90% 60% at 50% 50%,rgba(255,238,190,.5),rgba(255,238,190,0) 70%);mix-blend-mode:screen;will-change:opacity}
 /* Tagesstart S51: Vollbild, Fahrzeug blickt nach links, fährt von rechts nach links */
-.as .sq{position:absolute;left:0;top:auto;bottom:22%;width:min(64vw,520px);height:calc(min(64vw,520px)*.59);will-change:transform;transform:translate3d(110vw,0,0)}
+.as .sq{position:absolute;left:0;top:auto;bottom:22%;width:min(64vw,520px);height:calc(min(64vw,520px)*.59);will-change:transform;transform:translate3d(-70vw,0,0)}
 .as .sb{position:absolute;inset:0;background:url(img/anim/s51-quer.png) center/100% 100% no-repeat;filter:drop-shadow(0 10px 8px rgba(0,0,0,.35))}
 .as .ss{position:absolute;left:4%;right:4%;bottom:-3%;height:8%;border-radius:50%;background:radial-gradient(rgba(0,0,0,.45),rgba(0,0,0,0) 70%)}
 .as .sp{position:absolute;left:0;top:auto;bottom:calc(22% + 10px);width:0;height:0}

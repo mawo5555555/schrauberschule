@@ -435,10 +435,13 @@
 
   // Echtes KI-Video (Google Flow) als Ebene: muted, playsinline, Standbild bleibt Poster. Startet es nicht, läuft die bisherige Animation (vs.dead)
   const killVid = g => { try { g.querySelectorAll('video').forEach(v => { v.pause(); v.removeAttribute('src'); v.removeAttribute('poster') }) } catch (e) {} };
-  const PRE = {}, prefetch = n => PRE[n] || (PRE[n] = fetch('v2/img/anim/' + n + '.mp4').then(r => r.arrayBuffer()).catch(() => {}));   // eine Anfrage, danach liegt der Clip im Cache des Service Workers
+  const slow = () => { const c = navigator.connection; return !!(c && (c.saveData || c.type === 'cellular' || /(^|-)[23]g/.test(c.effectiveType || ''))) };   // Datensparmodus/Mobilfunk: kein Video, nur Standbild
+  const fast = () => { const c = navigator.connection; return !!(c && !slow() && (c.type === 'wifi' || c.type === 'ethernet')) };
+  const PRE = {}, prefetch = n => PRE[n] || (PRE[n] = fetch('v2/img/anim/' + n + '.mp4').then(r => r.arrayBuffer()).then(() => {}).catch(() => {}));   // eine Anfrage, danach liegt der Clip im Cache des Service Workers
   function video(box, name, poster) {
     const vs = {ok: false, dead: false};
     let v = null;
+    if (slow()) { vs.dead = true; return vs }
     const fail = () => { if (vs.dead || vs.ok) return; vs.dead = true; try { if (v) { v.pause(); v.removeAttribute('src'); v.removeAttribute('poster'); v.remove() } } catch (e) {} };
     try {
       v = document.createElement('video'); v.muted = true; v.defaultMuted = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.setAttribute('muted', ''); v.preload = 'auto'; v.className = 'vd';
@@ -454,7 +457,7 @@
     return vs;
   }
 
-  setTimeout(() => { try { ['garage-tor', 'pruefstand-kabine', 'home-hof'].forEach(prefetch) } catch (e) {} }, 4500);
+  setTimeout(() => { try { if (fast()) ['garage-tor', 'pruefstand-kabine', 'home-hof'].forEach(prefetch) } catch (e) {} }, 4500);   // nur im WLAN vorab, sonst erst beim ersten Gebrauch
 
   // ---------- 1. Prüfstand: dunkle Kabine, Warnleuchte blinkt, Rolle dreht hoch, Drehzahlzeiger schnellt hoch ----------
   function prAnim() {
@@ -520,10 +523,10 @@
     const q = g.querySelector('.sq'), sp = [...g.querySelectorAll('.sp i')], DUR = 2.0; FX.s51Snd();
     const W = () => innerWidth, bw = () => q.offsetWidth || W() * .6;
     run(g, DUR, t => {
-      const u = t / DUR, x = W() * 1.04 - (W() + bw() * 2.1) * u;   // von rechts nach links (Fahrzeug blickt nach links)
+      const u = t / DUR, x = -bw() * 1.05 + (W() * 1.04 + bw() * 1.05) * u;   // von links nach rechts (das Bild der S51 blickt nach rechts)
       const bob = Math.sin(t * 38) * 1.6 * (1 - .4 * u), lean = -1.2 + Math.sin(t * 19) * .5;
       q.style.transform = `translate3d(${x.toFixed(1)}px,${bob.toFixed(2)}px,0) rotate(${lean.toFixed(2)}deg)`;
-      sp.forEach((e, i) => { const tt = t - i * .1, k = clamp(tt / .9, 0, 1), px = W() * 1.04 - (W() + bw() * 2.1) * clamp(i * .1 / DUR + .0, 0, 1) - (W() + bw() * 2.1) * 0; const ex = (W() * 1.04 - (W() + bw() * 2.1) * clamp((t - i * .12) / DUR, 0, 1)) + bw() * .96; e.style.opacity = (k > 0 && k < 1 ? (1 - k) * .5 : 0).toFixed(3); e.style.transform = `translate3d(${(ex + k * 70).toFixed(1)}px,${(-k * 26 - i * 2).toFixed(1)}px,0) scale(${(.5 + k * 2.2).toFixed(2)})` });
+      sp.forEach((e, i) => { const tt = t - i * .1, k = clamp(tt / .9, 0, 1), px = W() * 1.04 - (W() + bw() * 2.1) * clamp(i * .1 / DUR + .0, 0, 1) - (W() + bw() * 2.1) * 0; const ex = (-bw() * 1.05 + (W() * 1.04 + bw() * 1.05) * clamp((t - i * .12) / DUR, 0, 1)) + bw() * .04; e.style.opacity = (k > 0 && k < 1 ? (1 - k) * .5 : 0).toFixed(3); e.style.transform = `translate3d(${(ex - k * 70).toFixed(1)}px,${(-k * 26 - i * 2).toFixed(1)}px,0) scale(${(.5 + k * 2.2).toFixed(2)})` });
     });
   }
 

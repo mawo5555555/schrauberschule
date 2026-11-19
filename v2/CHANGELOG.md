@@ -5,6 +5,12 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.5.7
+- Videos werden nur im WLAN vorab geladen, bei Datensparmodus/Mobilfunk nur Standbild.
+- Service Worker prüft geänderte Bilder/Videos selbst, liefert bei Netzfehler sauberen Fehler.
+- Offline-Text: ca. 80 MB. 61 MB Altlasten (alte Clips, Roh-/Alt-Bilder) aus der Auslieferung entfernt.
+- Tagesstart: S51 fährt vorwärts (links nach rechts).
+
 ## 3.5.6
 - Rolltor nur beim Tipp auf den Werkstatt-Reiter, nicht bei internen Schritten.
 - Inhalt: ZT 300, Verbrennung, Mathe 0,17, Komma vor dass, AM/60 km/h, S50 3,6 PS, Elternseite 126 Missionen, Technik-Quiz Antwortlängen angeglichen.

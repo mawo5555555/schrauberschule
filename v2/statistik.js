@@ -1,9 +1,9 @@
 'use strict';
-// Anonyme Besucherzahlen (GoatCounter), VORBEREITET, STANDARD: AUS. Anleitung zum Einschalten: v2/STATISTIK.md
+// Anonyme Besucherzahlen (GoatCounter), STANDARD: AN (Eltern können sie auf der Elternseite ausschalten). Siehe v2/STATISTIK.md
 // Aktiv nur, wenn ALLES zutrifft:
 //   1. window.APP_STAT_ENABLED === true   (Schalter des Entwicklers, steht in index.html, Standard false)
 //   2. window.APP_STAT_ENDPOINT ist ein gültiger https-Endpunkt auf /count (Standard leer)
-//   3. Eltern haben in der Eltern-Seite den Schalter eingeschaltet (Standard aus)
+//   3. Eltern haben den Schalter nicht ausgeschaltet (Standard an)
 //   4. Do-Not-Track / Global Privacy Control ist NICHT gesetzt
 //   5. Seite läuft über http(s) und nicht auf localhost
 // Gesendet wird nur: grober Ansichtsname (z. B. "/start", "/werkstatt"). Kein Cookie, keine ID, kein Titel, keine Referrer-Adresse,
