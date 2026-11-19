@@ -5,6 +5,10 @@ Regel: 3.0.1 = Fehlerbehebung, 3.1.0 = neue Funktionen, 4.0.0 = große Neuerung.
 Neuer Spielstand-Aufbau → `APP.schema` um 1 erhöhen und in `v2/migrate.js` einen Schritt `MIGS[alt]` ergänzen.
 Ablauf Update: version.js ändern → Service Worker bekommt neuen Cache-Namen → Nutzer sieht „Neue Version verfügbar – Jetzt aktualisieren“ → danach „Was ist neu?“ (Text aus `APP.news`).
 
+## 3.5.9
+- Fehlererkennung (fehler.js): letzte Fehler auf der Elternseite, Neu-laden-Hilfe nach Updates, grober Fehlerzähler in der Statistik.
+- Vorab-Test v2/vorabtest.py vor dem Hochladen.
+
 ## 3.5.8
 - Tippflächen mindestens 44 px (Lack-Chips, Schalter, Quelle-Links).
 - Meldungen (Toast) liegen unter der Kopfzeile.
